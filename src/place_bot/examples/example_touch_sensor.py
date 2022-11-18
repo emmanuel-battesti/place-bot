@@ -11,7 +11,7 @@ from typing import Type
 # This line add, to sys.path, the path to parent path of this file
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from spg_overlay.entities.drone_abstract import DroneAbstract
+from spg_overlay.entities.robot_abstract import RobotAbstract
 from spg_overlay.gui_map.closed_playground import ClosedPlayground
 from spg_overlay.gui_map.gui_sr import GuiSR
 from spg_overlay.gui_map.map_abstract import MapAbstract
@@ -19,7 +19,7 @@ from spg_overlay.utils.constants import FRAME_RATE
 from spg_overlay.utils.misc_data import MiscData
 
 
-class MyDroneTouch(DroneAbstract):
+class MyRobotTouch(RobotAbstract):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -72,27 +72,27 @@ class MyMapTouch(MapAbstract):
         # PARAMETERS MAP
         self._size_area = (700, 700)
 
-        self._number_drones = 1
-        self._drones_pos = [((80, 100), 0)]
-        self._drones = []
+        self._number_robots = 1
+        self._robots_pos = [((80, 100), 0)]
+        self._robots = []
 
-    def construct_playground(self, drone_type: Type[DroneAbstract]):
+    def construct_playground(self, robot_type: Type[RobotAbstract]):
         playground = ClosedPlayground(size=self._size_area)
 
-        # POSITIONS OF THE DRONES
+        # POSITIONS OF THE ROBOTS
         misc_data = MiscData(size_area=self._size_area,
-                             number_drones=self._number_drones)
-        for i in range(self._number_drones):
-            drone = drone_type(identifier=i, misc_data=misc_data)
-            self._drones.append(drone)
-            playground.add(drone, self._drones_pos[i])
+                             number_robots=self._number_robots)
+        for i in range(self._number_robots):
+            robot = robot_type(identifier=i, misc_data=misc_data)
+            self._robots.append(robot)
+            playground.add(robot, self._robots_pos[i])
 
         return playground
 
 
 def main():
     my_map = MyMapTouch()
-    playground = my_map.construct_playground(drone_type=MyDroneTouch)
+    playground = my_map.construct_playground(robot_type=MyRobotTouch)
 
     # draw_touch : enable the visualization of the touch sensor
     gui = GuiSR(playground=playground,

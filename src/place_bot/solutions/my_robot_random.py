@@ -1,17 +1,17 @@
 """
 Simple random controller
-The Drone will move forward and turn for a random angle when an obstacle is hit
+The Robot will move forward and turn for a random angle when an obstacle is hit
 """
 import math
 import random
 from typing import Optional
 
-from spg_overlay.entities.drone_abstract import DroneAbstract
+from spg_overlay.entities.robot_abstract import RobotAbstract
 from spg_overlay.utils.misc_data import MiscData
 from spg_overlay.utils.utils import normalize_angle
 
 
-class MyDroneRandom(DroneAbstract):
+class MyRobotRandom(RobotAbstract):
     def __init__(self,
                  identifier: Optional[int] = None,
                  misc_data: Optional[MiscData] = None,
@@ -33,7 +33,7 @@ class MyDroneRandom(DroneAbstract):
 
     def process_touch_sensor(self):
         """
-        Returns True if the drone hits an obstacle
+        Returns True if the robot hits an obstacle
         """
         if self.touch().get_sensor_values() is None:
             return False
@@ -48,7 +48,7 @@ class MyDroneRandom(DroneAbstract):
 
     def control(self):
         """
-        The Drone will move forward and turn for a random angle when an obstacle is hit
+        The Robot will move forward and turn for a random angle when an obstacle is hit
         """
         command_straight = {"forward": 1.0,
                             "lateral": 0.0,

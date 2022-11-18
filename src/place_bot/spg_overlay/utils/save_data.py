@@ -86,12 +86,12 @@ class SaveData:
                                 norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
         cv2.imwrite(filename, im_norm)
 
-        # Save the screen capture of the explored zone done by all drones
+        # Save the screen capture of the explored zone done by all robots
         filename_explo = self._path + "/screen_explo_{}_rd{}_eq{}.png".format(envir_str, num_round_str,
                                                                               self._team_number_str)
         cv2.imwrite(filename_explo, im_explo_zones)
 
-        # Save the screen capture of the path done by each drone
+        # Save the screen capture of the path done by each robot
         filename_path = self._path + "/screen_path_{}_rd{}_eq{}.png".format(envir_str, num_round_str,
                                                                             self._team_number_str)
         cv2.imwrite(filename_path, im_explo_lines)

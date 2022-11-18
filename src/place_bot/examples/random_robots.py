@@ -1,6 +1,6 @@
 """
 This program can be launched directly.
-Example of how to control several drones
+Example of how to control several robots
 """
 
 import math
@@ -12,7 +12,7 @@ from typing import List, Type
 # This line add, to sys.path, the path to parent path of this file
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from spg_overlay.entities.drone_abstract import DroneAbstract
+from spg_overlay.entities.robot_abstract import RobotAbstract
 from spg_overlay.gui_map.closed_playground import ClosedPlayground
 from spg_overlay.gui_map.gui_sr import GuiSR
 from spg_overlay.gui_map.map_abstract import MapAbstract
@@ -20,7 +20,7 @@ from spg_overlay.utils.utils import normalize_angle
 from spg_overlay.utils.misc_data import MiscData
 
 
-class MyDroneRandom(DroneAbstract):
+class MyRobotRandom(RobotAbstract):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.counterStraight = 0
@@ -37,7 +37,7 @@ class MyDroneRandom(DroneAbstract):
 
     def control(self):
         """
-        The Drone will move forward and turn for a random angle when an obstacle is hit
+        The Robot will move forward and turn for a random angle when an obstacle is hit
         """
         command_straight = {"forward": 1.0,
                             "rotation": 0.0}
@@ -83,27 +83,27 @@ class MyMapRandom(MapAbstract):
         # PARAMETERS MAP
         self._size_area = (900, 900)
 
-        # POSITIONS OF THE DRONES
-        self._number_drones = 30
-        self._drones_pos = []
-        for i in range(self._number_drones):
+        # POSITIONS OF THE ROBOTS
+        self._number_robots = 30
+        self._robots_pos = []
+        for i in range(self._number_robots):
             pos = ((random.uniform(-self._size_area[0] / 2, self._size_area[0] / 2),
                     random.uniform(-self._size_area[1] / 2, self._size_area[1] / 2)),
                    random.uniform(-math.pi, math.pi))
-            self._drones_pos.append(pos)
+            self._robots_pos.append(pos)
 
-        self._drones: List[DroneAbstract] = []
+        self._robots: List[RobotAbstract] = []
 
-    def construct_playground(self, drone_type: Type[DroneAbstract]):
+    def construct_playground(self, robot_type: Type[RobotAbstract]):
         playground = ClosedPlayground(size=self._size_area)
 
-        # POSITIONS OF THE DRONES
+        # POSITIONS OF THE ROBOTS
         misc_data = MiscData(size_area=self._size_area,
-                             number_drones=self._number_drones)
-        for i in range(self._number_drones):
-            drone = drone_type(identifier=i, misc_data=misc_data)
-            self._drones.append(drone)
-            playground.add(drone, self._drones_pos[i])
+                             number_robots=self._number_robots)
+        for i in range(self._number_robots):
+            robot = robot_type(identifier=i, misc_data=misc_data)
+            self._robots.append(robot)
+            playground.add(robot, self._robots_pos[i])
 
         return playground
 
@@ -111,7 +111,7 @@ class MyMapRandom(MapAbstract):
 def main():
     my_map = MyMapRandom()
 
-    playground = my_map.construct_playground(drone_type=MyDroneRandom)
+    playground = my_map.construct_playground(robot_type=MyRobotRandom)
 
     gui = GuiSR(playground=playground,
                 the_map=my_map,

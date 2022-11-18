@@ -151,7 +151,7 @@ class WritePdf:
         self.pdf.multi_cell(w=self.epw, h=1 * self.th,
                             txt="    - Ssauv, le score de sauvetages. Il s'agit de la proportion de blessés retournés au poste de secours,")
         self.pdf.multi_cell(w=self.epw, h=1 * self.th,
-                            txt="    - Sexpl, le score d'exploration. Il dépend de la taille de l'espace exploré par les drones,")
+                            txt="    - Sexpl, le score d'exploration. Il dépend de la taille de l'espace exploré par les robots,")
         self.pdf.multi_cell(w=self.epw, h=1 * self.th,
                             txt="    - Stemps, le score lié au temps mis pour tout explorer et retrouver tous les blessés. Il s'agit de la proportion de temps restant par rapport au temps imparti.")
         self._empty_line(1)
@@ -264,7 +264,7 @@ class WritePdf:
                 self.pdf.image(filename, w=self.epw)
                 self._empty_line(1)
 
-                self.pdf.cell(0, txt="Carte de trajets des drones : ")
+                self.pdf.cell(0, txt="Carte de trajets des robots : ")
 
                 self._empty_line(0.5)
                 filename = self.path + "/screen_path_{}_rd{}_eq{}.png".format(envir_name_str,

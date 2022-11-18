@@ -7,9 +7,9 @@ from spg.agent.agent import Agent
 from spg.agent.communicator.communicator import Communicator
 from spg.agent.interactor import GraspMagnet
 
-from spg_overlay.entities.drone_base import DroneBase
-from spg_overlay.entities.drone_distance_sensors import DroneLidar, DroneTouch, DroneSemanticSensor
-from spg_overlay.entities.drone_sensors import DroneGPS, DroneCompass, DroneOdometer
+from spg_overlay.entities.robot_base import RobotBase
+from spg_overlay.entities.robot_distance_sensors import RobotLidar, RobotTouch, RobotSemanticSensor
+from spg_overlay.entities.robot_sensors import RobotGPS, RobotCompass, RobotOdometer
 from spg_overlay.utils.misc_data import MiscData
 
 import matplotlib.pyplot as plt
@@ -17,15 +17,15 @@ import matplotlib.pyplot as plt
 from spg_overlay.utils.utils import normalize_angle
 
 
-class DroneAbstract(Agent):
+class RobotAbstract(Agent):
     """
-    This class should be used as a parent class to create your own Drone class.
+    This class should be used as a parent class to create your own Robot class.
     It is a BaseAgent class with 3 sensors, 1 sensor of position and 2 mandatory functions define_message() and
     control()
     """
 
-    # 'range_communication' is the radius, in pixels, of the area around the drone in which we will have the other
-    # drones with which we can communicate (receive and send messages)
+    # 'range_communication' is the radius, in pixels, of the area around the robot in which we will have the other
+    # robots with which we can communicate (receive and send messages)
     range_communication = 500
 
     class SensorType(IntEnum):
@@ -48,7 +48,7 @@ class DroneAbstract(Agent):
         if identifier is None:
             identifier = id(self)
 
-        base = DroneBase()
+        base = RobotBase()
         self.add(base)
 
         grasp = GraspMagnet(base, max_grasped=1)
@@ -58,13 +58,13 @@ class DroneAbstract(Agent):
         if misc_data:
             self.size_area = misc_data.size_area
 
-        self.base.add(DroneTouch(invisible_elements=self._parts))
-        self.base.add(DroneSemanticSensor(playground=self.playground, invisible_elements=self._parts))
-        self.base.add(DroneLidar(invisible_elements=self._parts))
+        self.base.add(RobotTouch(invisible_elements=self._parts))
+        self.base.add(RobotSemanticSensor(playground=self.playground, invisible_elements=self._parts))
+        self.base.add(RobotLidar(invisible_elements=self._parts))
 
-        self.base.add(DroneGPS())
-        self.base.add(DroneCompass())
-        self.base.add(DroneOdometer())
+        self.base.add(RobotGPS())
+        self.base.add(RobotCompass())
+        self.base.add(RobotOdometer())
 
         self.identifier = identifier
         self._should_display_lidar = should_display_lidar
@@ -87,7 +87,7 @@ class DroneAbstract(Agent):
     def define_message_for_all(self):
         """
         This function is mandatory in the class you have to create that will inherit from this class.
-        You should return want you want to send to all nearest drone.
+        You should return want you want to send to all nearest robot.
         For example:
             def define_message_for_all(self):
                 msg_data = (self.identifier, (self.measured_gps_position(), self.angle))
@@ -140,7 +140,7 @@ class DroneAbstract(Agent):
 
     def measured_velocity(self):
         """
-        Give the measured velocity of the drone, in pixels per second
+        Give the measured velocity of the robot, in pixels per second
         You must use this value for your calculation in the control() function.
         """
         speed = self.odometer_values()[0]
@@ -151,14 +151,14 @@ class DroneAbstract(Agent):
 
     def measured_angular_velocity(self):
         """
-        Give the measured angular velocity of the drone, in radians per second
+        Give the measured angular velocity of the robot, in radians per second
         You must use this value for your calculation in the control() function.
         """
         return self.odometer_values()[2]
 
     def measured_gps_position(self):
         """
-        Give the measured position of the drone, in pixels. The measurement comes from the GPS sensor.
+        Give the measured position of the robot, in pixels. The measurement comes from the GPS sensor.
         You can use this value for your calculation in the control() function. These values can be altered
         by special areas in the map where the position information can be scrambled.
         """
@@ -170,7 +170,7 @@ class DroneAbstract(Agent):
 
     def measured_compass_angle(self):
         """
-        Give the measured orientation of the drone, in radians between 0 and 2Pi. The measurement comes from the compass
+        Give the measured orientation of the robot, in radians between 0 and 2Pi. The measurement comes from the compass
         sensor. You can use this value for your calculation in the control() function. These values can be altered
         by special areas in the map where the position information can be scrambled.
         """
@@ -199,7 +199,7 @@ class DroneAbstract(Agent):
 
     def true_position(self):
         """
-        Give the true orientation of the drone, in pixels
+        Give the true orientation of the robot, in pixels
         You must NOT use this value for your calculation in the control() function, you should use measured_gps_position()
         instead. But you can use it for debugging or logging.
         """
@@ -207,7 +207,7 @@ class DroneAbstract(Agent):
 
     def true_angle(self):
         """
-        Give the true orientation of the drone, in radians between 0 and 2Pi.
+        Give the true orientation of the robot, in radians between 0 and 2Pi.
         You must NOT use this value for your calculation in the control() function, you should use measured_compass_angle()
         instead. But you can use it for debugging or logging.
         """
@@ -215,7 +215,7 @@ class DroneAbstract(Agent):
 
     def true_velocity(self):
         """
-        Give the true velocity of the drone, in pixels per second
+        Give the true velocity of the robot, in pixels per second
         You must NOT use this value for your calculation in the control() function, you should use GPS, Compass or
         odometry data instead. But you can use it for debugging or logging.
         """
@@ -223,7 +223,7 @@ class DroneAbstract(Agent):
 
     def true_angular_velocity(self):
         """
-        Give the true angular velocity of the drone, in radians per second
+        Give the true angular velocity of the robot, in radians per second
         You must NOT use this value for your calculation in the control() function, you should use GPS, Compass or
         odometry data instead. But you can use it for debugging or logging.
         """

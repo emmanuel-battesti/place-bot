@@ -11,12 +11,12 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from maps.map_intermediate_01 import MyMapIntermediate01
-from spg_overlay.entities.drone_abstract import DroneAbstract
+from spg_overlay.entities.robot_abstract import RobotAbstract
 from spg_overlay.gui_map.gui_sr import GuiSR
 from spg_overlay.utils.utils import normalize_angle
 
 
-class MyDroneRandom(DroneAbstract):
+class MyRobotRandom(RobotAbstract):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.counterStraight = 0
@@ -33,7 +33,7 @@ class MyDroneRandom(DroneAbstract):
 
     def control(self):
         """
-        The Drone will move forward and turn for a random angle when an obstacle is hit
+        The Robot will move forward and turn for a random angle when an obstacle is hit
         """
         command_straight = {"forward": 1.0,
                             "rotation": 0.0}
@@ -75,7 +75,7 @@ class MyDroneRandom(DroneAbstract):
 def main():
     my_map = MyMapIntermediate01()
 
-    playground = my_map.construct_playground(drone_type=MyDroneRandom)
+    playground = my_map.construct_playground(robot_type=MyRobotRandom)
 
     gui = GuiSR(playground=playground,
                 the_map=my_map,

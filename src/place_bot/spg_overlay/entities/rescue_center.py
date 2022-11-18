@@ -24,7 +24,7 @@ def wounded_rescue_center_collision(arbiter, _, data):
 
 class RescueCenter(PhysicalElement):
     """
-    When in contact with a wounded_person, provide a reward of 1 to the drone closest to the wounded_person.
+    When in contact with a wounded_person, provide a reward of 1 to the robot closest to the wounded_person.
     """
 
     def __init__(self, size: Tuple[int, int], **kwargs):

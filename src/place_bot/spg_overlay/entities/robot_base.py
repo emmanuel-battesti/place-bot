@@ -7,7 +7,7 @@ from resources import path_resources
 from spg_overlay.utils.constants import LINEAR_SPEED_RATIO, ANGULAR_SPEED_RATIO
 
 
-class DroneBase(PhysicalPart):
+class RobotBase(PhysicalPart):
     def __init__(
         self,
         linear_ratio: float = LINEAR_SPEED_RATIO,
@@ -17,7 +17,7 @@ class DroneBase(PhysicalPart):
 
         super().__init__(
             mass=50,
-            filename=path_resources + "/drone_v2.png",
+            filename=path_resources + "/robot_v2.png",
             sprite_front_is_up=True,
             shape_approximation="circle",
             # radius=15,

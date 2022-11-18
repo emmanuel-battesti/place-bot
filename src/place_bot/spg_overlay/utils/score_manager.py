@@ -4,13 +4,13 @@ class ScoreManager:
     """
 
     def __init__(self,
-                 number_drones: int,
+                 number_robots: int,
                  time_step_limit: int,
                  real_time_limit: int,
                  total_number_wounded_persons: int):
 
-        # 'number_drones' is the number of drones that will be generated in the map
-        self.number_drones = number_drones
+        # 'number_robots' is the number of robots that will be generated in the map
+        self.number_robots = number_robots
 
         # 'time_step_limit' is the number of time steps after which the session will end.
         self.time_step_limit = time_step_limit
@@ -18,7 +18,7 @@ class ScoreManager:
         # 'real_time_limit' is the elapsed time (in seconds) after which the session will end.
         self.real_time_limit = real_time_limit
 
-        # 'number_wounded_persons' is the number of wounded persons that should be retrieved by the drones.
+        # 'number_wounded_persons' is the number of wounded persons that should be retrieved by the robots.
         self.total_number_wounded_persons = total_number_wounded_persons
 
         # weight for the different parts of the score. The sum must be equal to 1.
@@ -30,7 +30,7 @@ class ScoreManager:
         """
         Compute the final score out of 100.
         Needed information :
-            'number_rescued_persons': number of rescued persons by the drones
+            'number_rescued_persons': number of rescued persons by the robots
             'score_exploration': score of exploration computed by the ExploredMap class
             'rescued_all_time_step': number of time step used by the time all the wounded person are saved
         """

@@ -1,6 +1,6 @@
 """
 This program can be launched directly.
-To move the drone, you have to click on the map, then use the arrows on the keyboard
+To move the robot, you have to click on the map, then use the arrows on the keyboard
 """
 
 import os
@@ -12,7 +12,7 @@ from spg.utils.definitions import CollisionTypes
 # This line add, to sys.path, the path to parent path of this file
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from spg_overlay.entities.drone_abstract import DroneAbstract
+from spg_overlay.entities.robot_abstract import RobotAbstract
 from spg_overlay.entities.rescue_center import RescueCenter, wounded_rescue_center_collision
 from spg_overlay.entities.wounded_person import WoundedPerson
 from spg_overlay.gui_map.closed_playground import ClosedPlayground
@@ -21,7 +21,7 @@ from spg_overlay.gui_map.map_abstract import MapAbstract
 from spg_overlay.utils.misc_data import MiscData
 
 
-class MyDroneKeyboard(DroneAbstract):
+class MyRobotKeyboard(RobotAbstract):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -54,11 +54,11 @@ class MyMapKeyboard(MapAbstract):
         self._number_wounded_persons = len(self._wounded_persons_pos)
         self._wounded_persons: List[WoundedPerson] = []
 
-        self._number_drones = 1
-        self._drones_pos = [((0, 0), 0)]
-        self._drones = []
+        self._number_robots = 1
+        self._robots_pos = [((0, 0), 0)]
+        self._robots = []
 
-    def construct_playground(self, drone_type: Type[DroneAbstract]):
+    def construct_playground(self, robot_type: Type[RobotAbstract]):
         playground = ClosedPlayground(size=self._size_area)
 
         # RESCUE CENTER
@@ -75,19 +75,19 @@ class MyMapKeyboard(MapAbstract):
             pos = (self._wounded_persons_pos[i], 0)
             playground.add(wounded_person, pos)
 
-        # POSITIONS OF THE DRONES
+        # POSITIONS OF THE ROBOTS
         misc_data = MiscData(size_area=self._size_area,
-                             number_drones=self._number_drones)
-        for i in range(self._number_drones):
-            drone = drone_type(identifier=i, misc_data=misc_data)
-            self._drones.append(drone)
-            playground.add(drone, self._drones_pos[i])
+                             number_robots=self._number_robots)
+        for i in range(self._number_robots):
+            robot = robot_type(identifier=i, misc_data=misc_data)
+            self._robots.append(robot)
+            playground.add(robot, self._robots_pos[i])
 
         return playground
 
 
 def print_keyboard_man():
-    print("How to use the keyboard to direct the drone?")
+    print("How to use the keyboard to direct the robot?")
     print("\t- up / down key : forward and backward")
     print("\t- left / right key : turn left / right")
     print("\t- shift + left/right key : left/right lateral movement")
@@ -103,7 +103,7 @@ def main():
     print_keyboard_man()
     my_map = MyMapKeyboard()
 
-    playground = my_map.construct_playground(drone_type=MyDroneKeyboard)
+    playground = my_map.construct_playground(robot_type=MyRobotKeyboard)
 
     # draw_lidar : enable the visualization of the lidar rays
     # draw_semantic : enable the visualization of the semantic rays

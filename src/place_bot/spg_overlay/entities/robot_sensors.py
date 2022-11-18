@@ -8,9 +8,9 @@ from spg_overlay.utils.utils import deg2rad, normalize_angle
 from spg_overlay.utils.utils_noise import AutoregressiveModelNoise, GaussianNoise
 
 
-class DroneGPS(InternalSensor, ABC):
+class RobotGPS(InternalSensor, ABC):
     """
-      DroneGPS sensor returns a numpy array containing the position of the drone,
+      RobotGPS sensor returns a numpy array containing the position of the robot,
       with a noise that follow an autoregressive model of order 1
     """
 
@@ -64,9 +64,9 @@ class DroneGPS(InternalSensor, ABC):
         return self._disabled
 
 
-class DroneCompass(InternalSensor):
+class RobotCompass(InternalSensor):
     """
-      DroneCompass sensor returns a numpy array containing the orientation of the drone.
+      RobotCompass sensor returns a numpy array containing the orientation of the robot.
     """
 
     def __init__(self, **kwargs):
@@ -114,12 +114,12 @@ class DroneCompass(InternalSensor):
         return self._disabled
 
 
-class DroneOdometer(InternalSensor):
+class RobotOdometer(InternalSensor):
     """
-      DroneOdometer sensor returns a numpy array containing:
-      - dist_travel, the distance of the travel of the drone during one step
-      - alpha, the relative angle of the current position seen from the previous reference frame of the drone
-      - theta, the variation of orientation (or rotation) of the drone during the last step in the reference frame
+      RobotOdometer sensor returns a numpy array containing:
+      - dist_travel, the distance of the travel of the robot during one step
+      - alpha, the relative angle of the current position seen from the previous reference frame of the robot
+      - theta, the variation of orientation (or rotation) of the robot during the last step in the reference frame
     """
 
     def __init__(self, **kwargs):

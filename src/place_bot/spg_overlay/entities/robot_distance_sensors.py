@@ -27,7 +27,7 @@ def compute_ray_angles(fov_rad: float, nb_rays: int) -> np.ndarray:
     return np.array(ray_angles)
 
 
-class DroneDistanceSensor(DistanceSensor):
+class RobotDistanceSensor(DistanceSensor):
     def __init__(self, noise=True, **kwargs):
         super().__init__(invisible_when_grasped=True, **kwargs)
 
@@ -74,7 +74,7 @@ class DroneDistanceSensor(DistanceSensor):
         return self._resolution,
 
 
-class DroneLidar(DroneDistanceSensor):
+class RobotLidar(RobotDistanceSensor):
     """
     It emulates a lidar.
     Lidar is an acronym of "light detection and ranging".
@@ -94,9 +94,9 @@ class DroneLidar(DroneDistanceSensor):
                          **kwargs)
 
 
-class DroneTouch(DroneDistanceSensor):
+class RobotTouch(RobotDistanceSensor):
     """
-    Touch sensor detects close proximity of entities (objects or walls) near the drone.
+    Touch sensor detects close proximity of entities (objects or walls) near the robot.
 
     It emulates artificial skin,
 
@@ -133,10 +133,10 @@ class DroneTouch(DroneDistanceSensor):
         self._values = val
 
 
-class DroneSemanticSensor(SemanticSensor):
+class RobotSemanticSensor(SemanticSensor):
     """
     Semantic sensors allow to determine the nature of an object, without data processing,
-    around the drone.
+    around the robot.
 
     - fov (field of view): 360 degrees
     - resolution (number of rays): 35
@@ -153,7 +153,7 @@ class DroneSemanticSensor(SemanticSensor):
         GRASPED_WOUNDED_PERSON = auto()
         RESCUE_CENTER = auto()
         CANDY = auto()
-        DRONE = auto()
+        ROBOT = auto()
         COIN = auto()
         VENDING_MACHINE = auto()
         OTHER = auto()
@@ -201,7 +201,7 @@ class DroneSemanticSensor(SemanticSensor):
             elif isinstance(entity, RescueCenter):
                 entity_type = self.TypeEntity.RESCUE_CENTER
             elif isinstance(entity, Agent):
-                entity_type = self.TypeEntity.DRONE
+                entity_type = self.TypeEntity.ROBOT
             else:
                 entity_type = self.TypeEntity.OTHER
                 # print(__file__, type(detection.entity))

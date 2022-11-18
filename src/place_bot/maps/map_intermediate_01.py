@@ -5,7 +5,7 @@ from typing import List, Type
 from spg.playground import Playground
 from spg.utils.definitions import CollisionTypes
 
-from spg_overlay.entities.drone_abstract import DroneAbstract
+from spg_overlay.entities.robot_abstract import RobotAbstract
 from spg_overlay.entities.rescue_center import RescueCenter, wounded_rescue_center_collision
 from spg_overlay.entities.sensor_disablers import EnvironmentType, NoGpsZone, srdisabler_disables_device
 from spg_overlay.entities.wounded_person import WoundedPerson
@@ -39,11 +39,11 @@ class MyMapIntermediate01(MapAbstract):
         self._wounded_persons: List[WoundedPerson] = []
 
         orient = random.uniform(-math.pi, math.pi)
-        self._drones_pos = [((295, 118), orient)]
-        self._number_drones = len(self._drones_pos)
-        self._drones: List[DroneAbstract] = []
+        self._robots_pos = [((295, 118), orient)]
+        self._number_robots = len(self._robots_pos)
+        self._robots: List[RobotAbstract] = []
 
-    def construct_playground(self, drone_type: Type[DroneAbstract]) -> Playground:
+    def construct_playground(self, robot_type: Type[RobotAbstract]) -> Playground:
         playground = ClosedPlayground(size=self._size_area)
 
         # RESCUE CENTER
@@ -73,12 +73,12 @@ class MyMapIntermediate01(MapAbstract):
             pos = (self._wounded_persons_pos[i], 0)
             playground.add(wounded_person, pos)
 
-        # POSITIONS OF THE DRONES
+        # POSITIONS OF THE ROBOTS
         misc_data = MiscData(size_area=self._size_area,
-                             number_drones=self._number_drones)
-        for i in range(self._number_drones):
-            drone = drone_type(identifier=i, misc_data=misc_data)
-            self._drones.append(drone)
-            playground.add(drone, self._drones_pos[i])
+                             number_robots=self._number_robots)
+        for i in range(self._number_robots):
+            robot = robot_type(identifier=i, misc_data=misc_data)
+            self._robots.append(robot)
+            playground.add(robot, self._robots_pos[i])
 
         return playground

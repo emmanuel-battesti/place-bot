@@ -15,8 +15,8 @@ from spg.utils.definitions import CollisionTypes
 # This line add, to sys.path, the path to parent path of this file
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from spg_overlay.entities.drone_abstract import DroneAbstract
-from spg_overlay.entities.drone_distance_sensors import DroneSemanticSensor
+from spg_overlay.entities.robot_abstract import RobotAbstract
+from spg_overlay.entities.robot_distance_sensors import RobotSemanticSensor
 from spg_overlay.entities.rescue_center import RescueCenter, wounded_rescue_center_collision
 from spg_overlay.entities.wounded_person import WoundedPerson
 from spg_overlay.gui_map.closed_playground import ClosedPlayground
@@ -26,10 +26,10 @@ from spg_overlay.utils.misc_data import MiscData
 from spg_overlay.utils.utils import normalize_angle
 
 
-class MyDroneSemantic(DroneAbstract):
+class MyRobotSemantic(RobotAbstract):
     class Activity(Enum):
         """
-        All the states of the drone as a state machine
+        All the states of the robot as a state machine
         """
         SEARCHING_WOUNDED = 1
         GRASPING_WOUNDED = 2
@@ -114,7 +114,7 @@ class MyDroneSemantic(DroneAbstract):
 
     def process_touch_sensor(self):
         """
-        Returns True if the drone hits an obstacle
+        Returns True if the robot hits an obstacle
         """
         if self.touch().get_sensor_values() is None:
             return False
@@ -129,7 +129,7 @@ class MyDroneSemantic(DroneAbstract):
 
     def control_random(self):
         """
-        The Drone will move forward and turn for a random angle when an obstacle is hit
+        The Robot will move forward and turn for a random angle when an obstacle is hit
         """
         command_straight = {"forward": 0.5,
                             "rotation": 0.0}
@@ -158,7 +158,7 @@ class MyDroneSemantic(DroneAbstract):
 
     def process_semantic_sensor(self, the_semantic_sensor):
         """
-        According to his state in the state machine, the Drone will move towards a wound person or the rescue center
+        According to his state in the state machine, the Robot will move towards a wound person or the rescue center
         """
         command = {"forward": 0.5,
                    "lateral": 0.0,
@@ -175,7 +175,7 @@ class MyDroneSemantic(DroneAbstract):
             scores = []
             for data in detection_semantic:
                 # If the wounded person detected is held by nobody
-                if data.entity_type == DroneSemanticSensor.TypeEntity.WOUNDED_PERSON and not data.grasped:
+                if data.entity_type == RobotSemanticSensor.TypeEntity.WOUNDED_PERSON and not data.grasped:
                     found_wounded = True
                     v = (data.angle * data.angle) + \
                         (data.distance * data.distance / 10 ** 5)
@@ -194,7 +194,7 @@ class MyDroneSemantic(DroneAbstract):
             or self.state is self.Activity.DROPPING_AT_RESCUE_CENTER) \
                 and detection_semantic:
             for data in detection_semantic:
-                if data.entity_type == DroneSemanticSensor.TypeEntity.RESCUE_CENTER:
+                if data.entity_type == RobotSemanticSensor.TypeEntity.RESCUE_CENTER:
                     found_rescue_center = True
                     best_angle = data.angle
                     is_near = (data.distance < 30)
@@ -246,12 +246,12 @@ class MyMapSemantic(MapAbstract):
             pos = ((x, y), random.uniform(-math.pi, math.pi))
             self._wounded_persons_pos.append(pos)
 
-        # POSITIONS OF THE DRONES
-        self._number_drones = 1
-        self._drones_pos = [((40, 40), random.uniform(-math.pi, math.pi))]
-        self._drones = []
+        # POSITIONS OF THE ROBOTS
+        self._number_robots = 1
+        self._robots_pos = [((40, 40), random.uniform(-math.pi, math.pi))]
+        self._robots = []
 
-    def construct_playground(self, drone_type: Type[DroneAbstract]):
+    def construct_playground(self, robot_type: Type[RobotAbstract]):
         playground = ClosedPlayground(size=self._size_area)
 
         # RESCUE CENTER
@@ -268,20 +268,20 @@ class MyMapSemantic(MapAbstract):
             pos = self._wounded_persons_pos[i]
             playground.add(wounded_person, pos)
 
-        # POSITIONS OF THE DRONES
+        # POSITIONS OF THE ROBOTS
         misc_data = MiscData(size_area=self._size_area,
-                             number_drones=self._number_drones)
-        for i in range(self._number_drones):
-            drone = drone_type(identifier=i, misc_data=misc_data)
-            self._drones.append(drone)
-            playground.add(drone, self._drones_pos[i])
+                             number_robots=self._number_robots)
+        for i in range(self._number_robots):
+            robot = robot_type(identifier=i, misc_data=misc_data)
+            self._robots.append(robot)
+            playground.add(robot, self._robots_pos[i])
 
         return playground
 
 
 def main():
     my_map = MyMapSemantic()
-    playground = my_map.construct_playground(drone_type=MyDroneSemantic)
+    playground = my_map.construct_playground(robot_type=MyRobotSemantic)
 
     # draw_semantic : enable the visualization of the semantic rays
     gui = GuiSR(playground=playground,

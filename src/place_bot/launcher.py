@@ -1,4 +1,4 @@
-from solutions.my_drone_eval import MyDroneEval
+from solutions.my_robot_eval import MyRobotEval
 from spg_overlay.utils.score_manager import ScoreManager
 from spg_overlay.utils.save_data import SaveData
 from spg_overlay.utils.screen_recorder import ScreenRecorder
@@ -9,14 +9,14 @@ from maps.map_intermediate_01 import MyMapIntermediate01
 from maps.map_complete_01 import MyMapComplete01
 from maps.map_complete_02 import MyMapComplete02
 
-# from solutions.my_drone_random import MyDroneRandom
+# from solutions.my_robot_random import MyRobotRandom
 
 
 class MyMap(MyMapComplete01):
     pass
 
 
-class MyDrone(MyDroneEval):
+class MyRobot(MyRobotEval):
     pass
 
 
@@ -29,13 +29,13 @@ class Launcher:
         # Create a map only to retrieve const data associated with the map
         # Should be improved...
         my_map = MyMap()
-        self.number_drones = my_map.number_drones
+        self.number_robots = my_map.number_robots
         self.time_step_limit = my_map.time_step_limit
         self.real_time_limit = my_map.real_time_limit
         self.number_wounded_persons = my_map.number_wounded_persons
         self.size_area = my_map.size_area
 
-        self.score_manager = ScoreManager(number_drones=self.number_drones,
+        self.score_manager = ScoreManager(number_robots=self.number_robots,
                                           time_step_limit=self.time_step_limit,
                                           real_time_limit=self.real_time_limit,
                                           total_number_wounded_persons=self.number_wounded_persons)
@@ -47,7 +47,7 @@ class Launcher:
 
     def one_round(self, environment_type, num_round):
         my_map = MyMap(environment_type)
-        playground = my_map.construct_playground(drone_type=MyDrone)
+        playground = my_map.construct_playground(robot_type=MyRobot)
 
         num_round_str = str(num_round)
         envir_str = environment_type.name.lower()

@@ -9,7 +9,7 @@ from spg.playground.playground import SentMessagesDict
 from spg.view import TopDownView
 
 from spg_overlay.utils.constants import FRAME_RATE
-from spg_overlay.entities.drone_abstract import DroneAbstract
+from spg_overlay.entities.robot_abstract import RobotAbstract
 from spg_overlay.entities.keyboard_controller import KeyboardController
 from spg_overlay.utils.fps_display import FpsDisplay
 from spg_overlay.gui_map.map_abstract import MapAbstract
@@ -55,16 +55,16 @@ class GuiSR(TopDownView):
         self._playground.window.set_visible(True)
 
         self._the_map = the_map
-        self._drones = self._the_map.drones
-        self._number_drones = self._the_map.number_drones
+        self._robots = self._the_map.robots
+        self._number_robots = self._the_map.number_robots
 
         self._real_time_limit = self._the_map.real_time_limit
         if self._real_time_limit is None:
             self._real_time_limit = 100000000
 
-        self._drones_commands: Union[Dict[DroneAbstract, Dict[Union[str, Controller], Command]], Type[None]] = None
-        if self._drones:
-            self._drones_commands = {}
+        self._robots_commands: Union[Dict[RobotAbstract, Dict[Union[str, Controller], Command]], Type[None]] = None
+        if self._robots:
+            self._robots_commands = {}
 
         self._messages = None
         self._print_rewards = print_rewards
@@ -86,7 +86,7 @@ class GuiSR(TopDownView):
         self._use_mouse_measure = use_mouse_measure
         self._enable_visu_noises = enable_visu_noises
 
-        # 'number_wounded_persons' is the number of wounded persons that should be retrieved by the drones.
+        # 'number_wounded_persons' is the number of wounded persons that should be retrieved by the robots.
         self._total_number_wounded_persons = self._the_map.number_wounded_persons
         self._rescued_number = 0
         self._rescued_all_time_step = 0
@@ -101,7 +101,7 @@ class GuiSR(TopDownView):
         self.fps_display = FpsDisplay(period_display=2)
         self._keyboardController = KeyboardController()
         self._mouse_measure = MouseMeasure(playground_size=playground.size)
-        self._visu_noises = VisuNoises(playground_size=playground.size, drones=self._drones)
+        self._visu_noises = VisuNoises(playground_size=playground.size, robots=self._robots)
 
         self.recorder = ScreenRecorder(self._size[0], self._size[1], fps=30, out_file=filename_video_capture)
 
@@ -117,34 +117,34 @@ class GuiSR(TopDownView):
         self._elapsed_time += 1
 
         if self._elapsed_time < 5:
-            self._playground.step(commands=self._drones_commands, messages=self._messages)
+            self._playground.step(commands=self._robots_commands, messages=self._messages)
             return
 
-        self._the_map.explored_map.update(self._drones)
+        self._the_map.explored_map.update(self._robots)
 
         # COMPUTE ALL THE MESSAGES
-        self._messages = self.collect_all_messages(self._drones)
+        self._messages = self.collect_all_messages(self._robots)
 
         # COMPUTE COMMANDS
-        for i in range(self._number_drones):
+        for i in range(self._number_robots):
             if self._use_keyboard:
                 command = self._keyboardController.control()
             else:
-                command = self._drones[i].control()
-            self._drones_commands[self._drones[i]] = command
+                command = self._robots[i].control()
+            self._robots_commands[self._robots[i]] = command
 
-        if self._drones:
-            self._drones[0].display()
+        if self._robots:
+            self._robots[0].display()
 
-        self._playground.step(commands=self._drones_commands, messages=self._messages)
+        self._playground.step(commands=self._robots_commands, messages=self._messages)
 
         self._visu_noises.update(enable=self._enable_visu_noises)
         # self._the_map.explored_map.display()
 
         # REWARDS
         new_reward = 0
-        for i in range(self._number_drones):
-            new_reward += self._drones[i].reward
+        for i in range(self._number_robots):
+            new_reward += self._robots[i].reward
 
         if new_reward != 0:
             self._rescued_number += new_reward
@@ -164,10 +164,10 @@ class GuiSR(TopDownView):
                     print(agent.reward)
 
         if self._print_messages:
-            for drone in self._playground.agents:
-                for comm in drone.communicators:
+            for robot in self._playground.agents:
+                for comm in robot.communicators:
                     for _, msg in comm.received_messages:
-                        print(f"Drone {drone.name} received message {msg}")
+                        print(f"Robot {robot.name} received message {msg}")
 
         self._messages = {}
 
@@ -176,8 +176,8 @@ class GuiSR(TopDownView):
 
         self.fps_display.update(display=False)
 
-        # print("can_grasp: {}, entities: {}".format(self._drone.base.grasper.can_grasp,
-        #                                            self._drone.base.grasper.grasped_entities))
+        # print("can_grasp: {}, entities: {}".format(self._robot.base.grasper.can_grasp,
+        #                                            self._robot.base.grasper.grasped_entities))
 
         if self._terminate:
             self.recorder.end_recording()
@@ -199,16 +199,16 @@ class GuiSR(TopDownView):
         self._playground.window.clear(self._background)
 
         if self._draw_lidar:
-            for drone in self._playground.agents:
-                drone.lidar().draw()
+            for robot in self._playground.agents:
+                robot.lidar().draw()
 
         if self._draw_semantic:
-            for drone in self._playground.agents:
-                drone.semantic().draw()
+            for robot in self._playground.agents:
+                robot.semantic().draw()
 
         if self._draw_touch:
-            for drone in self._playground.agents:
-                drone.touch().draw()
+            for robot in self._playground.agents:
+                robot.touch().draw()
 
         self._mouse_measure.draw(enable=self._use_mouse_measure)
         self._visu_noises.draw(enable=self._enable_visu_noises)
@@ -222,18 +222,18 @@ class GuiSR(TopDownView):
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
         self._keyboardController.on_key_press(key, modifiers)
-        if self._drones:
+        if self._robots:
 
             if key == arcade.key.M:
                 self._messages = {
-                    self._drones[0]: {
-                        self._drones[0].communicator: (
+                    self._robots[0]: {
+                        self._robots[0].communicator: (
                             None,
                             f"Currently at timestep {self._playground.timestep}",
                         )
                     }
                 }
-                print(f"Drone {self._drones[0].name} sends message")
+                print(f"Robot {self._robots[0].name} sends message")
 
         if key == arcade.key.Q:
             self._terminate = True
@@ -265,11 +265,11 @@ class GuiSR(TopDownView):
     def on_mouse_release(self, x: int, y: int, button: int, modifiers: int):
         self._mouse_measure.on_mouse_release(x, y, button, enable=self._use_mouse_measure)
 
-    def collect_all_messages(self, drones: List[DroneAbstract]):
+    def collect_all_messages(self, robots: List[RobotAbstract]):
         messages: SentMessagesDict = {}
-        for i in range(self._number_drones):
-            msg_data = drones[i].define_message_for_all()
-            messages[drones[i]] = {drones[i].communicator: (None, msg_data)}
+        for i in range(self._number_robots):
+            msg_data = robots[i].define_message_for_all()
+            messages[robots[i]] = {robots[i].communicator: (None, msg_data)}
         return messages
 
     @property

@@ -11,7 +11,7 @@ from spg.element import ZoneElement
 from spg.playground import Playground, get_colliding_entities
 from spg.utils.definitions import CollisionTypes
 
-from spg_overlay.entities.drone_sensors import DroneGPS, DroneCompass
+from spg_overlay.entities.robot_sensors import RobotGPS, RobotCompass
 
 
 class EnvironmentType(IntEnum):
@@ -73,7 +73,7 @@ class NoGpsZone(SRDisabler):
         if size is None:
             size = (0, 0)
 
-        super().__init__(disable_cls=[DroneGPS, DroneCompass],
+        super().__init__(disable_cls=[RobotGPS, RobotCompass],
                          size=size,
                          color="grey")
 

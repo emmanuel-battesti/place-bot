@@ -7,26 +7,25 @@ from typing import List
 from spg.playground import Playground
 from spg.view import TopDownView
 
-from spg_overlay.entities.drone_abstract import DroneAbstract
+from spg_overlay.entities.robot_abstract import RobotAbstract
 from spg_overlay.utils.utils import bresenham, circular_kernel
 
 
 class ExploredMap:
     """
-     Keep memory of which parts of the map was explored by drones.
-     It is used to compute the score of exploration of your swarm of drones.
+     Keep memory of which parts of the map was explored by the robot.
      """
 
     def __init__(self):
-        # img_playground : colored image of the playground without wounded persons and without drones
+        # img_playground : colored image of the playground without wounded persons and without robots
         self._img_playground = np.zeros((0, 0))
-        # map_playground : black and white map of the playground without wounded persons and without drones
+        # map_playground : black and white map of the playground without wounded persons and without robots
         self._map_playground = np.zeros((0, 0))
 
-        # _map_explo_lines : map of the point visited by drones (all positions of the drones)
+        # _map_explo_lines : map of the point visited by robots (all positions of the robots)
         # Initialize _map_explo_lines with 255 (white)
         self._map_explo_lines = np.ones((0, 0))
-        # _map_explo_zones : map of the zone explored by drones
+        # _map_explo_zones : map of the zone explored by robots
         # Initialize _map_explo_zones with zeros (black)
         self._map_explo_zones = np.zeros((0, 0))
         self._explo_pts = dict()
@@ -42,10 +41,10 @@ class ExploredMap:
         """
         Reset everything to zero
         """
-        # _map_explo_lines : map of the point visited by drones (all positions of the drones)
+        # _map_explo_lines : map of the point visited by robots (all positions of the robots)
         # Initialize _map_explo_lines with 255 (white)
         self._map_explo_lines = np.ones(self._map_playground.shape, np.uint8) * 255
-        # _map_explo_zones : map of the zone explored by drones
+        # _map_explo_zones : map of the zone explored by robots
         # Initialize _map_explo_zones with zeros (black)
         self._map_explo_zones = np.zeros(self._map_playground.shape, np.uint8)
         self._explo_pts = dict()
@@ -56,7 +55,7 @@ class ExploredMap:
 
     def _create_image_walls(self, playground: Playground):
         """
-        Fills _img_playground with a color image of the playground without drones and wounded persons
+        Fills _img_playground with a color image of the playground without robots and wounded persons
         """
         view = TopDownView(playground=playground, zoom=1)
         view.update()
@@ -83,16 +82,16 @@ class ExploredMap:
 
         ret, self._map_playground = cv2.threshold(map_gray, 127, 255, cv2.THRESH_BINARY_INV)
 
-        # _map_explo_lines : map of the point visited by drones (all positions of the drones)
+        # _map_explo_lines : map of the point visited by robots (all positions of the robots)
         # Initialize _map_explo_lines with 255 (white)
         self._map_explo_lines = np.ones(self._map_playground.shape, np.uint8) * 255
-        # _map_explo_zones : map of the zone explored by drones
+        # _map_explo_zones : map of the zone explored by robots
         # Initialize _map_explo_zones with zeros (black)
         self._map_explo_zones = np.zeros(self._map_playground.shape, np.uint8)
 
-    def update(self, drones: [List[DroneAbstract]]):
+    def update(self, robots: [List[RobotAbstract]]):
         """
-        Update the list of the positions of the drones
+        Update the list of the positions of the robots
         """
         if not self.initialized:
             return
@@ -101,17 +100,17 @@ class ExploredMap:
         height, width = self._map_explo_lines.shape
         # print("width", width, "height", height)
 
-        for drone in drones:
-            position_ocv = (round(drone.position[0] + width / 2), round(-drone.position[1] + height / 2))
+        for robot in robots:
+            position_ocv = (round(robot.position[0] + width / 2), round(-robot.position[1] + height / 2))
             if 0 <= position_ocv[0] < width and 0 <= position_ocv[1] < height:
-                if drone in self._last_position.keys():
-                    cv2.line(img=self._map_explo_lines, pt1=self._last_position[drone], pt2=position_ocv,
+                if robot in self._last_position.keys():
+                    cv2.line(img=self._map_explo_lines, pt1=self._last_position[robot], pt2=position_ocv,
                              color=(0, 0, 0))
-                if drone in self._explo_pts:
-                    self._explo_pts[drone].append(position_ocv)
+                if robot in self._explo_pts:
+                    self._explo_pts[robot].append(position_ocv)
                 else:
-                    self._explo_pts[drone] = [position_ocv]
-                self._last_position[drone] = position_ocv
+                    self._explo_pts[robot] = [position_ocv]
+                self._last_position[robot] = position_ocv
             # else:
             #     print("Error")
 
@@ -145,7 +144,7 @@ class ExploredMap:
 
     def _process_positions(self):
         """
-        Process the list of the positions of the drones to draw the map of the explored zones
+        Process the list of the positions of the robots to draw the map of the explored zones
         """
         radius_explo = 200
 
@@ -249,7 +248,7 @@ class ExploredMap:
 
     def score(self):
         """
-        Give a score of the exploration of all the drones by computing of the percentage of exploration
+        Give a score of the exploration of all the robots by computing of the percentage of exploration
         """
         if not self.initialized:
             return 0

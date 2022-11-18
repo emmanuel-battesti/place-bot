@@ -1,4 +1,4 @@
-from spg_overlay.entities.drone_abstract import DroneAbstract
+from spg_overlay.entities.robot_abstract import RobotAbstract
 from spg_overlay.gui_map.gui_sr import GuiSR
 
 from maps.map_intermediate_01 import MyMapIntermediate01
@@ -10,7 +10,7 @@ class MyMap(MyMapComplete02):
     pass
 
 
-class MyDrone(DroneAbstract):
+class MyRobot(RobotAbstract):
     def define_message_for_all(self):
         pass
 
@@ -23,7 +23,7 @@ if __name__ == "__main__":
         print("")
         print("*** Environment '{}'".format(environment_type.name.lower()))
         my_map = MyMap(environment_type)
-        playground = my_map.construct_playground(drone_type=MyDrone)
+        playground = my_map.construct_playground(robot_type=MyRobot)
 
         my_gui = GuiSR(playground=playground,
                        the_map=my_map,
