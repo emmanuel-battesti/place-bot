@@ -254,8 +254,8 @@ class ImageToMap:
         print("nombre de lignes =", len(self.lines))
 
 
-# img_path = "/home/battesti/projetCompetDronesDGA/private-swarm-rescue-alixia/map_data/complete_map_1.png"
-img_path = "/home/battesti/projetCompetDronesDGA/private-swarm-rescue-alixia/map_data/intermediate_eval_1.png"
+# img_path = "/home/battesti/projetRobotMobile/place-bot/map_data/complete_map_1.png"
+img_path = "/home/battesti/projetRobotMobile/place-bot/map_data/intermediate_eval_1.png"
 should_auto_resized = False
 img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
 image_to_map = ImageToMap(image_source=img, auto_resized=should_auto_resized)

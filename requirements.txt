@@ -7,7 +7,7 @@ pytest
 opencv-contrib-python==4.5.5.64
 matplotlib
 setuptools
--e git+https://github.com/emmanuel-battesti/simple-playgrounds.git@swarm-rescue-v2#egg=spg
+-e git+https://github.com/emmanuel-battesti/simple-playgrounds.git@place-bot#egg=spg
 #-e /home/battesti/projetCompetDronesDGA/simple-playgrounds
 #simple-playgrounds
 #spg

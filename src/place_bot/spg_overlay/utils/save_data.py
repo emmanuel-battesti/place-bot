@@ -18,7 +18,7 @@ class SaveData:
         self._team_info = team_info
         self._team_number_str = str(self._team_info.team_number).zfill(2)
         date = datetime.now()
-        self._directory = str(Path.home()) + '/results_swarm_rescue'
+        self._directory = str(Path.home()) + '/results_place_bot'
         self._path = self._directory + '/team{}_{}'.format(self._team_number_str, date.strftime("%y%m%d_%Hh%Mmin%Ss"))
 
         try:
