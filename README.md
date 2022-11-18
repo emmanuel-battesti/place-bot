@@ -363,7 +363,7 @@ This repository will contain your solutions. Taking inspiration from what is the
 
 Each Robot must inherit from the class *RobotAbstract*. You have one mandatory member functions: **control()** that will give the action to do for each time step.
 
-For your calculation in the control() function, it is mandatory to use only the sensor without directly accessing the class members. In particular, you should not use the *position* and *angle* variables, but use the *measured_gps_position()* and *measured_compass_angle()* functions to have access to the position and orientation of the robot. These values are noisy, representing more realistic sensors, and can be altered by special zones in the map where the position information can be scrambled.
+For your calculation in the control() function, it is mandatory to use only the sensor without directly accessing the class members. In particular, you should not use the *position* and *angle* variables, but use the *measured_gps_position()* and *measured_compass_angle()* functions to have access to the position and orientation of the robot. These values are noisy, representing more realistic sensors.
 
 The true position of the robot can be accessed with the functions *true_position()* and *true_angle()* (or directly with the variable *position* and *angle*), BUT it is only for debugging or logging.
 

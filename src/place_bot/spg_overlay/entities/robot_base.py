@@ -9,12 +9,11 @@ from spg_overlay.utils.constants import LINEAR_SPEED_RATIO, ANGULAR_SPEED_RATIO
 
 class RobotBase(PhysicalPart):
     def __init__(
-        self,
-        linear_ratio: float = LINEAR_SPEED_RATIO,
-        angular_ratio: float = ANGULAR_SPEED_RATIO,
-        **kwargs,
+            self,
+            linear_ratio: float = LINEAR_SPEED_RATIO,
+            angular_ratio: float = ANGULAR_SPEED_RATIO,
+            **kwargs,
     ):
-
         super().__init__(
             mass=50,
             filename=path_resources + "/robot_v2.png",
@@ -35,9 +34,7 @@ class RobotBase(PhysicalPart):
 
     def _apply_commands(self, **kwargs):
         command_value = self.forward_controller.command_value
-        self._pm_body.apply_force_at_local_point(
-            pymunk.Vec2d(command_value, 0) * self.linear_ratio, (0, 0)
-        )
+        self._pm_body.apply_force_at_local_point(pymunk.Vec2d(command_value, 0) * self.linear_ratio, (0, 0))
 
         command_value = self.angular_vel_controller.command_value
         self._pm_body.angular_velocity = command_value * self.angular_ratio

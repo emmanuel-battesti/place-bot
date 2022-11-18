@@ -1,15 +1,8 @@
 import math
-from collections import namedtuple
-
 import numpy as np
-from enum import Enum, auto
 
-from spg.agent import Agent
 from spg.agent.sensor import DistanceSensor
-from spg.element import ColorWall
-from spg.playground import Playground
 
-from spg_overlay.entities.normal_wall import NormalWall, NormalBox
 from spg_overlay.utils.utils_noise import GaussianNoise
 
 

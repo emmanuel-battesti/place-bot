@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List, Type
+from typing import Type, Union
 
 from spg.playground import Playground
 
@@ -14,10 +14,6 @@ class MapAbstract(ABC):
     def __init__(self):
         self._size_area = None
         self._robot: Union[RobotAbstract, Type[None]] = None
-        # '_time_step_limit' is the number of time steps after which the session will end.
-        self._time_step_limit = None
-        # 'real_time_limit' is the elapsed time (in seconds) after which the session will end.
-        self._real_time_limit = None  # In seconds
 
     @abstractmethod
     def construct_playground(self, robot_type: Type[RobotAbstract]) -> Playground:
@@ -26,14 +22,6 @@ class MapAbstract(ABC):
     @property
     def robot(self):
         return self._robot
-
-    @property
-    def time_step_limit(self):
-        return self._time_step_limit
-
-    @property
-    def real_time_limit(self):
-        return self._real_time_limit
 
     @property
     def size_area(self):

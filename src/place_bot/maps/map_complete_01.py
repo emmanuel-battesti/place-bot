@@ -16,8 +16,6 @@ class MyMapComplete01(MapAbstract):
 
     def __init__(self):
         super().__init__()
-        self._time_step_limit = 1200
-        self._real_time_limit = 240  # In seconds
 
         # PARAMETERS MAP
         self._size_area = (1110, 750)

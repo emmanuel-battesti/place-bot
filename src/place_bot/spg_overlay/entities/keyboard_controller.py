@@ -6,7 +6,6 @@ class KeyboardController:
         self._command = {"forward": 0.0,
                          "rotation": 0.0}
 
-    # def on_key_press(self, key, modifiers, commands: Dict[Union[str, Controller], Command]):
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
         if self._command:
@@ -21,7 +20,6 @@ class KeyboardController:
             elif key == arcade.key.RIGHT:
                 self._command["rotation"] = -1.0
 
-    # def on_key_release(self, key, modifiers, commands: Dict[Union[str, Controller], Command]):
     def on_key_release(self, key, modifiers):
         if self._command:
 

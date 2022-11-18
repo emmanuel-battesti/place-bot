@@ -28,7 +28,6 @@ class GuiSR(TopDownView):
             display_uid: bool = False,
             draw_transparent: bool = False,
             draw_interactive: bool = False,
-            draw_zone: bool = True,
             draw_lidar: bool = False,
             use_keyboard: bool = False,
             use_mouse_measure: bool = False,
@@ -43,7 +42,6 @@ class GuiSR(TopDownView):
             display_uid,
             draw_transparent,
             draw_interactive,
-            draw_zone,
         )
 
         self._playground.window.set_size(*self._size)
@@ -51,10 +49,6 @@ class GuiSR(TopDownView):
 
         self._the_map = the_map
         self._robot = self._the_map.robot
-
-        self._real_time_limit = self._the_map.real_time_limit
-        if self._real_time_limit is None:
-            self._real_time_limit = 100000000
 
         self._robot_commands: Union[Dict[RobotAbstract, Dict[Union[str, Controller], Command]], Type[None]] = None
         if self._robot:
@@ -76,10 +70,8 @@ class GuiSR(TopDownView):
 
         self._elapsed_time = 0
         self._start_real_time = time.time()
-        self._real_time_limit_reached = False
         self._real_time_elapsed = 0
 
-        self._last_image = None
         self._terminate = False
 
         self.fps_display = FpsDisplay(period_display=2)
@@ -120,9 +112,6 @@ class GuiSR(TopDownView):
 
         end_real_time = time.time()
         self._real_time_elapsed = (end_real_time - self._start_real_time)
-        if self._real_time_elapsed > self._real_time_limit:
-            self._real_time_limit_reached = True
-            self._terminate = True
 
         # Capture the frame
         self.recorder.capture_frame(self)
@@ -131,7 +120,6 @@ class GuiSR(TopDownView):
 
         if self._terminate:
             self.recorder.end_recording()
-            self._last_image = self.get_playground_image()
             arcade.close_window()
 
     def get_playground_image(self):
@@ -157,7 +145,6 @@ class GuiSR(TopDownView):
 
         self._transparent_sprites.draw(pixelated=True)
         self._interactive_sprites.draw(pixelated=True)
-        self._zone_sprites.draw(pixelated=True)
         self._visible_sprites.draw(pixelated=True)
         self._traversable_sprites.draw(pixelated=True)
 
@@ -188,10 +175,6 @@ class GuiSR(TopDownView):
 
     def on_mouse_release(self, x: int, y: int, button: int, modifiers: int):
         self._mouse_measure.on_mouse_release(x, y, button, enable=self._use_mouse_measure)
-
-    @property
-    def last_image(self):
-        return self._last_image
 
     @property
     def elapsed_time(self):
