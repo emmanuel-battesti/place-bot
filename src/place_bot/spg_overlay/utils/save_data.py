@@ -4,7 +4,6 @@ from cv2 import cv2 as cv2
 from datetime import datetime
 from pathlib2 import Path
 
-from spg_overlay.entities.sensor_disablers import EnvironmentType
 from spg_overlay.utils.write_pdf import WritePdf
 
 
@@ -54,7 +53,6 @@ class SaveData:
         file.close()
 
     def save_one_round(self,
-                       environment_type: EnvironmentType,
                        i_try,
                        percent_rescued,
                        score_exploration,
@@ -65,7 +63,6 @@ class SaveData:
         if self._disabled:
             return
         data = [(self._team_info.team_number,
-                 str(environment_type.name.lower()),
                  str(i_try),
                  str(percent_rescued),
                  "%.2f" % score_exploration,
@@ -76,24 +73,23 @@ class SaveData:
 
         self._add_line(data)
 
-    def save_images(self, im, im_explo_lines, im_explo_zones, environment_type, num_round):
+    def save_images(self, im, im_explo_lines, im_explo_zones, num_round):
         if self._disabled:
             return
         num_round_str = str(num_round)
-        envir_str = environment_type.name.lower()
-        filename = self._path + "/screen_{}_rd{}_eq{}.png".format(envir_str, num_round_str, self._team_number_str)
+        filename = self._path + "/screen_rd{}_eq{}.png".format(num_round_str, self._team_number_str)
         im_norm = cv2.normalize(src=im, dst=None, alpha=0, beta=255,
                                 norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
         cv2.imwrite(filename, im_norm)
 
         # Save the screen capture of the explored zone done by all robots
-        filename_explo = self._path + "/screen_explo_{}_rd{}_eq{}.png".format(envir_str, num_round_str,
-                                                                              self._team_number_str)
+        filename_explo = self._path + "/screen_explo_rd{}_eq{}.png".format(num_round_str,
+                                                                           self._team_number_str)
         cv2.imwrite(filename_explo, im_explo_zones)
 
         # Save the screen capture of the path done by each robot
-        filename_path = self._path + "/screen_path_{}_rd{}_eq{}.png".format(envir_str, num_round_str,
-                                                                            self._team_number_str)
+        filename_path = self._path + "/screen_path_rd{}_eq{}.png".format(num_round_str,
+                                                                         self._team_number_str)
         cv2.imwrite(filename_path, im_explo_lines)
 
     @property

@@ -20,7 +20,6 @@ class WritePdf:
         self.team_info = team_info
         self.team_number_str = str(self.team_info.team_number).zfill(2)
         self.path = path
-        self.environment_names = ['easy', 'no_com_zone', 'no_gps_zone', 'kill_zone']
 
         self.pdf = MyFPDF('P', 'mm', 'A4')
         self.pdf.alias_nb_pages()

@@ -19,14 +19,12 @@ class MyRobot(RobotAbstract):
 
 
 if __name__ == "__main__":
-    for environment_type in MyMap.environment_series:
-        print("")
-        print("*** Environment '{}'".format(environment_type.name.lower()))
-        my_map = MyMap(environment_type)
-        playground = my_map.construct_playground(robot_type=MyRobot)
+    print("")
+    my_map = MyMap()
+    playground = my_map.construct_playground(robot_type=MyRobot)
 
-        my_gui = GuiSR(playground=playground,
-                       the_map=my_map,
-                       use_mouse_measure=True)
+    my_gui = GuiSR(playground=playground,
+                   the_map=my_map,
+                   use_mouse_measure=True)
 
-        my_gui.run()
+    my_gui.run()

@@ -5,19 +5,16 @@ from spg.playground import Playground
 
 from spg_overlay.entities.robot_abstract import RobotAbstract
 from spg_overlay.utils.explored_map import ExploredMap
-from spg_overlay.entities.sensor_disablers import EnvironmentType
 
 
 class MapAbstract(ABC):
     """
     It is abstract class to construct every maps used in the directory maps
     """
-    environment_series = [EnvironmentType.EASY]
 
-    def __init__(self, environment_type: EnvironmentType = EnvironmentType.EASY):
+    def __init__(self):
         self._explored_map = ExploredMap()
         self._size_area = None
-        self._environment_type = environment_type
         self._robots: List[RobotAbstract] = []
         # '_number_robots' is the number of robots that will be generated in the map
         self._number_robots = None
@@ -55,10 +52,6 @@ class MapAbstract(ABC):
     @property
     def size_area(self):
         return self._size_area
-
-    @property
-    def environment_type(self):
-        return self._environment_type
 
     @property
     def explored_map(self):
