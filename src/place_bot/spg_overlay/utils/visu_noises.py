@@ -1,6 +1,6 @@
 import math
 import arcade
-from typing import Tuple, List, Dict
+from typing import Tuple, Dict
 from collections import deque
 from spg_overlay.entities.robot_abstract import RobotAbstract
 

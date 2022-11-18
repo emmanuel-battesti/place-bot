@@ -8,7 +8,6 @@ import sys
 from typing import Type
 
 from spg.playground import Playground
-from spg.utils.definitions import CollisionTypes
 
 # This line add, to sys.path, the path to parent path of this file
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))

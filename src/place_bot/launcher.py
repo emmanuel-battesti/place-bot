@@ -21,13 +21,14 @@ class MyRobot(MyRobotEval):
 class Launcher:
     def __init__(self):
         self.video_capture_enabled = False
+        self.path = ""
 
     def go(self):
         my_map = MyMap()
         playground = my_map.construct_playground(robot_type=MyRobot)
 
         if self.video_capture_enabled:
-            filename_video_capture = self.save_data.path + "/screen.avi".format()
+            filename_video_capture = self.path + "/screen.avi".format()
         else:
             filename_video_capture = None
 

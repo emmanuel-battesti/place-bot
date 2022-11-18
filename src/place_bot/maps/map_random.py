@@ -1,6 +1,6 @@
 import math
 import random
-from typing import List, Type
+from typing import Type
 
 from spg.playground import Playground
 

@@ -1,9 +1,8 @@
 import math
 import random
-from typing import List, Type
+from typing import Type, Union
 
 from spg.playground import Playground
-from spg.utils.definitions import CollisionTypes
 
 from spg_overlay.entities.robot_abstract import RobotAbstract
 from spg_overlay.gui_map.closed_playground import ClosedPlayground

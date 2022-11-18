@@ -1,7 +1,6 @@
 import math
 from abc import abstractmethod
 from enum import IntEnum
-from typing import Optional
 
 from spg.agent.agent import Agent
 

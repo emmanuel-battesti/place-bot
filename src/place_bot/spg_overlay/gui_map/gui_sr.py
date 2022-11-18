@@ -1,6 +1,6 @@
 import arcade
 import time
-from typing import Optional, Tuple, List, Dict, Union, Type
+from typing import Optional, Tuple, Dict, Union, Type
 import cv2
 
 from spg.agent.controller.controller import Command, Controller

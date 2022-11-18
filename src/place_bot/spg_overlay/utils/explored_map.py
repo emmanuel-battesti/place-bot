@@ -2,8 +2,7 @@ import math
 
 from cv2 import cv2 as cv2
 import numpy as np
-from typing import List
-# from spg.engine import Engine
+
 from spg.playground import Playground
 from spg.view import TopDownView
 
