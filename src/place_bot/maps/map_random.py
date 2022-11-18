@@ -23,8 +23,6 @@ class MyMapRandom(MapAbstract):
     def construct_playground(self, robot_type: Type[RobotAbstract]) -> Playground:
         playground = ClosedPlayground(size=self._size_area)
 
-        self._explored_map.initialize_walls(playground)
-
         # POSITIONS OF THE ROBOTS
         for i in range(self._number_robots):
             x = random.uniform(-self._size_area[0]/2, self._size_area[0]/2)

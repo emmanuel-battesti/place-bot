@@ -4,7 +4,6 @@ from typing import List, Type
 from spg.playground import Playground
 
 from spg_overlay.entities.robot_abstract import RobotAbstract
-from spg_overlay.utils.explored_map import ExploredMap
 
 
 class MapAbstract(ABC):
@@ -13,7 +12,6 @@ class MapAbstract(ABC):
     """
 
     def __init__(self):
-        self._explored_map = ExploredMap()
         self._size_area = None
         self._robots: List[RobotAbstract] = []
         # '_number_robots' is the number of robots that will be generated in the map
@@ -53,6 +51,3 @@ class MapAbstract(ABC):
     def size_area(self):
         return self._size_area
 
-    @property
-    def explored_map(self):
-        return self._explored_map

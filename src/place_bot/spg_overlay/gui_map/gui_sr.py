@@ -120,8 +120,6 @@ class GuiSR(TopDownView):
             self._playground.step(commands=self._robots_commands, messages=self._messages)
             return
 
-        self._the_map.explored_map.update(self._robots)
-
         # COMPUTE ALL THE MESSAGES
         self._messages = self.collect_all_messages(self._robots)
 
@@ -139,7 +137,6 @@ class GuiSR(TopDownView):
         self._playground.step(commands=self._robots_commands, messages=self._messages)
 
         self._visu_noises.update(enable=self._enable_visu_noises)
-        # self._the_map.explored_map.display()
 
         # REWARDS
         new_reward = 0

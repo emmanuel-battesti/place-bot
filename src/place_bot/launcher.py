@@ -48,8 +48,6 @@ class Launcher:
                        draw_interactive=False,
                        filename_video_capture=filename_video_capture)
 
-        my_map.explored_map.reset()
-
         my_gui.run()
 
 

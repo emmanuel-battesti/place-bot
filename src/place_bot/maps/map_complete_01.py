@@ -68,8 +68,6 @@ class MyMapComplete01(MapAbstract):
         add_walls(playground)
         add_boxes(playground)
 
-        self._explored_map.initialize_walls(playground)
-
         # POSITIONS OF THE WOUNDED PERSONS
         for i in range(self._number_wounded_persons):
             wounded_person = WoundedPerson(rescue_center=self._rescue_center)
