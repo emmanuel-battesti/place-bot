@@ -4,7 +4,6 @@ from enum import IntEnum
 from typing import Optional
 
 from spg.agent.agent import Agent
-from spg.agent.interactor import GraspMagnet
 
 from spg_overlay.entities.robot_base import RobotBase
 from spg_overlay.entities.robot_distance_sensors import RobotLidar, RobotTouch, RobotSemanticSensor
@@ -37,16 +36,13 @@ class RobotAbstract(Agent):
                  should_display_touch=False,
                  **kwargs
                  ):
-        super().__init__(interactive=True, lateral=True, radius=10, **kwargs)
+        super().__init__(interactive=True, lateral=False, radius=10, **kwargs)
 
         if identifier is None:
             identifier = id(self)
 
         base = RobotBase()
         self.add(base)
-
-        grasp = GraspMagnet(base, max_grasped=1)
-        self.base.add(grasp)
 
         self.size_area = None
         if misc_data:
@@ -81,14 +77,9 @@ class RobotAbstract(Agent):
         This function should return a command which is a dict with values for the actuators.
         For example:
         command = {"forward": 1.0,
-                   "lateral": 0.0,
-                   "rotation": -1.0,
-                   "grasper": 0}
+                   "rotation": -1.0}
         """
         pass
-
-    def grasped_entities(self):
-        self.base.grasper.grasped_entities
 
     def touch(self):
         """

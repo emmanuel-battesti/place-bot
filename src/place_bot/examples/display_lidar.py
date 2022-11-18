@@ -30,9 +30,7 @@ class MyRobotLidar(RobotAbstract):
         We only send a command to do nothing
         """
         command = {"forward": 0.0,
-                   "lateral": 0.0,
-                   "rotation": 0.0,
-                   "grasper": 0}
+                   "rotation": 0.0}
         return command
 
 

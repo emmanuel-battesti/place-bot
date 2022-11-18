@@ -27,7 +27,7 @@ def compute_ray_angles(fov_rad: float, nb_rays: int) -> np.ndarray:
 
 class RobotDistanceSensor(DistanceSensor):
     def __init__(self, noise=True, **kwargs):
-        super().__init__(invisible_when_grasped=True, **kwargs)
+        super().__init__(**kwargs)
 
         self._noise = noise
         self._std_dev_noise = 2.5
@@ -147,16 +147,10 @@ class RobotSemanticSensor(SemanticSensor):
         Type of the entity detected
         """
         WALL = auto()
-        WOUNDED_PERSON = auto()
-        GRASPED_WOUNDED_PERSON = auto()
-        RESCUE_CENTER = auto()
-        CANDY = auto()
         ROBOT = auto()
-        COIN = auto()
-        VENDING_MACHINE = auto()
         OTHER = auto()
 
-    Data = namedtuple("Data", "distance angle entity_type grasped")
+    Data = namedtuple("Data", "distance angle entity_type")
 
     def __init__(self, playground: Playground, noise=True, invisible_elements=None, **kwargs):
         super().__init__(normalize=False,
@@ -164,7 +158,6 @@ class RobotSemanticSensor(SemanticSensor):
                          max_range=200,
                          fov=360,
                          invisible_elements=invisible_elements,
-                         invisible_when_grasped=True,
                          **kwargs)
 
         self._playground = playground
@@ -200,10 +193,6 @@ class RobotSemanticSensor(SemanticSensor):
                 entity_type = self.TypeEntity.OTHER
                 # print(__file__, type(detection.entity))
 
-            grasped = False
-            if hasattr(entity, 'graspable') and entity.graspable and len(entity.grasped_by) > 0:
-                grasped = True
-
             distance = distances[index]
             angle = self.ray_angles[index]
 
@@ -211,12 +200,10 @@ class RobotSemanticSensor(SemanticSensor):
                 distance = 0.0
                 angle = 0.0
                 entity_type = self.TypeEntity.OTHER
-                grasped = False
 
             new_detection = self.Data(distance=distance,
                                       angle=angle,
-                                      entity_type=entity_type,
-                                      grasped=grasped)
+                                      entity_type=entity_type)
 
             new_values.append(new_detection)
         self._values = new_values
@@ -246,8 +233,7 @@ class RobotSemanticSensor(SemanticSensor):
             new_data = self.Data(
                 distance=max(0.0, data.distance + np.random.normal(self._std_dev_noise)),
                 angle=data.angle,
-                entity_type=data.entity_type,
-                grasped=data.grasped)
+                entity_type=data.entity_type)
 
             self._values[index] = new_data
 
@@ -260,7 +246,6 @@ class RobotSemanticSensor(SemanticSensor):
     def _default_value(self):
         null_data = self.Data(distance=np.nan,
                               angle=np.nan,
-                              entity_type=np.nan,
-                              grasped=False)
+                              entity_type=np.nan)
         null_sensor = [null_data] * self.resolution
         return null_sensor

@@ -45,14 +45,10 @@ class MyRobotRandom(RobotAbstract):
         The Robot will move forward and turn for a random angle when an obstacle is hit
         """
         command_straight = {"forward": 1.0,
-                            "lateral": 0.0,
-                            "rotation": 0.0,
-                            "grasper": 0}
+                            "rotation": 0.0}
 
         command_turn = {"forward": 0.0,
-                        "lateral": 0.0,
-                        "rotation": 1.0,
-                        "grasper": 0}
+                        "rotation": 1.0}
 
         touched = self.process_touch_sensor()
 

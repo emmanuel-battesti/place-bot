@@ -27,9 +27,6 @@ class RobotBase(PhysicalPart):
         self.forward_controller = CenteredContinuousController(name="forward")
         self.add(self.forward_controller)
 
-        self.lateral_controller = CenteredContinuousController(name="lateral")
-        self.add(self.lateral_controller)
-
         self.angular_vel_controller = CenteredContinuousController(name="rotation")
         self.add(self.angular_vel_controller)
 
@@ -40,11 +37,6 @@ class RobotBase(PhysicalPart):
         command_value = self.forward_controller.command_value
         self._pm_body.apply_force_at_local_point(
             pymunk.Vec2d(command_value, 0) * self.linear_ratio, (0, 0)
-        )
-
-        command_value = self.lateral_controller.command_value
-        self._pm_body.apply_force_at_local_point(
-            pymunk.Vec2d(0, command_value) * self.linear_ratio, (0, 0)
         )
 
         command_value = self.angular_vel_controller.command_value

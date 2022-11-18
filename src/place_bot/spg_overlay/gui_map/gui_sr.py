@@ -135,9 +135,6 @@ class GuiSR(TopDownView):
 
         self.fps_display.update(display=False)
 
-        # print("can_grasp: {}, entities: {}".format(self._robot.base.grasper.can_grasp,
-        #                                            self._robot.base.grasper.grasped_entities))
-
         if self._terminate:
             self.recorder.end_recording()
             self._last_image = self.get_playground_image()

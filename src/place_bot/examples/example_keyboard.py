@@ -25,9 +25,7 @@ class MyRobotKeyboard(RobotAbstract):
 
     def control(self):
         command = {"forward": 0.0,
-                   "lateral": 0.0,
-                   "rotation": 0.0,
-                   "grasper": 0}
+                   "rotation": 0.0}
         return command
 
 
@@ -61,8 +59,6 @@ def print_keyboard_man():
     print("How to use the keyboard to direct the robot?")
     print("\t- up / down key : forward and backward")
     print("\t- left / right key : turn left / right")
-    print("\t- shift + left/right key : left/right lateral movement")
-    print("\t- g key : grasp objects")
     print("\t- l key : display (or not) the lidar sensor")
     print("\t- s key : display (or not) the semantic sensor")
     print("\t- t key : display (or not) the touch sensor")
