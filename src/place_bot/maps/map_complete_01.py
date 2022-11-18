@@ -6,8 +6,6 @@ from spg.playground import Playground
 from spg.utils.definitions import CollisionTypes
 
 from spg_overlay.entities.robot_abstract import RobotAbstract
-from spg_overlay.entities.rescue_center import RescueCenter, wounded_rescue_center_collision
-from spg_overlay.entities.wounded_person import WoundedPerson
 from spg_overlay.gui_map.closed_playground import ClosedPlayground
 from spg_overlay.gui_map.map_abstract import MapAbstract
 from spg_overlay.utils.misc_data import MiscData
@@ -24,15 +22,6 @@ class MyMapComplete01(MapAbstract):
 
         # PARAMETERS MAP
         self._size_area = (1110, 750)
-
-        self._rescue_center = RescueCenter(size=(90, 170))
-        self._rescue_center_pos = ((-505, -285), 0)
-
-        self._wounded_persons_pos = [(-516, 335), (-466, 335), (-226, 335),
-                                     (-481, 75), (-61, 325), (-311, 100),
-                                     (-171, -145), (-100, -155), (524, 325)]
-        self._number_wounded_persons = len(self._wounded_persons_pos)
-        self._wounded_persons: List[WoundedPerson] = []
 
         # POSITIONS OF THE ROBOTS
         self._number_robots = 10
@@ -58,22 +47,9 @@ class MyMapComplete01(MapAbstract):
     def construct_playground(self, robot_type: Type[RobotAbstract]) -> Playground:
         playground = ClosedPlayground(size=self._size_area)
 
-        # RESCUE CENTER
-        playground.add_interaction(CollisionTypes.GEM,
-                                   CollisionTypes.ACTIVABLE_BY_GEM,
-                                   wounded_rescue_center_collision)
-
-        playground.add(self._rescue_center, self._rescue_center_pos)
 
         add_walls(playground)
         add_boxes(playground)
-
-        # POSITIONS OF THE WOUNDED PERSONS
-        for i in range(self._number_wounded_persons):
-            wounded_person = WoundedPerson(rescue_center=self._rescue_center)
-            self._wounded_persons.append(wounded_person)
-            pos = (self._wounded_persons_pos[i], 0)
-            playground.add(wounded_person, pos)
 
         # POSITIONS OF THE ROBOTS
         misc_data = MiscData(size_area=self._size_area,

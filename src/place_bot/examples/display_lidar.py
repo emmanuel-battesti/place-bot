@@ -15,7 +15,6 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from maps.walls_complete_map_2 import add_walls, add_boxes
 from spg_overlay.entities.robot_abstract import RobotAbstract
-from spg_overlay.entities.rescue_center import RescueCenter, wounded_rescue_center_collision
 from spg_overlay.gui_map.closed_playground import ClosedPlayground
 from spg_overlay.gui_map.gui_sr import GuiSR
 from spg_overlay.gui_map.map_abstract import MapAbstract
@@ -51,22 +50,12 @@ class MyMapLidar(MapAbstract):
         # PARAMETERS MAP
         self._size_area = (1113, 750)
 
-        self._rescue_center = RescueCenter(size=(210, 90))
-        self._rescue_center_pos = ((440, 315), 0)
-
         self._number_robots = 1
         self._robots_pos = [((-50, 0), 0)]
         self._robots = []
 
     def construct_playground(self, robot_type: Type[RobotAbstract]) -> Playground:
         playground = ClosedPlayground(size=self._size_area)
-
-        # RESCUE CENTER
-        playground.add_interaction(CollisionTypes.GEM,
-                                   CollisionTypes.ACTIVABLE_BY_GEM,
-                                   wounded_rescue_center_collision)
-
-        playground.add(self._rescue_center, self._rescue_center_pos)
 
         add_walls(playground)
         add_boxes(playground)

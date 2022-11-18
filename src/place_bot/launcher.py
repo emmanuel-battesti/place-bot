@@ -20,18 +20,6 @@ class MyRobot(MyRobotEval):
 
 class Launcher:
     def __init__(self):
-        self.nb_rounds = 1
-
-        # Create a map only to retrieve const data associated with the map
-        # Should be improved...
-        my_map = MyMap()
-        self.number_robots = my_map.number_robots
-        self.time_step_limit = my_map.time_step_limit
-        self.real_time_limit = my_map.real_time_limit
-        self.number_wounded_persons = my_map.number_wounded_persons
-        self.size_area = my_map.size_area
-
-        self.real_time_limit_reached = False
         self.video_capture_enabled = False
 
     def go(self):

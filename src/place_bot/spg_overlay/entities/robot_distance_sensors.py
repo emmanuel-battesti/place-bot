@@ -10,9 +10,7 @@ from spg.element import ColorWall
 from spg.playground import Playground
 
 from spg_overlay.entities.normal_wall import NormalWall, NormalBox
-from spg_overlay.entities.rescue_center import RescueCenter
 from spg_overlay.utils.utils_noise import GaussianNoise
-from spg_overlay.entities.wounded_person import WoundedPerson
 
 
 def compute_ray_angles(fov_rad: float, nb_rays: int) -> np.ndarray:
@@ -196,10 +194,6 @@ class RobotSemanticSensor(SemanticSensor):
                 entity_type = self.TypeEntity.WALL
             elif isinstance(entity, NormalBox):
                 entity_type = self.TypeEntity.WALL
-            elif isinstance(entity, WoundedPerson):
-                entity_type = self.TypeEntity.WOUNDED_PERSON
-            elif isinstance(entity, RescueCenter):
-                entity_type = self.TypeEntity.RESCUE_CENTER
             elif isinstance(entity, Agent):
                 entity_type = self.TypeEntity.ROBOT
             else:

@@ -17,9 +17,9 @@ class ExploredMap:
      """
 
     def __init__(self):
-        # img_playground : colored image of the playground without wounded persons and without robots
+        # img_playground : colored image of the playground without robots
         self._img_playground = np.zeros((0, 0))
-        # map_playground : black and white map of the playground without wounded persons and without robots
+        # map_playground : black and white map of the playground and without robots
         self._map_playground = np.zeros((0, 0))
 
         # _map_explo_lines : map of the point visited by robots (all positions of the robots)
@@ -55,7 +55,7 @@ class ExploredMap:
 
     def _create_image_walls(self, playground: Playground):
         """
-        Fills _img_playground with a color image of the playground without robots and wounded persons
+        Fills _img_playground with a color image of the playground without robots
         """
         view = TopDownView(playground=playground, zoom=1)
         view.update()

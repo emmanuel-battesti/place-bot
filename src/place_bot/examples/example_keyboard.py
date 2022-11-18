@@ -13,8 +13,6 @@ from spg.utils.definitions import CollisionTypes
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from spg_overlay.entities.robot_abstract import RobotAbstract
-from spg_overlay.entities.rescue_center import RescueCenter, wounded_rescue_center_collision
-from spg_overlay.entities.wounded_person import WoundedPerson
 from spg_overlay.gui_map.closed_playground import ClosedPlayground
 from spg_overlay.gui_map.gui_sr import GuiSR
 from spg_overlay.gui_map.map_abstract import MapAbstract
@@ -47,33 +45,12 @@ class MyMapKeyboard(MapAbstract):
         # PARAMETERS MAP
         self._size_area = (600, 600)
 
-        self._rescue_center = RescueCenter(size=(100, 100))
-        self._rescue_center_pos = ((0, 100), 0)
-
-        self._wounded_persons_pos = [(200, 0), (-200, 0), (200, -200), (-200, -200)]
-        self._number_wounded_persons = len(self._wounded_persons_pos)
-        self._wounded_persons: List[WoundedPerson] = []
-
         self._number_robots = 1
         self._robots_pos = [((0, 0), 0)]
         self._robots = []
 
     def construct_playground(self, robot_type: Type[RobotAbstract]):
         playground = ClosedPlayground(size=self._size_area)
-
-        # RESCUE CENTER
-        playground.add_interaction(CollisionTypes.GEM,
-                                   CollisionTypes.ACTIVABLE_BY_GEM,
-                                   wounded_rescue_center_collision)
-
-        playground.add(self._rescue_center, self._rescue_center_pos)
-
-        # POSITIONS OF THE WOUNDED PERSONS
-        for i in range(self._number_wounded_persons):
-            wounded_person = WoundedPerson(rescue_center=self._rescue_center)
-            self._wounded_persons.append(wounded_person)
-            pos = (self._wounded_persons_pos[i], 0)
-            playground.add(wounded_person, pos)
 
         # POSITIONS OF THE ROBOTS
         misc_data = MiscData(size_area=self._size_area,

@@ -86,10 +86,6 @@ class GuiSR(TopDownView):
         self._use_mouse_measure = use_mouse_measure
         self._enable_visu_noises = enable_visu_noises
 
-        # 'number_wounded_persons' is the number of wounded persons that should be retrieved by the robots.
-        self._total_number_wounded_persons = self._the_map.number_wounded_persons
-        self._rescued_number = 0
-        self._rescued_all_time_step = 0
         self._elapsed_time = 0
         self._start_real_time = time.time()
         self._real_time_limit_reached = False
@@ -137,17 +133,6 @@ class GuiSR(TopDownView):
         self._playground.step(commands=self._robots_commands, messages=self._messages)
 
         self._visu_noises.update(enable=self._enable_visu_noises)
-
-        # REWARDS
-        new_reward = 0
-        for i in range(self._number_robots):
-            new_reward += self._robots[i].reward
-
-        if new_reward != 0:
-            self._rescued_number += new_reward
-
-        if self._rescued_number == self._total_number_wounded_persons and self._rescued_all_time_step == 0:
-            self._rescued_all_time_step = self._elapsed_time
 
         end_real_time = time.time()
         self._real_time_elapsed = (end_real_time - self._start_real_time)
@@ -280,11 +265,3 @@ class GuiSR(TopDownView):
     @property
     def real_time_elapsed(self):
         return self._real_time_elapsed
-
-    @property
-    def rescued_number(self):
-        return self._rescued_number
-
-    @property
-    def rescued_all_time_step(self):
-        return self._rescued_all_time_step

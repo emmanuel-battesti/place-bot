@@ -20,8 +20,6 @@ class MapAbstract(ABC):
         self._time_step_limit = None
         # 'real_time_limit' is the elapsed time (in seconds) after which the session will end.
         self._real_time_limit = None  # In seconds
-        # 'number_wounded_persons' is the number of wounded persons that should be retrieved by the robots.
-        self._number_wounded_persons = None
 
     @abstractmethod
     def construct_playground(self, robot_type: Type[RobotAbstract]) -> Playground:
@@ -42,10 +40,6 @@ class MapAbstract(ABC):
     @property
     def real_time_limit(self):
         return self._real_time_limit
-
-    @property
-    def number_wounded_persons(self):
-        return self._number_wounded_persons
 
     @property
     def size_area(self):
