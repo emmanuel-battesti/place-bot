@@ -25,17 +25,17 @@ class MyRobotRandom(RobotAbstract):
         self.distStopStraight = random.uniform(10, 50)
         self.isTurning = False
 
-    def process_touch_sensor(self):
+    def process_lidar_sensor(self):
         """
         Returns True if the robot hits an obstacle
         """
-        if self.touch().get_sensor_values() is None:
+        if self.lidar().get_sensor_values() is None:
             return False
 
         touched = False
-        detection = max(self.touch().get_sensor_values())
+        min_distance = min(self.lidar().get_sensor_values())
 
-        if detection > 0.5:
+        if min_distance < 30:
             touched = True
 
         return touched
@@ -50,7 +50,7 @@ class MyRobotRandom(RobotAbstract):
         command_turn = {"forward": 0.0,
                         "rotation": 1.0}
 
-        touched = self.process_touch_sensor()
+        touched = self.process_lidar_sensor()
 
         self.counterStraight += 1
 

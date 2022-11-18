@@ -60,8 +60,6 @@ def print_keyboard_man():
     print("\t- up / down key : forward and backward")
     print("\t- left / right key : turn left / right")
     print("\t- l key : display (or not) the lidar sensor")
-    print("\t- s key : display (or not) the semantic sensor")
-    print("\t- t key : display (or not) the touch sensor")
     print("\t- q key : exit the program")
     print("\t- r key : reset")
 
@@ -73,13 +71,9 @@ def main():
     playground = my_map.construct_playground(robot_type=MyRobotKeyboard)
 
     # draw_lidar : enable the visualization of the lidar rays
-    # draw_semantic : enable the visualization of the semantic rays
-    # draw_touch : enable the visualization of the touch sensor
     gui = GuiSR(playground=playground,
                 the_map=my_map,
                 draw_lidar=True,
-                draw_semantic=True,
-                draw_touch=True,
                 use_keyboard=True,
                 )
     gui.run()

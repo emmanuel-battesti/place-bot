@@ -368,20 +368,16 @@ For your calculation in the control() function, it is mandatory to use only the 
 The true position of the robot can be accessed with the functions *true_position()* and *true_angle()* (or directly with the variable *position* and *angle*), BUT it is only for debugging or logging.
 
 Some examples are provided:
-- *my_robot_random.py* shows the use of touch sensors and actuators
+- *my_robot_random.py* shows the actuators
 
 ### directory *examples*
 
 In the folder, you will find stand-alone programs to help you program with examples. In particular:
 - *display_lidar.py* shows a visualization of the lidar on a graph. You can see the noise added.
-- *example_disablers.py* shows an example of each *disabling zone*.
-- *example_touch_sensor.py* shows the use of touch sensors and actuators.
 - *example_keyboard.py* shows how to use the keyboard for development or debugging purpose. The usable keyboard keys :
 	- up / down key : forward and backward
 	- left / right key : turn left / right
 	- l key : display (or not) the lidar sensor
-	- s key : display (or not) the semantic sensor
-	- t key : display (or not) the touch sensor
 	- q key : exit the program
 	- r key : reset
 

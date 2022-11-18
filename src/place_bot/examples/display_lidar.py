@@ -57,8 +57,7 @@ class MyMapLidar(MapAbstract):
                              number_robots=self._number_robots)
         for i in range(self._number_robots):
             robot = robot_type(identifier=i, misc_data=misc_data,
-                               should_display_lidar=True,
-                               should_display_touch=False)
+                               should_display_lidar=True)
             self._robots.append(robot)
             playground.add(robot, self._robots_pos[i])
 

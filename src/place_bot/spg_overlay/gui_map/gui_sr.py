@@ -30,8 +30,6 @@ class GuiSR(TopDownView):
             draw_interactive: bool = False,
             draw_zone: bool = True,
             draw_lidar: bool = False,
-            draw_semantic: bool = False,
-            draw_touch: bool = False,
             use_keyboard: bool = False,
             use_mouse_measure: bool = False,
             enable_visu_noises: bool = False,
@@ -73,8 +71,6 @@ class GuiSR(TopDownView):
         self._playground.window.set_update_rate(FRAME_RATE)
 
         self._draw_lidar = draw_lidar
-        self._draw_semantic = draw_semantic
-        self._draw_touch = draw_touch
         self._use_keyboard = use_keyboard
         self._use_mouse_measure = use_mouse_measure
         self._enable_visu_noises = enable_visu_noises
@@ -158,14 +154,6 @@ class GuiSR(TopDownView):
             for robot in self._playground.agents:
                 robot.lidar().draw()
 
-        if self._draw_semantic:
-            for robot in self._playground.agents:
-                robot.semantic().draw()
-
-        if self._draw_touch:
-            for robot in self._playground.agents:
-                robot.touch().draw()
-
         self._mouse_measure.draw(enable=self._use_mouse_measure)
         self._visu_noises.draw(enable=self._enable_visu_noises)
 
@@ -185,12 +173,6 @@ class GuiSR(TopDownView):
         if key == arcade.key.R:
             self._playground.reset()
             self._visu_noises.reset()
-
-        if key == arcade.key.S:
-            self._draw_semantic = not self._draw_semantic
-
-        if key == arcade.key.T:
-            self._draw_touch = not self._draw_touch
 
         if key == arcade.key.L:
             self._draw_lidar = not self._draw_lidar

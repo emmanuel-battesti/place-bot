@@ -6,7 +6,7 @@ from typing import Optional
 from spg.agent.agent import Agent
 
 from spg_overlay.entities.robot_base import RobotBase
-from spg_overlay.entities.robot_distance_sensors import RobotLidar, RobotTouch, RobotSemanticSensor
+from spg_overlay.entities.robot_distance_sensors import RobotLidar
 from spg_overlay.entities.robot_sensors import RobotGPS, RobotCompass, RobotOdometer
 from spg_overlay.utils.misc_data import MiscData
 
@@ -22,18 +22,15 @@ class RobotAbstract(Agent):
     """
 
     class SensorType(IntEnum):
-        TOUCH = 0
-        SEMANTIC = 1
-        LIDAR = 2
-        GPS = 3
-        COMPASS = 4
-        ODOMETER = 5
+        LIDAR = 0
+        GPS = 1
+        COMPASS = 2
+        ODOMETER = 3
 
     def __init__(self,
                  identifier: Optional[int] = None,
                  misc_data: MiscData = None,
                  should_display_lidar=False,
-                 should_display_touch=False,
                  **kwargs
                  ):
         super().__init__(interactive=True, lateral=False, radius=10, **kwargs)
@@ -48,8 +45,6 @@ class RobotAbstract(Agent):
         if misc_data:
             self.size_area = misc_data.size_area
 
-        self.base.add(RobotTouch(invisible_elements=self._parts))
-        self.base.add(RobotSemanticSensor(playground=self.playground, invisible_elements=self._parts))
         self.base.add(RobotLidar(invisible_elements=self._parts))
 
         self.base.add(RobotGPS())
@@ -58,15 +53,9 @@ class RobotAbstract(Agent):
 
         self.identifier = identifier
         self._should_display_lidar = should_display_lidar
-        self._should_display_touch = should_display_touch
 
         if self._should_display_lidar:
             plt.figure(self.SensorType.LIDAR)
-            plt.axis([-300, 300, 0, 300])
-            plt.ion()
-
-        if self._should_display_touch:
-            plt.figure(self.SensorType.TOUCH)
             plt.axis([-300, 300, 0, 300])
             plt.ion()
 
@@ -81,29 +70,11 @@ class RobotAbstract(Agent):
         """
         pass
 
-    def touch(self):
-        """
-        Give access to the value of the touch sensor.
-        """
-        return self.sensors[self.SensorType.TOUCH.value]
-
-    def semantic(self):
-        """
-        Give access to the value of the semantic sensor.
-        """
-        return self.sensors[self.SensorType.SEMANTIC.value]
-
     def lidar(self):
         """
         Give access to the value of the lidar sensor.
         """
         return self.sensors[self.SensorType.LIDAR.value]
-
-    def touch_is_disabled(self):
-        return self.touch().is_disabled()
-
-    def semantic_is_disabled(self):
-        return self.semantic().is_disabled()
 
     def lidar_is_disabled(self):
         return self.lidar().is_disabled()
@@ -202,8 +173,6 @@ class RobotAbstract(Agent):
     def display(self):
         if self._should_display_lidar:
             self.display_lidar()
-        if self._should_display_touch:
-            self.display_touch()
 
     def display_lidar(self):
         if self.lidar().get_sensor_values() is not None:
@@ -211,16 +180,6 @@ class RobotAbstract(Agent):
             plt.cla()
             plt.axis([-math.pi, math.pi, 0, self.lidar().max_range])
             plt.plot(self.lidar().ray_angles, self.lidar().get_sensor_values(), "g.:")
-            plt.grid(True)
-            plt.draw()
-            plt.pause(0.001)
-
-    def display_touch(self):
-        if self.touch().get_sensor_values() is not None:
-            plt.figure(self.SensorType.TOUCH)
-            plt.cla()
-            plt.axis([-math.pi / 2, math.pi / 2, 0, 1])
-            plt.plot(self.touch().ray_angles, self.touch().get_sensor_values(), "g.:")
             plt.grid(True)
             plt.draw()
             plt.pause(0.001)
