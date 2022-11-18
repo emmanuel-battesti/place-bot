@@ -17,9 +17,3 @@ pathlib2
 gym
 arcade
 tripy
-# team 08
-cython
-networkit
-numba
-torch
-shapely

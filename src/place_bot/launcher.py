@@ -1,6 +1,5 @@
 from solutions.my_robot_eval import MyRobotEval
 from spg_overlay.utils.screen_recorder import ScreenRecorder
-from spg_overlay.utils.team_info import TeamInfo
 from spg_overlay.gui_map.gui_sr import GuiSR
 
 from maps.map_intermediate_01 import MyMapIntermediate01
@@ -22,8 +21,6 @@ class MyRobot(MyRobotEval):
 class Launcher:
     def __init__(self):
         self.nb_rounds = 1
-
-        self.team_info = TeamInfo()
 
         # Create a map only to retrieve const data associated with the map
         # Should be improved...
