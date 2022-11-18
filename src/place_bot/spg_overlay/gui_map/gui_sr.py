@@ -5,7 +5,6 @@ import cv2
 
 from spg.agent.controller.controller import Command, Controller
 from spg.playground import Playground
-from spg.playground.playground import SentMessagesDict
 from spg.view import TopDownView
 
 from spg_overlay.utils.constants import FRAME_RATE
@@ -33,8 +32,6 @@ class GuiSR(TopDownView):
             draw_lidar: bool = False,
             draw_semantic: bool = False,
             draw_touch: bool = False,
-            print_rewards: bool = False,
-            print_messages: bool = False,
             use_keyboard: bool = False,
             use_mouse_measure: bool = False,
             enable_visu_noises: bool = False,
@@ -65,10 +62,6 @@ class GuiSR(TopDownView):
         self._robots_commands: Union[Dict[RobotAbstract, Dict[Union[str, Controller], Command]], Type[None]] = None
         if self._robots:
             self._robots_commands = {}
-
-        self._messages = None
-        self._print_rewards = print_rewards
-        self._print_messages = print_messages
 
         self._playground.window.on_draw = self.on_draw
         self._playground.window.on_update = self.on_update
@@ -113,11 +106,8 @@ class GuiSR(TopDownView):
         self._elapsed_time += 1
 
         if self._elapsed_time < 5:
-            self._playground.step(commands=self._robots_commands, messages=self._messages)
+            self._playground.step(commands=self._robots_commands)
             return
-
-        # COMPUTE ALL THE MESSAGES
-        self._messages = self.collect_all_messages(self._robots)
 
         # COMPUTE COMMANDS
         for i in range(self._number_robots):
@@ -130,7 +120,7 @@ class GuiSR(TopDownView):
         if self._robots:
             self._robots[0].display()
 
-        self._playground.step(commands=self._robots_commands, messages=self._messages)
+        self._playground.step(commands=self._robots_commands)
 
         self._visu_noises.update(enable=self._enable_visu_noises)
 
@@ -139,19 +129,6 @@ class GuiSR(TopDownView):
         if self._real_time_elapsed > self._real_time_limit:
             self._real_time_limit_reached = True
             self._terminate = True
-
-        if self._print_rewards:
-            for agent in self._playground.agents:
-                if agent.reward != 0:
-                    print(agent.reward)
-
-        if self._print_messages:
-            for robot in self._playground.agents:
-                for comm in robot.communicators:
-                    for _, msg in comm.received_messages:
-                        print(f"Robot {robot.name} received message {msg}")
-
-        self._messages = {}
 
         # Capture the frame
         self.recorder.capture_frame(self)
@@ -204,18 +181,6 @@ class GuiSR(TopDownView):
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
         self._keyboardController.on_key_press(key, modifiers)
-        if self._robots:
-
-            if key == arcade.key.M:
-                self._messages = {
-                    self._robots[0]: {
-                        self._robots[0].communicator: (
-                            None,
-                            f"Currently at timestep {self._playground.timestep}",
-                        )
-                    }
-                }
-                print(f"Robot {self._robots[0].name} sends message")
 
         if key == arcade.key.Q:
             self._terminate = True
@@ -246,13 +211,6 @@ class GuiSR(TopDownView):
 
     def on_mouse_release(self, x: int, y: int, button: int, modifiers: int):
         self._mouse_measure.on_mouse_release(x, y, button, enable=self._use_mouse_measure)
-
-    def collect_all_messages(self, robots: List[RobotAbstract]):
-        messages: SentMessagesDict = {}
-        for i in range(self._number_robots):
-            msg_data = robots[i].define_message_for_all()
-            messages[robots[i]] = {robots[i].communicator: (None, msg_data)}
-        return messages
 
     @property
     def last_image(self):

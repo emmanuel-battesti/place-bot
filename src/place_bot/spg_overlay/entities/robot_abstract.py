@@ -4,7 +4,6 @@ from enum import IntEnum
 from typing import Optional
 
 from spg.agent.agent import Agent
-from spg.agent.communicator.communicator import Communicator
 from spg.agent.interactor import GraspMagnet
 
 from spg_overlay.entities.robot_base import RobotBase
@@ -20,13 +19,8 @@ from spg_overlay.utils.utils import normalize_angle
 class RobotAbstract(Agent):
     """
     This class should be used as a parent class to create your own Robot class.
-    It is a BaseAgent class with 3 sensors, 1 sensor of position and 2 mandatory functions define_message() and
-    control()
+    It is a BaseAgent class with 3 sensors, 1 sensor of position and one mandatory functions control()
     """
-
-    # 'range_communication' is the radius, in pixels, of the area around the robot in which we will have the other
-    # robots with which we can communicate (receive and send messages)
-    range_communication = 500
 
     class SensorType(IntEnum):
         TOUCH = 0
@@ -79,21 +73,6 @@ class RobotAbstract(Agent):
             plt.figure(self.SensorType.TOUCH)
             plt.axis([-300, 300, 0, 300])
             plt.ion()
-
-        self.communicator = Communicator(transmission_range=self.range_communication)
-        self.base.add(self.communicator)
-
-    @abstractmethod
-    def define_message_for_all(self):
-        """
-        This function is mandatory in the class you have to create that will inherit from this class.
-        You should return want you want to send to all nearest robot.
-        For example:
-            def define_message_for_all(self):
-                msg_data = (self.identifier, (self.measured_gps_position(), self.angle))
-                return msg_data
-        """
-        pass
 
     @abstractmethod
     def control(self):

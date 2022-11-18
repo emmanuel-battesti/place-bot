@@ -247,8 +247,6 @@ It emulates a lidar.
 A gaussian noise has been added to the distance.
 As the *fov* is 360°, the first (at -Pi rad) and the last value (at Pi) should be the same.
 
-You can find an example of lidar use in the *solutions/my_robot_lidar_communication.py* file.
-
 To visualize lidar sensor data, you should set the parameter *draw_lidar* parameter of the *GuiSR* class to *True*.
 
 ### GPS sensor
@@ -371,7 +369,6 @@ The true position of the robot can be accessed with the functions *true_position
 
 Some examples are provided:
 - *my_robot_random.py* shows the use of touch sensors and actuators
-- *my_robot_lidar_communication.py* shows the use of lidar and communication between robots
 
 ### directory *examples*
 
@@ -379,7 +376,7 @@ In the folder, you will find stand-alone programs to help you program with examp
 - *display_lidar.py* shows a visualization of the lidar on a graph. You can see the noise added.
 - *example_disablers.py* shows an example of each *disabling zone*.
 - *example_touch_sensor.py* shows the use of touch sensors and actuators.
-- *example_keyboard.py* shows how to use the keyboard for developpement or debugging purpose. The usable keyboard keys :
+- *example_keyboard.py* shows how to use the keyboard for development or debugging purpose. The usable keyboard keys :
 	- up / down key : forward and backward
 	- left / right key : turn left / right
 	- l key : display (or not) the lidar sensor

@@ -25,12 +25,6 @@ class MyRobotRandom(RobotAbstract):
         self.distStopStraight = random.uniform(10, 50)
         self.isTurning = False
 
-    def define_message_for_all(self):
-        """
-        Here, we don't need communication...
-        """
-        pass
-
     def process_touch_sensor(self):
         """
         Returns True if the robot hits an obstacle

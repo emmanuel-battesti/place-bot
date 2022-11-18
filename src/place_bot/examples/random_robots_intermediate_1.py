@@ -25,12 +25,6 @@ class MyRobotRandom(RobotAbstract):
         self.isTurningLeft = False
         self.isTurningRight = False
 
-    def define_message_for_all(self):
-        """
-        Here, we don't need communication...
-        """
-        pass
-
     def control(self):
         """
         The Robot will move forward and turn for a random angle when an obstacle is hit

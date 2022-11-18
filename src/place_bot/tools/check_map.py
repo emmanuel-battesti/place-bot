@@ -11,8 +11,6 @@ class MyMap(MyMapComplete02):
 
 
 class MyRobot(RobotAbstract):
-    def define_message_for_all(self):
-        pass
 
     def control(self):
         pass

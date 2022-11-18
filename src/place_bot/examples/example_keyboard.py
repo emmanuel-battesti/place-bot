@@ -23,12 +23,6 @@ class MyRobotKeyboard(RobotAbstract):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def define_message_for_all(self):
-        """
-        Here, we don't need communication...
-        """
-        pass
-
     def control(self):
         command = {"forward": 0.0,
                    "lateral": 0.0,
