@@ -8,7 +8,6 @@ from spg.agent.agent import Agent
 from spg_overlay.entities.robot_base import RobotBase
 from spg_overlay.entities.robot_distance_sensors import RobotLidar
 from spg_overlay.entities.robot_sensors import RobotGPS, RobotCompass, RobotOdometer
-from spg_overlay.utils.misc_data import MiscData
 
 import matplotlib.pyplot as plt
 
@@ -28,22 +27,13 @@ class RobotAbstract(Agent):
         ODOMETER = 3
 
     def __init__(self,
-                 identifier: Optional[int] = None,
-                 misc_data: MiscData = None,
                  should_display_lidar=False,
                  **kwargs
                  ):
         super().__init__(interactive=True, lateral=False, radius=10, **kwargs)
 
-        if identifier is None:
-            identifier = id(self)
-
         base = RobotBase()
         self.add(base)
-
-        self.size_area = None
-        if misc_data:
-            self.size_area = misc_data.size_area
 
         self.base.add(RobotLidar(invisible_elements=self._parts))
 
@@ -51,7 +41,6 @@ class RobotAbstract(Agent):
         self.base.add(RobotCompass())
         self.base.add(RobotOdometer())
 
-        self.identifier = identifier
         self._should_display_lidar = should_display_lidar
 
         if self._should_display_lidar:

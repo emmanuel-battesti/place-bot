@@ -18,7 +18,6 @@ from spg_overlay.entities.robot_abstract import RobotAbstract
 from spg_overlay.gui_map.closed_playground import ClosedPlayground
 from spg_overlay.gui_map.gui_sr import GuiSR
 from spg_overlay.gui_map.map_abstract import MapAbstract
-from spg_overlay.utils.misc_data import MiscData
 
 
 class MyRobotLidar(RobotAbstract):
@@ -42,9 +41,8 @@ class MyMapLidar(MapAbstract):
         # PARAMETERS MAP
         self._size_area = (1113, 750)
 
-        self._number_robots = 1
-        self._robots_pos = [((-50, 0), 0)]
-        self._robots = []
+        # POSITION OF THE ROBOT
+        self._robot_pos = ((-50, 0), 0)
 
     def construct_playground(self, robot_type: Type[RobotAbstract]) -> Playground:
         playground = ClosedPlayground(size=self._size_area)
@@ -52,14 +50,9 @@ class MyMapLidar(MapAbstract):
         add_walls(playground)
         add_boxes(playground)
 
-        # POSITIONS OF THE ROBOTS
-        misc_data = MiscData(size_area=self._size_area,
-                             number_robots=self._number_robots)
-        for i in range(self._number_robots):
-            robot = robot_type(identifier=i, misc_data=misc_data,
-                               should_display_lidar=True)
-            self._robots.append(robot)
-            playground.add(robot, self._robots_pos[i])
+        # POSITION OF THE ROBOT
+        self._robot = robot_type(should_display_lidar=True)
+        playground.add(self._robot, self._robot_pos)
 
         return playground
 

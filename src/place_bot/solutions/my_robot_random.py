@@ -4,21 +4,15 @@ The Robot will move forward and turn for a random angle when an obstacle is hit
 """
 import math
 import random
-from typing import Optional
 
 from spg_overlay.entities.robot_abstract import RobotAbstract
-from spg_overlay.utils.misc_data import MiscData
 from spg_overlay.utils.utils import normalize_angle
 
 
 class MyRobotRandom(RobotAbstract):
     def __init__(self,
-                 identifier: Optional[int] = None,
-                 misc_data: Optional[MiscData] = None,
                  **kwargs):
-        super().__init__(identifier=identifier,
-                         misc_data=misc_data,
-                         should_display_lidar=False,
+        super().__init__(should_display_lidar=False,
                          **kwargs)
         self.counterStraight = 0
         self.angleStopTurning = random.uniform(-math.pi, math.pi)

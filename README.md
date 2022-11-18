@@ -31,7 +31,7 @@ The game engine, based on [Pymunk](http://www.pymunk.org) and [Arcade](https://a
 
 ## Game Engine
 
-In *Simple-Playgrounds*, the game engine used is *Arcade*. Robots enter a Playground, and start acting and perceiving within this environment. The perception/action/communication loop is managed by the game engine. At each time step, all perception is acquired, all communication are done. Then according to actions to do, robots are moved. Everything is synchronized, unlike what you would get on a real robot.
+In *Simple-Playgrounds*, the game engine used is *Arcade*. Robot enters a Playground, and starts acting and perceiving within this environment. The perception/action/communication loop is managed by the game engine. At each time step, all perception is acquired. Then according to actions to do, robot is moved. Everything is synchronized, unlike what you would get on a real robot.
 
 ## Physics Engine
 
@@ -300,10 +300,10 @@ You can find examples of actuator use in almost all files in *examples/* and *so
 
 ## Playground
 
-Robots act and perceive in a *Playground*.
+Robot act and perceive in a *Playground*.
 
 A *playground* is composed of scene elements, which can be fixed or movable. 
-The playground with all its elements, except for the robots, are called "Map" within this *Place-bot* repository.
+The playground with all its elements, except for the robot, are called "Map" within this *Place-bot* repository.
 
 ### Coordinate System
 
@@ -353,13 +353,13 @@ If you want to enable the visualization of the noises, you should set the parame
 
 ### directory *maps*
 
-This directory contains the maps in which the robots can move. New maps may appear for new missions with the updates of this repository. You can also make your own maps based on existing ones.
+This directory contains the maps in which the robot can move. New maps may appear for new missions with the updates of this repository. You can also make your own maps based on existing ones.
 
 Each map must inherit from the class *MapAbstract*.
 
 ### directory *solutions*
 
-This repository will contain your solutions. Taking inspiration from what is there and going beyond, you will put in the code that will define your robots and how they interact with their environment.
+This repository will contain your solutions. Taking inspiration from what is there and going beyond, you will put in the code that will define your robot and how it interacts with their environment.
 
 Each Robot must inherit from the class *RobotAbstract*. You have one mandatory member functions: **control()** that will give the action to do for each time step.
 

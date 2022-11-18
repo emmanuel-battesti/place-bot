@@ -17,15 +17,15 @@ class ExploredMap:
      """
 
     def __init__(self):
-        # img_playground : colored image of the playground without robots
+        # img_playground : colored image of the playground without robot
         self._img_playground = np.zeros((0, 0))
-        # map_playground : black and white map of the playground and without robots
+        # map_playground : black and white map of the playground and without robot
         self._map_playground = np.zeros((0, 0))
 
-        # _map_explo_lines : map of the point visited by robots (all positions of the robots)
+        # _map_explo_lines : map of the point visited by robot (all positions of the robot)
         # Initialize _map_explo_lines with 255 (white)
         self._map_explo_lines = np.ones((0, 0))
-        # _map_explo_zones : map of the zone explored by robots
+        # _map_explo_zones : map of the zone explored by robot
         # Initialize _map_explo_zones with zeros (black)
         self._map_explo_zones = np.zeros((0, 0))
         self._explo_pts = dict()
@@ -41,10 +41,10 @@ class ExploredMap:
         """
         Reset everything to zero
         """
-        # _map_explo_lines : map of the point visited by robots (all positions of the robots)
+        # _map_explo_lines : map of the point visited by robot (all positions of the robot)
         # Initialize _map_explo_lines with 255 (white)
         self._map_explo_lines = np.ones(self._map_playground.shape, np.uint8) * 255
-        # _map_explo_zones : map of the zone explored by robots
+        # _map_explo_zones : map of the zone explored by robot
         # Initialize _map_explo_zones with zeros (black)
         self._map_explo_zones = np.zeros(self._map_playground.shape, np.uint8)
         self._explo_pts = dict()
@@ -55,7 +55,7 @@ class ExploredMap:
 
     def _create_image_walls(self, playground: Playground):
         """
-        Fills _img_playground with a color image of the playground without robots
+        Fills _img_playground with a color image of the playground without robot
         """
         view = TopDownView(playground=playground, zoom=1)
         view.update()
@@ -82,16 +82,16 @@ class ExploredMap:
 
         ret, self._map_playground = cv2.threshold(map_gray, 127, 255, cv2.THRESH_BINARY_INV)
 
-        # _map_explo_lines : map of the point visited by robots (all positions of the robots)
+        # _map_explo_lines : map of the point visited by robot (all positions of the robot)
         # Initialize _map_explo_lines with 255 (white)
         self._map_explo_lines = np.ones(self._map_playground.shape, np.uint8) * 255
-        # _map_explo_zones : map of the zone explored by robots
+        # _map_explo_zones : map of the zone explored by robot
         # Initialize _map_explo_zones with zeros (black)
         self._map_explo_zones = np.zeros(self._map_playground.shape, np.uint8)
 
-    def update(self, robots: [List[RobotAbstract]]):
+    def update(self, robot: RobotAbstract):
         """
-        Update the list of the positions of the robots
+        Update the list of the positions of the robot
         """
         if not self.initialized:
             return
@@ -100,19 +100,18 @@ class ExploredMap:
         height, width = self._map_explo_lines.shape
         # print("width", width, "height", height)
 
-        for robot in robots:
-            position_ocv = (round(robot.position[0] + width / 2), round(-robot.position[1] + height / 2))
-            if 0 <= position_ocv[0] < width and 0 <= position_ocv[1] < height:
-                if robot in self._last_position.keys():
-                    cv2.line(img=self._map_explo_lines, pt1=self._last_position[robot], pt2=position_ocv,
-                             color=(0, 0, 0))
-                if robot in self._explo_pts:
-                    self._explo_pts[robot].append(position_ocv)
-                else:
-                    self._explo_pts[robot] = [position_ocv]
-                self._last_position[robot] = position_ocv
-            # else:
-            #     print("Error")
+        position_ocv = (round(robot.position[0] + width / 2), round(-robot.position[1] + height / 2))
+        if 0 <= position_ocv[0] < width and 0 <= position_ocv[1] < height:
+            if robot in self._last_position.keys():
+                cv2.line(img=self._map_explo_lines, pt1=self._last_position[robot], pt2=position_ocv,
+                         color=(0, 0, 0))
+            if robot in self._explo_pts:
+                self._explo_pts[robot].append(position_ocv)
+            else:
+                self._explo_pts[robot] = [position_ocv]
+            self._last_position[robot] = position_ocv
+        # else:
+        #     print("Error")
 
     def get_pretty_map_explo_lines(self):
         pretty_map = np.zeros(self._map_playground.shape, np.uint8)
@@ -144,7 +143,7 @@ class ExploredMap:
 
     def _process_positions(self):
         """
-        Process the list of the positions of the robots to draw the map of the explored zones
+        Process the list of the positions of the robot to draw the map of the explored zones
         """
         radius_explo = 200
 
@@ -248,7 +247,7 @@ class ExploredMap:
 
     def score(self):
         """
-        Give a score of the exploration of all the robots by computing of the percentage of exploration
+        Give a score of the exploration of the robot by computing of the percentage of exploration
         """
         if not self.initialized:
             return 0

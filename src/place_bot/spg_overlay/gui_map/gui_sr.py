@@ -50,16 +50,15 @@ class GuiSR(TopDownView):
         self._playground.window.set_visible(True)
 
         self._the_map = the_map
-        self._robots = self._the_map.robots
-        self._number_robots = self._the_map.number_robots
+        self._robot = self._the_map.robot
 
         self._real_time_limit = self._the_map.real_time_limit
         if self._real_time_limit is None:
             self._real_time_limit = 100000000
 
-        self._robots_commands: Union[Dict[RobotAbstract, Dict[Union[str, Controller], Command]], Type[None]] = None
-        if self._robots:
-            self._robots_commands = {}
+        self._robot_commands: Union[Dict[RobotAbstract, Dict[Union[str, Controller], Command]], Type[None]] = None
+        if self._robot:
+            self._robot_commands = {}
 
         self._playground.window.on_draw = self.on_draw
         self._playground.window.on_update = self.on_update
@@ -86,7 +85,7 @@ class GuiSR(TopDownView):
         self.fps_display = FpsDisplay(period_display=2)
         self._keyboardController = KeyboardController()
         self._mouse_measure = MouseMeasure(playground_size=playground.size)
-        self._visu_noises = VisuNoises(playground_size=playground.size, robots=self._robots)
+        self._visu_noises = VisuNoises(playground_size=playground.size, robot=self._robot)
 
         self.recorder = ScreenRecorder(self._size[0], self._size[1], fps=30, out_file=filename_video_capture)
 
@@ -102,21 +101,20 @@ class GuiSR(TopDownView):
         self._elapsed_time += 1
 
         if self._elapsed_time < 5:
-            self._playground.step(commands=self._robots_commands)
+            self._playground.step(commands=self._robot_commands)
             return
 
         # COMPUTE COMMANDS
-        for i in range(self._number_robots):
-            if self._use_keyboard:
-                command = self._keyboardController.control()
-            else:
-                command = self._robots[i].control()
-            self._robots_commands[self._robots[i]] = command
+        if self._use_keyboard:
+            command = self._keyboardController.control()
+        else:
+            command = self._robot.control()
+        self._robot_commands[self._robot] = command
 
-        if self._robots:
-            self._robots[0].display()
+        if self._robot:
+            self._robot.display()
 
-        self._playground.step(commands=self._robots_commands)
+        self._playground.step(commands=self._robot_commands)
 
         self._visu_noises.update(enable=self._enable_visu_noises)
 

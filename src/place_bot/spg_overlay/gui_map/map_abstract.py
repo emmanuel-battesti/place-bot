@@ -13,9 +13,7 @@ class MapAbstract(ABC):
 
     def __init__(self):
         self._size_area = None
-        self._robots: List[RobotAbstract] = []
-        # '_number_robots' is the number of robots that will be generated in the map
-        self._number_robots = None
+        self._robot: Union[RobotAbstract, Type[None]] = None
         # '_time_step_limit' is the number of time steps after which the session will end.
         self._time_step_limit = None
         # 'real_time_limit' is the elapsed time (in seconds) after which the session will end.
@@ -26,12 +24,8 @@ class MapAbstract(ABC):
         pass
 
     @property
-    def robots(self):
-        return self._robots
-
-    @property
-    def number_robots(self):
-        return self._number_robots
+    def robot(self):
+        return self._robot
 
     @property
     def time_step_limit(self):
