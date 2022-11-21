@@ -18,11 +18,9 @@ class MyRobot(RobotAbstract):
 
 if __name__ == "__main__":
     print("")
-    my_map = MyMap()
-    playground = my_map.construct_playground(robot_type=MyRobot)
+    my_map = MyMap(robot_type=MyRobot)
 
-    my_gui = GuiSR(playground=playground,
-                   the_map=my_map,
+    my_gui = GuiSR(the_map=my_map,
                    use_mouse_measure=True)
 
     my_gui.run()

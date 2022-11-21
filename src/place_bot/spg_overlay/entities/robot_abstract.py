@@ -23,11 +23,8 @@ class RobotAbstract(Agent):
         LIDAR = 0
         ODOMETER = 1
 
-    def __init__(self,
-                 should_display_lidar=False,
-                 **kwargs
-                 ):
-        super().__init__(interactive=True, lateral=False, radius=10, **kwargs)
+    def __init__(self, should_display_lidar=False):
+        super().__init__(interactive=True, lateral=False, radius=10)
 
         base = RobotBase()
         self.add(base)

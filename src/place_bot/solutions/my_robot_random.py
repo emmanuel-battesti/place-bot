@@ -10,29 +10,20 @@ from spg_overlay.utils.utils import normalize_angle
 
 
 class MyRobotRandom(RobotAbstract):
-    def __init__(self,
-                 **kwargs):
-        super().__init__(should_display_lidar=False,
-                         **kwargs)
+    def __init__(self):
+        super().__init__(should_display_lidar=False)
         self.counterStraight = 0
         self.angleStopTurning = random.uniform(-math.pi, math.pi)
         self.distStopStraight = random.uniform(10, 50)
         self.isTurning = False
 
     def process_lidar_sensor(self):
-        """
-        Returns True if the robot hits an obstacle
-        """
         if self.lidar().get_sensor_values() is None:
             return False
 
-        touched = False
         min_distance = min(self.lidar().get_sensor_values())
 
-        if min_distance < 30:
-            touched = True
-
-        return touched
+        return min_distance < 30
 
     def control(self):
         """

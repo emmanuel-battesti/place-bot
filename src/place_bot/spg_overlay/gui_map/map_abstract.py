@@ -11,13 +11,10 @@ class MapAbstract(ABC):
     It is abstract class to construct every maps used in the directory maps
     """
 
-    def __init__(self):
+    def __init__(self, robot_type: Type[RobotAbstract]):
         self._size_area = None
         self._robot: Union[RobotAbstract, Type[None]] = None
-
-    @abstractmethod
-    def construct_playground(self, robot_type: Type[RobotAbstract]) -> Playground:
-        pass
+        self._playground: Union[Playground, Type[None]] = None
 
     @property
     def robot(self):
@@ -27,3 +24,6 @@ class MapAbstract(ABC):
     def size_area(self):
         return self._size_area
 
+    @property
+    def playground(self):
+        return self._playground

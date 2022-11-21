@@ -20,7 +20,6 @@ from spg_overlay.utils.visu_noises import VisuNoises
 class GuiSR(TopDownView):
     def __init__(
             self,
-            playground: Playground,
             the_map: MapAbstract,
             size: Optional[Tuple[int, int]] = None,
             center: Tuple[float, float] = (0, 0),
@@ -35,7 +34,7 @@ class GuiSR(TopDownView):
             filename_video_capture: str = None
     ) -> None:
         super().__init__(
-            playground,
+            the_map.playground,
             size,
             center,
             zoom,
@@ -76,8 +75,8 @@ class GuiSR(TopDownView):
 
         self.fps_display = FpsDisplay(period_display=2)
         self._keyboardController = KeyboardController()
-        self._mouse_measure = MouseMeasure(playground_size=playground.size)
-        self._visu_noises = VisuNoises(playground_size=playground.size, robot=self._robot)
+        self._mouse_measure = MouseMeasure(playground_size=self._playground.size)
+        self._visu_noises = VisuNoises(playground_size=self._playground.size, robot=self._robot)
 
         self.recorder = ScreenRecorder(self._size[0], self._size[1], fps=30, out_file=filename_video_capture)
 

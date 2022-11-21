@@ -10,7 +10,7 @@ from maps.map_complete_02 import MyMapComplete02
 # from solutions.my_robot_random import MyRobotRandom
 
 
-class MyMap(MyMapComplete01):
+class MyMap(MyMapComplete02):
     pass
 
 
@@ -18,28 +18,7 @@ class MyRobot(MyRobotEval):
     pass
 
 
-class Launcher:
-    def __init__(self):
-        self.video_capture_enabled = False
-        self.path = ""
-
-    def go(self):
-        my_map = MyMap()
-        playground = my_map.construct_playground(robot_type=MyRobot)
-
-        if self.video_capture_enabled:
-            filename_video_capture = self.path + "/screen.avi".format()
-        else:
-            filename_video_capture = None
-
-        my_gui = GuiSR(playground=playground,
-                       the_map=my_map,
-                       draw_interactive=False,
-                       filename_video_capture=filename_video_capture)
-
-        my_gui.run()
-
-
 if __name__ == "__main__":
-    launcher = Launcher()
-    launcher.go()
+    my_map = MyMap(robot_type=MyRobot)
+    my_gui = GuiSR(the_map=my_map)
+    my_gui.run()

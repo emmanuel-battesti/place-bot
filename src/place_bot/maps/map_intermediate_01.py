@@ -13,25 +13,20 @@ from .walls_intermediate_map_1 import add_walls, add_boxes
 
 class MyMapIntermediate01(MapAbstract):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, robot_type: Type[RobotAbstract]):
+        super().__init__(robot_type=robot_type)
 
         # PARAMETERS MAP
         self._size_area = (800, 500)
 
+        # PLAYGROUND
+        self._playground = ClosedPlayground(size=self._size_area)
+        add_walls(self._playground)
+        add_boxes(self._playground)
+
         # POSITION OF THE ROBOT
         angle = random.uniform(-math.pi, math.pi)
         self._robot_pos = ((295, 118), angle)
-        self._robot: Union[RobotAbstract, Type[None]] = None
-
-    def construct_playground(self, robot_type: Type[RobotAbstract]) -> Playground:
-        playground = ClosedPlayground(size=self._size_area)
-
-        add_walls(playground)
-        add_boxes(playground)
-
-        # POSITION OF THE ROBOT
         self._robot = robot_type()
-        playground.add(self._robot, self._robot_pos)
+        self._playground.add(self._robot, self._robot_pos)
 
-        return playground

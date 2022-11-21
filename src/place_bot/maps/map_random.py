@@ -16,13 +16,10 @@ class MyMapRandom(MapAbstract):
 
         self._size_area = (1500, 700)
 
-    def construct_playground(self, robot_type: Type[RobotAbstract]) -> Playground:
-        playground = ClosedPlayground(size=self._size_area)
+        self._playground = ClosedPlayground(size=self._size_area)
 
         # POSITION OF THE ROBOT
         x = random.uniform(-self._size_area[0]/2, self._size_area[0]/2)
         y = random.uniform(-self._size_area[1]/2, self._size_area[1]/2)
         angle = random.uniform(-math.pi, math.pi)
-        playground.add(self._robot, ((x, y), angle))
-
-        return playground
+        self._playground.add(self._robot, ((x, y), angle))

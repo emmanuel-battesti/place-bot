@@ -17,8 +17,8 @@ from spg_overlay.utils.utils import normalize_angle
 
 
 class MyRobotRandom(RobotAbstract):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self):
+        super().__init__()
         self.counterStraight = 0
         self.angleStopTurning = random.uniform(-math.pi, math.pi)
         self.counterStopStraight = random.uniform(10, 30)
@@ -66,19 +66,13 @@ class MyRobotRandom(RobotAbstract):
         return self.isTurningLeft or self.isTurningRight
 
 
-def main():
-    my_map = MyMapIntermediate01()
+if __name__ == '__main__':
+    my_map = MyMapIntermediate01(robot_type=MyRobotRandom)
 
-    playground = my_map.construct_playground(robot_type=MyRobotRandom)
-
-    gui = GuiSR(playground=playground,
-                the_map=my_map,
+    gui = GuiSR(the_map=my_map,
                 use_keyboard=False,
                 use_mouse_measure=True,
                 enable_visu_noises=False,
                 )
     gui.run()
 
-
-if __name__ == '__main__':
-    main()

@@ -17,9 +17,6 @@ from spg_overlay.gui_map.map_abstract import MapAbstract
 
 
 class MyRobotKeyboard(RobotAbstract):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
     def control(self):
         command = {"forward": 0.0,
                    "rotation": 0.0}
@@ -28,23 +25,19 @@ class MyRobotKeyboard(RobotAbstract):
 
 class MyMapKeyboard(MapAbstract):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, robot_type: Type[RobotAbstract]):
+        super().__init__(robot_type=robot_type)
 
         # PARAMETERS MAP
         self._size_area = (600, 600)
 
+        # PLAYGROUND
+        self._playground = ClosedPlayground(size=self._size_area)
+
         # POSITION OF THE ROBOT
         self._robot_pos = ((0, 0), 0)
-
-    def construct_playground(self, robot_type: Type[RobotAbstract]):
-        playground = ClosedPlayground(size=self._size_area)
-
-        # POSITION OF THE ROBOT
         self._robot = robot_type()
-        playground.add(self._robot, self._robot_pos)
-
-        return playground
+        self._playground.add(self._robot, self._robot_pos)
 
 
 def print_keyboard_man():
@@ -56,20 +49,14 @@ def print_keyboard_man():
     print("\t- r key : reset")
 
 
-def main():
+if __name__ == '__main__':
     print_keyboard_man()
-    my_map = MyMapKeyboard()
-
-    playground = my_map.construct_playground(robot_type=MyRobotKeyboard)
+    my_map = MyMapKeyboard(robot_type=MyRobotKeyboard)
 
     # draw_lidar : enable the visualization of the lidar rays
-    gui = GuiSR(playground=playground,
-                the_map=my_map,
+    gui = GuiSR(the_map=my_map,
                 draw_lidar=True,
                 use_keyboard=True,
                 )
     gui.run()
 
-
-if __name__ == '__main__':
-    main()
