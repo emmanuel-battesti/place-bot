@@ -53,8 +53,8 @@ class MyRobotRandom(RobotAbstract):
             self.angleStopTurning = random.uniform(-math.pi, math.pi)
 
         measured_angle = 0
-        if self.measured_compass_angle() is not None:
-            measured_angle = self.measured_compass_angle()
+        if self.true_angle() is not None:
+            measured_angle = self.true_angle()
 
         diff_angle = normalize_angle(self.angleStopTurning - measured_angle)
         if self.isTurning and abs(diff_angle) < 0.2:

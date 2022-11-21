@@ -62,8 +62,7 @@ def main():
 
     # draw_lidar : enable the visualization of the lidar rays
     # enable_visu_noises : to enable the visualization. It will show also a demonstration of the integration
-    # of odometer values, by drawing the estimated path in red. The green circle shows the position of robot according
-    # to the gps sensor and the compass
+    # of odometer values, by drawing the estimated path in red.
     gui = GuiSR(playground=playground,
                 the_map=my_map,
                 draw_lidar=True,

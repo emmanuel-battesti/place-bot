@@ -230,9 +230,7 @@ Robot is composed of different body parts attached to a *Base*.
 
 Robot **perceives his surroundings** through a first-person view sensor : the *Lidar* sensor.
 
-Robot is equipped with sensors that allow it to **estimate its position and orientation**. We have two kinds:
-- with absolute measurements: the *GPS* for the positions and the magnetic *compass* for the orientation.
-- with relative measurements: the odometer which provides us with positions and orientation relative to the previous position of the robot.
+Robot is equipped with an odometry sensor that allow it to **estimate its position and orientation**. The odometer provides us positions and orientation relative to the previous position of the robot.
 
 ### Lidar sensor
 
@@ -249,26 +247,6 @@ As the *fov* is 360°, the first (at -Pi rad) and the last value (at Pi) should 
 
 To visualize lidar sensor data, you should set the parameter *draw_lidar* parameter of the *GuiSR* class to *True*.
 
-### GPS sensor
-
-In the file *src/place_bot/spg_overlay/entities/robot_sensors.py*, it is described in the class *RobotGPS*.
-
-This sensor gives the position vector along the horizontal axis and vertical axis.
-The position (0, 0) is at the center of the map.
-Noise has been added to the data to make it look like GPS noise. This is not just gaussian noise but noise that follows an autoregressive model of order 1.
-
-If you want to enable the visualization of the noises, you should set the parameter *enable_visu_noises* to *True*.
-
-### Compass sensor
-
-In the file *src/place_bot/spg_overlay/entities/robot_sensors.py*, it is described in the class *RobotCompass*.
-
-This sensor gives the orientation of the robot.
-The orientation increases with a counter-clockwise rotation of the robot. The value is between -Pi and Pi. 
-Noise has been added to the data to make it look like Compass noise. This is not just gaussian noise but noise that follows an autoregressive model of order 1.
-
-If you want to enable the visualization of the noises, you should set the parameter *enable_visu_noises* to *True*.
-
 ### Odometer sensor
 
 In the file *src/place_bot/spg_overlay/entities/robot_sensors.py*, it is described in the class *RobotOdometer*.
@@ -279,7 +257,6 @@ This sensor returns an array of data containing:
 - theta, the orientation variation (or rotation) of the robot during the last step in the reference frame
      
 Those data are relative the previous position of the robot. Usually, we use odometry by integrating measurements over time to get an estimate of the current position of the robot. 
-This can be very useful for example when GPS data is no longer provided in some areas of the map.
 
 Angles, alpha and theta, increase with a counter-clockwise rotation of the robot. Their value is between -Pi and Pi. 
 Gaussian noise was added separately to the three parts of the data to make them look like real noise. 
@@ -363,7 +340,7 @@ This repository will contain your solutions. Taking inspiration from what is the
 
 Each Robot must inherit from the class *RobotAbstract*. You have one mandatory member functions: **control()** that will give the action to do for each time step.
 
-For your calculation in the control() function, it is mandatory to use only the sensor without directly accessing the class members. In particular, you should not use the *position* and *angle* variables, but use the *measured_gps_position()* and *measured_compass_angle()* functions to have access to the position and orientation of the robot. These values are noisy, representing more realistic sensors.
+For your calculation in the control() function, it is mandatory to use only the sensor without directly accessing the class members. In particular, you should not use the *position* and *angle* variables, but you should compute an estimated position and orientation of the robot from the odometry data. These values are noisy, representing more realistic sensors.
 
 The true position of the robot can be accessed with the functions *true_position()* and *true_angle()* (or directly with the variable *position* and *angle*), BUT it is only for debugging or logging.
 

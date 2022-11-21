@@ -34,14 +34,12 @@ class VisuNoises:
         self._half_playground_size: Tuple[float, float] = (playground_size[0] / 2,
                                                            playground_size[1] / 2)
 
-        self._scr_pos_gps: Dict[RobotAbstract, Tuple[int, int, float]] = {}
         self._scr_pos_odom: Dict[RobotAbstract, deque[Tuple[int, int, float]]] = {}
         self._last_world_pos_odom: Dict[RobotAbstract, Tuple[float, float, float]] = {}
         self._scr_pos_true: Dict[RobotAbstract, deque[Tuple[float, float, float]]] = {}
         self._max_size_circular_buffer = 150
 
     def reset(self):
-        self._scr_pos_gps.clear()
         self._scr_pos_odom.clear()
         self._last_world_pos_odom.clear()
         self._scr_pos_true.clear()
@@ -50,14 +48,8 @@ class VisuNoises:
         if not enable:
             return
 
-        self._draw_gps_compass()
-
         self._draw_odom(self._robot)
         self._draw_true(self._robot)
-
-    def _draw_gps_compass(self):
-        for pos_screen in self._scr_pos_gps.values():
-            _draw_pseudo_robot(position_screen=pos_screen, color=arcade.color.GREEN)
 
     def _draw_odom(self, robot: RobotAbstract, enable: bool = True):
         if not enable:
@@ -102,12 +94,6 @@ class VisuNoises:
 
         if not self._scr_pos_true:
             self._scr_pos_true = {None: deque(maxlen=self._max_size_circular_buffer)}
-
-        # GPS
-        if not self._robot.gps_is_disabled() and not self._robot.compass_is_disabled():
-            pos = self.conv_world2screen(pos_world=self._robot.measured_gps_position(),
-                                         angle=self._robot.measured_compass_angle())
-            self._scr_pos_gps[self._robot] = pos
 
         # TRUE VALUES
         true_position = self._robot.true_position()

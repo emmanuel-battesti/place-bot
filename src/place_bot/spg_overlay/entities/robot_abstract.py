@@ -6,7 +6,7 @@ from spg.agent.agent import Agent
 
 from spg_overlay.entities.robot_base import RobotBase
 from spg_overlay.entities.robot_distance_sensors import RobotLidar
-from spg_overlay.entities.robot_sensors import RobotGPS, RobotCompass, RobotOdometer
+from spg_overlay.entities.robot_sensors import RobotOdometer
 
 import matplotlib.pyplot as plt
 
@@ -21,9 +21,7 @@ class RobotAbstract(Agent):
 
     class SensorType(IntEnum):
         LIDAR = 0
-        GPS = 1
-        COMPASS = 2
-        ODOMETER = 3
+        ODOMETER = 1
 
     def __init__(self,
                  should_display_lidar=False,
@@ -35,9 +33,6 @@ class RobotAbstract(Agent):
         self.add(base)
 
         self.base.add(RobotLidar(invisible_elements=self._parts))
-
-        self.base.add(RobotGPS())
-        self.base.add(RobotCompass())
         self.base.add(RobotOdometer())
 
         self._should_display_lidar = should_display_lidar
@@ -67,16 +62,16 @@ class RobotAbstract(Agent):
     def lidar_is_disabled(self):
         return self.lidar().is_disabled()
 
-    def measured_velocity(self):
-        """
-        Give the measured velocity of the robot, in pixels per second
-        You must use this value for your calculation in the control() function.
-        """
-        speed = self.odometer_values()[0]
-        angle = self.compass_values()
-        vx = speed * math.cos(angle)
-        vy = speed * math.sin(angle)
-        return vx, vy
+    # def measured_velocity(self):
+    #     """
+    #     Give the measured velocity of the robot, in pixels per second
+    #     You must use this value for your calculation in the control() function.
+    #     """
+    #     speed = self.odometer_values()[0]
+    #     angle = self.compass_values()
+    #     vx = speed * math.cos(angle)
+    #     vy = speed * math.sin(angle)
+    #     return vx, vy
 
     def measured_angular_velocity(self):
         """
@@ -85,67 +80,34 @@ class RobotAbstract(Agent):
         """
         return self.odometer_values()[2]
 
-    def measured_gps_position(self):
-        """
-        Give the measured position of the robot, in pixels. The measurement comes from the GPS sensor.
-        You can use this value for your calculation in the control() function. These values can be altered
-        by special areas in the map where the position information can be scrambled.
-        """
-        if self.sensors[self.SensorType.GPS].is_disabled():
-            return None
-
-        return self.sensors[self.SensorType.GPS].get_sensor_values()[0], \
-               self.sensors[self.SensorType.GPS].get_sensor_values()[1]
-
-    def measured_compass_angle(self):
-        """
-        Give the measured orientation of the robot, in radians between 0 and 2Pi. The measurement comes from the compass
-        sensor. You can use this value for your calculation in the control() function. These values can be altered
-        by special areas in the map where the position information can be scrambled.
-        """
-        if self.sensors[self.SensorType.COMPASS].is_disabled():
-            return None
-
-        return self.sensors[self.SensorType.COMPASS].get_sensor_values()[0]
-
-    def gps_is_disabled(self):
-        return self.sensors[self.SensorType.GPS].is_disabled()
-
-    def compass_is_disabled(self):
-        return self.sensors[self.SensorType.COMPASS].is_disabled()
-
     def odometer_is_disabled(self):
         return self.sensors[self.SensorType.ODOMETER].is_disabled()
 
     def odometer_values(self):
         return self.sensors[self.SensorType.ODOMETER].get_sensor_values()
 
-    def gps_values(self):
-        return self.sensors[self.SensorType.GPS].get_sensor_values()
-
-    def compass_values(self):
-        return self.sensors[self.SensorType.COMPASS].get_sensor_values()
-
     def true_position(self):
         """
         Give the true orientation of the robot, in pixels
-        You must NOT use this value for your calculation in the control() function, you should use measured_gps_position()
-        instead. But you can use it for debugging or logging.
+        You must NOT use this value for your calculation in the control() function, you should
+        compute an estimated position from odometry values.
+        But you can use it for debugging or logging.
         """
         return self.position
 
     def true_angle(self):
         """
         Give the true orientation of the robot, in radians between 0 and 2Pi.
-        You must NOT use this value for your calculation in the control() function, you should use measured_compass_angle()
-        instead. But you can use it for debugging or logging.
+        You must NOT use this value for your calculation in the control() function, you should
+        compute an estimated angle from odometry values.
+        But you can use it for debugging or logging.
         """
         return normalize_angle(self.angle)
 
     def true_velocity(self):
         """
         Give the true velocity of the robot, in pixels per second
-        You must NOT use this value for your calculation in the control() function, you should use GPS, Compass or
+        You must NOT use this value for your calculation in the control() function, you should use
         odometry data instead. But you can use it for debugging or logging.
         """
         return self.base.velocity
@@ -153,7 +115,7 @@ class RobotAbstract(Agent):
     def true_angular_velocity(self):
         """
         Give the true angular velocity of the robot, in radians per second
-        You must NOT use this value for your calculation in the control() function, you should use GPS, Compass or
+        You must NOT use this value for your calculation in the control() function, you should use
         odometry data instead. But you can use it for debugging or logging.
         """
         return self.base.angular_velocity
