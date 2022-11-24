@@ -150,7 +150,7 @@ class ImageToMap:
             "This tool permits to create this kind of file by providing it an image of the map we want to create.\n")
         f.write("\"\"\"\n\n")
 
-        f.write("from place_bot.spg_overlay.normal_wall import NormalWall, NormalBox\n\n\n")
+        f.write("from place_bot.normal_wall import NormalWall, NormalBox\n\n\n")
 
         f.write("# Dimension of the map : ({}, {})\n".format(self.width_map, self.height_map))
 
