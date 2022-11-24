@@ -3,7 +3,7 @@ import numpy as np
 
 from spg.agent.sensor import DistanceSensor
 
-from spg_overlay.utils.utils_noise import GaussianNoise
+from place_bot.spg_overlay.utils.utils_noise import GaussianNoise
 
 
 def compute_ray_angles(fov_rad: float, nb_rays: int) -> np.ndarray:

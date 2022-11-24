@@ -3,7 +3,7 @@ from typing import Type, Union
 
 from spg.playground import Playground
 
-from spg_overlay.entities.robot_abstract import RobotAbstract
+from place_bot.spg_overlay.entities.robot_abstract import RobotAbstract
 
 
 class MapAbstract(ABC):

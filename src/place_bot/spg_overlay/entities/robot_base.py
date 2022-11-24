@@ -3,8 +3,8 @@ from spg.agent.controller import CenteredContinuousController
 from spg.agent.part import PhysicalPart
 from spg.utils.definitions import LINEAR_FORCE, ANGULAR_VELOCITY
 
-from resources import path_resources
-from spg_overlay.utils.constants import LINEAR_SPEED_RATIO, ANGULAR_SPEED_RATIO
+from place_bot.resources import path_resources
+from place_bot.spg_overlay.utils.constants import LINEAR_SPEED_RATIO, ANGULAR_SPEED_RATIO
 
 
 class RobotBase(PhysicalPart):

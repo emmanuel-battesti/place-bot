@@ -10,11 +10,11 @@ from typing import Type
 # This line add, to sys.path, the path to parent path of this file
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from maps.walls_complete_map_2 import add_walls, add_boxes
-from spg_overlay.entities.robot_abstract import RobotAbstract
-from spg_overlay.gui_map.closed_playground import ClosedPlayground
-from spg_overlay.gui_map.gui_sr import GuiSR
-from spg_overlay.gui_map.map_abstract import MapAbstract
+from place_bot.maps.walls_complete_map_2 import add_walls, add_boxes
+from place_bot.spg_overlay.entities.robot_abstract import RobotAbstract
+from place_bot.spg_overlay.gui_map.closed_playground import ClosedPlayground
+from place_bot.spg_overlay.gui_map.gui_sr import GuiSR
+from place_bot.spg_overlay.gui_map.map_abstract import MapAbstract
 
 
 class MyRobotLidar(RobotAbstract):

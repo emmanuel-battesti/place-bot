@@ -7,14 +7,14 @@ from spg.agent.controller.controller import Command, Controller
 from spg.playground import Playground
 from spg.view import TopDownView
 
-from spg_overlay.utils.constants import FRAME_RATE
-from spg_overlay.entities.robot_abstract import RobotAbstract
-from spg_overlay.entities.keyboard_controller import KeyboardController
-from spg_overlay.utils.fps_display import FpsDisplay
-from spg_overlay.gui_map.map_abstract import MapAbstract
-from spg_overlay.utils.mouse_measure import MouseMeasure
-from spg_overlay.utils.screen_recorder import ScreenRecorder
-from spg_overlay.utils.visu_noises import VisuNoises
+from place_bot.spg_overlay.utils.constants import FRAME_RATE
+from place_bot.spg_overlay.entities.robot_abstract import RobotAbstract
+from place_bot.spg_overlay.entities.keyboard_controller import KeyboardController
+from place_bot.spg_overlay.utils.fps_display import FpsDisplay
+from place_bot.spg_overlay.gui_map.map_abstract import MapAbstract
+from place_bot.spg_overlay.utils.mouse_measure import MouseMeasure
+from place_bot.spg_overlay.utils.screen_recorder import ScreenRecorder
+from place_bot.spg_overlay.utils.visu_noises import VisuNoises
 
 
 class GuiSR(TopDownView):

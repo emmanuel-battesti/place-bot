@@ -10,10 +10,10 @@ import sys
 # This line add, to sys.path, the path to parent path of this file
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from maps.map_intermediate_01 import MyMapIntermediate01
-from spg_overlay.entities.robot_abstract import RobotAbstract
-from spg_overlay.gui_map.gui_sr import GuiSR
-from spg_overlay.utils.utils import normalize_angle
+from place_bot.maps.map_intermediate_01 import MyMapIntermediate01
+from place_bot.spg_overlay.entities.robot_abstract import RobotAbstract
+from place_bot.spg_overlay.gui_map.gui_sr import GuiSR
+from place_bot.spg_overlay.utils.utils import normalize_angle
 
 
 class MyRobotRandom(RobotAbstract):

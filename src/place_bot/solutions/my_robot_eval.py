@@ -1,4 +1,4 @@
-from solutions.my_robot_random import MyRobotRandom
+from place_bot.solutions.my_robot_random import MyRobotRandom
 
 
 class MyRobotEval(MyRobotRandom):

@@ -2,7 +2,7 @@ import math
 import arcade
 from typing import Tuple, Dict
 from collections import deque
-from spg_overlay.entities.robot_abstract import RobotAbstract
+from place_bot.spg_overlay.entities.robot_abstract import RobotAbstract
 
 
 def _draw_pseudo_robot(position_screen: Tuple[int, int, float],

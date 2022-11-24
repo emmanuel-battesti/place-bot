@@ -3,7 +3,7 @@ from typing import Tuple
 
 from spg.playground import Playground
 
-from spg_overlay.entities.normal_wall import NormalWall
+from place_bot.spg_overlay.entities.normal_wall import NormalWall
 
 
 class ClosedPlayground(Playground):

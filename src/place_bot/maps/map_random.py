@@ -4,9 +4,9 @@ from typing import Type
 
 from spg.playground import Playground
 
-from spg_overlay.entities.robot_abstract import RobotAbstract
-from spg_overlay.gui_map.closed_playground import ClosedPlayground
-from spg_overlay.gui_map.map_abstract import MapAbstract
+from place_bot.spg_overlay.entities.robot_abstract import RobotAbstract
+from place_bot.spg_overlay.gui_map.closed_playground import ClosedPlayground
+from place_bot.spg_overlay.gui_map.map_abstract import MapAbstract
 
 
 class MyMapRandom(MapAbstract):

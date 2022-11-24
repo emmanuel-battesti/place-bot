@@ -4,8 +4,8 @@ from abc import ABC
 import numpy as np
 
 from spg.agent.sensor.internal import InternalSensor
-from spg_overlay.utils.utils import deg2rad, normalize_angle
-from spg_overlay.utils.utils_noise import AutoregressiveModelNoise, GaussianNoise
+from place_bot.spg_overlay.utils.utils import deg2rad, normalize_angle
+from place_bot.spg_overlay.utils.utils_noise import AutoregressiveModelNoise, GaussianNoise
 
 
 class RobotOdometer(InternalSensor):

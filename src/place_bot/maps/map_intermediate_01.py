@@ -4,9 +4,9 @@ from typing import Type, Union
 
 from spg.playground import Playground
 
-from spg_overlay.entities.robot_abstract import RobotAbstract
-from spg_overlay.gui_map.closed_playground import ClosedPlayground
-from spg_overlay.gui_map.map_abstract import MapAbstract
+from place_bot.spg_overlay.entities.robot_abstract import RobotAbstract
+from place_bot.spg_overlay.gui_map.closed_playground import ClosedPlayground
+from place_bot.spg_overlay.gui_map.map_abstract import MapAbstract
 
 from .walls_intermediate_map_1 import add_walls, add_boxes
 

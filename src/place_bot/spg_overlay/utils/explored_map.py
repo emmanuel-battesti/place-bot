@@ -6,8 +6,8 @@ import numpy as np
 from spg.playground import Playground
 from spg.view import TopDownView
 
-from spg_overlay.entities.robot_abstract import RobotAbstract
-from spg_overlay.utils.utils import bresenham, circular_kernel
+from place_bot.spg_overlay.entities.robot_abstract import RobotAbstract
+from place_bot.spg_overlay.utils.utils import bresenham, circular_kernel
 
 
 class ExploredMap:

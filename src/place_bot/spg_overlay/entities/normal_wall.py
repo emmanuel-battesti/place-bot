@@ -9,7 +9,7 @@ from PIL import Image
 
 from spg.element import PhysicalElement
 
-from resources import path_resources
+from place_bot.resources import path_resources
 
 
 class SrColorWall(PhysicalElement):

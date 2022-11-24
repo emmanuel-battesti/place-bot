@@ -4,13 +4,13 @@ from enum import IntEnum
 
 from spg.agent.agent import Agent
 
-from spg_overlay.entities.robot_base import RobotBase
-from spg_overlay.entities.robot_distance_sensors import RobotLidar
-from spg_overlay.entities.robot_sensors import RobotOdometer
+from place_bot.spg_overlay.entities.robot_base import RobotBase
+from place_bot.spg_overlay.entities.robot_distance_sensors import RobotLidar
+from place_bot.spg_overlay.entities.robot_sensors import RobotOdometer
 
 import matplotlib.pyplot as plt
 
-from spg_overlay.utils.utils import normalize_angle
+from place_bot.spg_overlay.utils.utils import normalize_angle
 
 
 class RobotAbstract(Agent):

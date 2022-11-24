@@ -5,8 +5,8 @@ The Robot will move forward and turn for a random angle when an obstacle is hit
 import math
 import random
 
-from spg_overlay.entities.robot_abstract import RobotAbstract
-from spg_overlay.utils.utils import normalize_angle
+from place_bot.spg_overlay.entities.robot_abstract import RobotAbstract
+from place_bot.spg_overlay.utils.utils import normalize_angle
 
 
 class MyRobotRandom(RobotAbstract):

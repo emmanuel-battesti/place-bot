@@ -1,13 +1,13 @@
-from solutions.my_robot_eval import MyRobotEval
-from spg_overlay.utils.screen_recorder import ScreenRecorder
-from spg_overlay.gui_map.gui_sr import GuiSR
+from place_bot.solutions.my_robot_eval import MyRobotEval
+from place_bot.spg_overlay.utils.screen_recorder import ScreenRecorder
+from place_bot.spg_overlay.gui_map.gui_sr import GuiSR
 
-from maps.map_intermediate_01 import MyMapIntermediate01
-from maps.map_complete_01 import MyMapComplete01
-from maps.map_complete_02 import MyMapComplete02
+from place_bot.maps.map_intermediate_01 import MyMapIntermediate01
+from place_bot.maps.map_complete_01 import MyMapComplete01
+from place_bot.maps.map_complete_02 import MyMapComplete02
 
 
-# from solutions.my_robot_random import MyRobotRandom
+# from place_bot.solutions.my_robot_random import MyRobotRandom
 
 
 class MyMap(MyMapComplete02):
