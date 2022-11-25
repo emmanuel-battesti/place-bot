@@ -26,7 +26,7 @@ class RobotOdometer(InternalSensor):
         self.std_dev_alpha = deg2rad(5.0)
         self._noise_alpha_model = GaussianNoise(std_dev_noise=self.std_dev_alpha)
 
-        self.std_dev_theta = deg2rad(0.6)
+        self.std_dev_theta = deg2rad(0.6) # 0.6 deg = 0.0105 rad
         self._noise_theta_model = GaussianNoise(std_dev_noise=self.std_dev_theta)
 
         self._values = self._default_value
