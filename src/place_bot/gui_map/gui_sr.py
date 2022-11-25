@@ -96,10 +96,10 @@ class GuiSR(TopDownView):
             return
 
         # COMPUTE COMMANDS
+        command = self._robot.control()
         if self._use_keyboard:
             command = self._keyboardController.control()
-        else:
-            command = self._robot.control()
+
         self._robot_commands[self._robot] = command
 
         if self._robot:
