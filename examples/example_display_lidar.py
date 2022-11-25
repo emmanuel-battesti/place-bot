@@ -29,8 +29,8 @@ class MyRobotLidar(RobotAbstract):
 
 class MyMapLidar(MapAbstract):
 
-    def __init__(self, robot_type: Type[RobotAbstract]):
-        super().__init__(robot_type=robot_type)
+    def __init__(self, robot: RobotAbstract):
+        super().__init__(robot=robot)
 
         # PARAMETERS MAP
         self._size_area = (1113, 750)
@@ -42,12 +42,12 @@ class MyMapLidar(MapAbstract):
 
         # POSITION OF THE ROBOT
         self._robot_pos = ((-50, 0), 0)
-        self._robot = robot_type(should_display_lidar=True)
-        self._playground.add(self._robot, self._robot_pos)
+        self._playground.add(robot, self._robot_pos)
 
 
 if __name__ == '__main__':
-    my_map = MyMapLidar(robot_type=MyRobotLidar)
+    my_robot = MyRobotLidar(should_display_lidar=True)
+    my_map = MyMapLidar(robot=my_robot)
 
     # draw_lidar : enable the visualization of the lidar rays
     # enable_visu_noises : to enable the visualization. It will show also a demonstration of the integration

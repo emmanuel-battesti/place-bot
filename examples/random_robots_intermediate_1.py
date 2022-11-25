@@ -67,7 +67,8 @@ class MyRobotRandom(RobotAbstract):
 
 
 if __name__ == '__main__':
-    my_map = MyMapIntermediate01(robot_type=MyRobotRandom)
+    my_robot = MyRobotRandom()
+    my_map = MyMapIntermediate01(robot=my_robot)
 
     gui = GuiSR(the_map=my_map,
                 use_keyboard=False,
@@ -75,4 +76,3 @@ if __name__ == '__main__':
                 enable_visu_noises=False,
                 )
     gui.run()
-

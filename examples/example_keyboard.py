@@ -25,8 +25,8 @@ class MyRobotKeyboard(RobotAbstract):
 
 class MyMapKeyboard(MapAbstract):
 
-    def __init__(self, robot_type: Type[RobotAbstract]):
-        super().__init__(robot_type=robot_type)
+    def __init__(self, robot: RobotAbstract):
+        super().__init__(robot=robot)
 
         # PARAMETERS MAP
         self._size_area = (600, 600)
@@ -36,8 +36,7 @@ class MyMapKeyboard(MapAbstract):
 
         # POSITION OF THE ROBOT
         self._robot_pos = ((0, 0), 0)
-        self._robot = robot_type()
-        self._playground.add(self._robot, self._robot_pos)
+        self._playground.add(robot, self._robot_pos)
 
 
 def print_keyboard_man():
@@ -51,7 +50,8 @@ def print_keyboard_man():
 
 if __name__ == '__main__':
     print_keyboard_man()
-    my_map = MyMapKeyboard(robot_type=MyRobotKeyboard)
+    my_robot = MyRobotKeyboard()
+    my_map = MyMapKeyboard(robot=my_robot)
 
     # draw_lidar : enable the visualization of the lidar rays
     gui = GuiSR(the_map=my_map,
@@ -59,4 +59,3 @@ if __name__ == '__main__':
                 use_keyboard=True,
                 )
     gui.run()
-

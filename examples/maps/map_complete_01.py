@@ -1,6 +1,6 @@
 import math
 import random
-from typing import Type, Union
+from typing import Type
 
 from spg.playground import Playground
 
@@ -13,8 +13,8 @@ from .walls_complete_map_1 import add_walls, add_boxes
 
 class MyMapComplete01(MapAbstract):
 
-    def __init__(self, robot_type: Type[RobotAbstract]):
-        super().__init__(robot_type=robot_type)
+    def __init__(self, robot: RobotAbstract):
+        super().__init__(robot=robot)
 
         # PARAMETERS MAP
         self._size_area = (1110, 750)
@@ -27,6 +27,4 @@ class MyMapComplete01(MapAbstract):
         # POSITION OF THE ROBOT
         angle = random.uniform(-math.pi, math.pi)
         self._robot_pos = ((-375, -300), angle)
-        self._robot = robot_type()
-        self._playground.add(self._robot, self._robot_pos)
-
+        self._playground.add(robot, self._robot_pos)

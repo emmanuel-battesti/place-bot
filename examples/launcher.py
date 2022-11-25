@@ -19,6 +19,7 @@ class MyRobot(MyRobotEval):
 
 
 if __name__ == "__main__":
-    my_map = MyMap(robot_type=MyRobot)
+    my_robot = MyRobot()
+    my_map = MyMap(robot=my_robot)
     my_gui = GuiSR(the_map=my_map)
     my_gui.run()
