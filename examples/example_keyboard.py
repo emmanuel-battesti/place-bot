@@ -1,6 +1,6 @@
 """
 This program can be launched directly.
-To move the robot, you have to click on the map, then use the arrows on the keyboard
+To move the robot, you have to click on the world, then use the arrows on the keyboard
 """
 
 import os
@@ -11,9 +11,9 @@ from typing import Type
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from place_bot.entities.robot_abstract import RobotAbstract
-from place_bot.gui_map.closed_playground import ClosedPlayground
-from place_bot.gui_map.gui_sr import GuiSR
-from place_bot.gui_map.map_abstract import MapAbstract
+from place_bot.simu_world.closed_playground import ClosedPlayground
+from place_bot.simu_world.simulator import Simulator
+from place_bot.simu_world.world_abstract import WorldAbstract
 
 
 class MyRobotKeyboard(RobotAbstract):
@@ -23,12 +23,12 @@ class MyRobotKeyboard(RobotAbstract):
         return command
 
 
-class MyMapKeyboard(MapAbstract):
+class MyWorldKeyboard(WorldAbstract):
 
     def __init__(self, robot: RobotAbstract):
         super().__init__(robot=robot)
 
-        # PARAMETERS MAP
+        # PARAMETERS WORLD
         self._size_area = (600, 600)
 
         # PLAYGROUND
@@ -51,11 +51,11 @@ def print_keyboard_man():
 if __name__ == '__main__':
     print_keyboard_man()
     my_robot = MyRobotKeyboard()
-    my_map = MyMapKeyboard(robot=my_robot)
+    my_world = MyWorldKeyboard(robot=my_robot)
 
     # draw_lidar : enable the visualization of the lidar rays
-    gui = GuiSR(the_map=my_map,
-                draw_lidar=True,
-                use_keyboard=True,
-                )
-    gui.run()
+    simulator = Simulator(the_world=my_world,
+                          draw_lidar=True,
+                          use_keyboard=True,
+                          )
+    simulator.run()

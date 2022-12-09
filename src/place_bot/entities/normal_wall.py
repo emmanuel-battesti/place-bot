@@ -53,7 +53,7 @@ class SrColorWall(PhysicalElement):
 
 class NormalWall(SrColorWall):
     """
-    Custom Walls used by the tool 'image_to_map.py' in the directory tools
+    Custom Walls used by the tool 'image_to_world.py' in the directory tools
     """
 
     def __init__(self, pos_start: Union[Tuple[float, float], pymunk.Vec2d],
@@ -85,7 +85,7 @@ class NormalWall(SrColorWall):
 class NormalBox(SrColorWall):
     """
     A kind of custom wall but in the shape of box.
-    Used by the tool 'image_to_map.py' in the directory tools
+    Used by the tool 'image_to_world.py' in the directory tools
     """
 
     def __init__(self, up_left_point: Union[Tuple[float, float], pymunk.Vec2d], width: float, height: float,

@@ -144,7 +144,7 @@ python3.8 ./src/place_bot/launcher.py
 
 Although not mandatory, it is a good idea to use an IDE to code in *Python*. It makes programming easier.
 
-For example, you can use the free *community* version of [*PyCharm*](https://www.jetbrains.com/pycharm/). In this case, you have to set your *interpreter* path to your venv path to make it work. 
+For example, you can use the free *community* version of [*PyCharm*](https://www.jetbrains.com/pycharm/). In this case, you have to set your *interpreter* path to your venv path to make it work.
 
 
 # Installation on Windows 10
@@ -245,7 +245,7 @@ It emulates a lidar.
 A gaussian noise has been added to the distance.
 As the *fov* is 360°, the first (at -Pi rad) and the last value (at Pi) should be the same.
 
-To visualize lidar sensor data, you should set the parameter *draw_lidar* parameter of the *GuiSR* class to *True*.
+To visualize lidar sensor data, you should set the parameter *draw_lidar* parameter of the *Simulator* class to *True*.
 
 ### Odometer sensor
 
@@ -256,10 +256,10 @@ This sensor returns an array of data containing:
 - alpha, the relative angle of the current position with respect to the previous reference frame of the robot
 - theta, the orientation variation (or rotation) of the robot during the last step in the reference frame
      
-Those data are relative the previous position of the robot. Usually, we use odometry by integrating measurements over time to get an estimate of the current position of the robot. 
+Those data are relative the previous position of the robot. Usually, we use odometry by integrating measurements over time to get an estimate of the current position of the robot.
 
-Angles, alpha and theta, increase with a counter-clockwise rotation of the robot. Their value is between -Pi and Pi. 
-Gaussian noise was added separately to the three parts of the data to make them look like real noise. 
+Angles, alpha and theta, increase with a counter-clockwise rotation of the robot. Their value is between -Pi and Pi.
+Gaussian noise was added separately to the three parts of the data to make them look like real noise.
 
 ![odometer values](img/odom.png)
 
@@ -271,7 +271,7 @@ At each time step, you must provide values for your actuators.
 
 You have 2 values to move your robot:
 - *forward_controller*, a float value between -1 and 1. This is a force apply to your robot in the longitudinal way.
-- *angular_vel_controller*, a float value between -1 and 1. This is the speed of rotation. 
+- *angular_vel_controller*, a float value between -1 and 1. This is the speed of rotation.
 
 You can find examples of actuator use in almost all files in *examples/* and *solutions/*.
 
@@ -279,14 +279,14 @@ You can find examples of actuator use in almost all files in *examples/* and *so
 
 Robot act and perceive in a *Playground*.
 
-A *playground* is composed of scene elements, which can be fixed or movable. 
-The playground with all its elements, except for the robot, are called "Map" within this *Place-bot* repository.
+A *playground* is composed of scene elements, which can be fixed or movable.
+The playground with all its elements, except for the robot, are called "World" within this *Place-bot* repository.
 
 ### Coordinate System
 
 A playground is described using a Cartesian coordinate system.
 
-Each element has a position (x,y, theta), with x along the horizontal axis, y along the vertical axis, and theta the orientation in radians, aligned on the horizontal axis. The position (0, 0) is at the center of the map. The value of theta is between -Pi and Pi. Theta increases with a counter-clockwise rotation of the robot. For theta = 0, the robot is oriented towards the right. A playground has a size [width, height], with the width along x-axis, and height along y-axis.
+Each element has a position (x,y, theta), with x along the horizontal axis, y along the vertical axis, and theta the orientation in radians, aligned on the horizontal axis. The position (0, 0) is at the center of the world. The value of theta is between -Pi and Pi. Theta increases with a counter-clockwise rotation of the robot. For theta = 0, the robot is oriented towards the right. A playground has a size [width, height], with the width along x-axis, and height along y-axis.
 
 
 # Programming
@@ -297,12 +297,12 @@ Each element has a position (x,y, theta), with x along the horizontal axis, y al
 
 *launcher.py* is the main program file to launch a robot using your code.
 
-It will launch the robot that you will have customized in the map that you want, make it run.
+It will launch the robot that you will have customized in the world that you want, make it run.
 
 This file needs almost no modification to work, except those lines at the beginning of the file:
 
 ```python
-class MyMap(MyMapComplete01):
+class MyWorld(MyWorldComplete01):
     pass
 
 
@@ -310,7 +310,7 @@ class MyRobot(MyAwesomeRobot):
     pass
 ```
 
-*MyMap* must inherit from the class of the map you want to use (here, in the example *MyMapComplete01*). This map will be located in the folder *maps*.
+*MyWorld* must inherit from the class of the world you want to use (here, in the example *MyWorldComplete01*). This world will be located in the folder *worlds*.
 
 *MyRobot* must inherit from the class of the robot that you created (here, in the example, your awesome robot *MyAwesomeRobot*). This robot will be located in the folder *solutions*.
 
@@ -319,20 +319,20 @@ class MyRobot(MyAwesomeRobot):
 As its name indicates, this folder is a software overlay of the spg (simple-playground) code.
  It contains three sub-directories:
  - *entities*: contains description of differents entities used in the program.
-- *gui_map*: contains description of default map and the gui interface.
+- *simu_world*: contains description of default world and the simulator interface.
 - *utils*: contains various functions and useful tools.
 
 The files it contains must *not* be modified. It contains the definition of the class *Robot*, of the class of the sensors, etc.
 
-An important file is the *gui_map/gui_sr.py* which contains the class *GuiSR*. 
+An important file is the *simu_world/simulator.py* which contains the class *Simulator*.
 If you want to use the keyboard to move the first robot, you should set the parameter *use_keyboard* to *True*.
 If you want to enable the visualization of the noises, you should set the parameter *enable_visu_noises* to *True*. It will show also a demonstration of the integration of odometer values, by drawing the estimated path.
 
-### directory *maps*
+### directory *worlds*
 
-This directory contains the maps in which the robot can move. New maps may appear for new missions with the updates of this repository. You can also make your own maps based on existing ones.
+This directory contains the worlds in which the robot can move. New worlds may appear for new missions with the updates of this repository. You can also make your own worlds based on existing ones.
 
-Each map must inherit from the class *MapAbstract*.
+Each world must inherit from the class *WorldAbstract*.
 
 ### directory *solutions*
 
@@ -360,7 +360,7 @@ In the folder, you will find stand-alone programs to help you program with examp
 
 ### directory *tools*
 
-In this directory, you may find some tools... For example, the program *image_to_map.py* allows to build a map from a black and white image.
+In this directory, you may find some tools... For example, the program *image_to_world.py* allows to build a world from a black and white image.
 
 ## Submission
 
@@ -372,7 +372,7 @@ Be careful, you will provide only:
 
 ## Various tips
 
-- To exit elegantly after launching a map, press 'q'.
+- To exit elegantly after launching a world, press 'q'.
 
 # Contact
 

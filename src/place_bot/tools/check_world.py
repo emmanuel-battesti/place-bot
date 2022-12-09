@@ -1,5 +1,4 @@
-from solutions.my_robot_eval import MyRobotEval
-from place_bot.utils.screen_recorder import ScreenRecorder
+from place_bot.entities.robot_abstract import RobotAbstract
 from place_bot.simu_world.simulator import Simulator
 
 from worlds.world_intermediate_01 import MyWorldIntermediate01
@@ -7,19 +6,22 @@ from worlds.world_complete_01 import MyWorldComplete01
 from worlds.world_complete_02 import MyWorldComplete02
 
 
-# from solutions.my_robot_random import MyRobotRandom
-
-
 class MyWorld(MyWorldComplete02):
     pass
 
 
-class MyRobot(MyRobotEval):
-    pass
+class MyRobot(RobotAbstract):
+
+    def control(self):
+        pass
 
 
 if __name__ == "__main__":
-    my_robot = MyRobot()
+    print("")
+    my_robot = MyRobot
     my_world = MyWorld(robot=my_robot)
-    simulator = Simulator(the_world=my_world)
+
+    simulator = Simulator(the_world=my_world,
+                          use_mouse_measure=True)
+
     simulator.run()

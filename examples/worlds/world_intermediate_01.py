@@ -5,18 +5,18 @@ from typing import Type
 from spg.playground import Playground
 
 from place_bot.entities.robot_abstract import RobotAbstract
-from place_bot.gui_map.closed_playground import ClosedPlayground
-from place_bot.gui_map.map_abstract import MapAbstract
+from place_bot.simu_world.closed_playground import ClosedPlayground
+from place_bot.simu_world.world_abstract import WorldAbstract
 
-from .walls_intermediate_map_1 import add_walls, add_boxes
+from .walls_intermediate_world_1 import add_walls, add_boxes
 
 
-class MyMapIntermediate01(MapAbstract):
+class MyWorldIntermediate01(WorldAbstract):
 
     def __init__(self, robot: RobotAbstract):
         super().__init__(robot=robot)
 
-        # PARAMETERS MAP
+        # PARAMETERS WORLD
         self._size_area = (800, 500)
 
         # PLAYGROUND

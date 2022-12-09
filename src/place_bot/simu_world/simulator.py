@@ -11,16 +11,16 @@ from place_bot.utils.constants import FRAME_RATE
 from place_bot.entities.robot_abstract import RobotAbstract
 from place_bot.entities.keyboard_controller import KeyboardController
 from place_bot.utils.fps_display import FpsDisplay
-from place_bot.gui_map.map_abstract import MapAbstract
+from place_bot.simu_world.world_abstract import WorldAbstract
 from place_bot.utils.mouse_measure import MouseMeasure
 from place_bot.utils.screen_recorder import ScreenRecorder
 from place_bot.utils.visu_noises import VisuNoises
 
 
-class GuiSR(TopDownView):
+class Simulator(TopDownView):
     def __init__(
             self,
-            the_map: MapAbstract,
+            the_world: WorldAbstract,
             size: Optional[Tuple[int, int]] = None,
             center: Tuple[float, float] = (0, 0),
             zoom: float = 1,
@@ -34,7 +34,7 @@ class GuiSR(TopDownView):
             filename_video_capture: str = None
     ) -> None:
         super().__init__(
-            the_map.playground,
+            the_world.playground,
             size,
             center,
             zoom,
@@ -46,8 +46,8 @@ class GuiSR(TopDownView):
         self._playground.window.set_size(*self._size)
         self._playground.window.set_visible(True)
 
-        self._the_map = the_map
-        self._robot = self._the_map.robot
+        self._the_world = the_world
+        self._robot = self._the_world.robot
 
         self._robot_commands: Union[Dict[RobotAbstract, Dict[Union[str, Controller], Command]], Type[None]] = None
         if self._robot:
@@ -182,7 +182,3 @@ class GuiSR(TopDownView):
     @property
     def real_time_elapsed(self):
         return self._real_time_elapsed
-
-
-class Simulator(GuiSR):
-    pass

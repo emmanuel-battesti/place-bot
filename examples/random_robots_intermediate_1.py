@@ -10,9 +10,9 @@ import sys
 # This line add, to sys.path, the path to parent path of this file
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from maps.map_intermediate_01 import MyMapIntermediate01
+from worlds.world_intermediate_01 import MyWorldIntermediate01
 from place_bot.entities.robot_abstract import RobotAbstract
-from place_bot.gui_map.gui_sr import GuiSR
+from place_bot.simu_world.simulator import Simulator
 from place_bot.utils.utils import normalize_angle
 
 
@@ -68,11 +68,11 @@ class MyRobotRandom(RobotAbstract):
 
 if __name__ == '__main__':
     my_robot = MyRobotRandom()
-    my_map = MyMapIntermediate01(robot=my_robot)
+    my_world = MyWorldIntermediate01(robot=my_robot)
 
-    gui = GuiSR(the_map=my_map,
-                use_keyboard=False,
-                use_mouse_measure=True,
-                enable_visu_noises=False,
-                )
-    gui.run()
+    simulator = Simulator(the_world=my_world,
+                          use_keyboard=False,
+                          use_mouse_measure=True,
+                          enable_visu_noises=False,
+                          )
+    simulator.run()

@@ -6,9 +6,9 @@ from spg.playground import Playground
 from place_bot.entities.robot_abstract import RobotAbstract
 
 
-class MapAbstract(ABC):
+class WorldAbstract(ABC):
     """
-    It is abstract class to construct every maps used in the directory maps
+    It is abstract class to construct every worlds used in the directory worlds
     """
 
     def __init__(self, robot: Union[RobotAbstract, None]):

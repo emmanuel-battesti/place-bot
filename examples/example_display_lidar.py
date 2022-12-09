@@ -1,6 +1,6 @@
 """
 This program can be launched directly.
-To move the robot, you have to click on the map, then use the arrows on the keyboard
+To move the robot, you have to click on the world, then use the arrows on the keyboard
 """
 
 import os
@@ -10,11 +10,11 @@ from typing import Type
 # This line add, to sys.path, the path to parent path of this file
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from maps.walls_complete_map_2 import add_walls, add_boxes
+from worlds.walls_complete_world_2 import add_walls, add_boxes
 from place_bot.entities.robot_abstract import RobotAbstract
-from place_bot.gui_map.closed_playground import ClosedPlayground
-from place_bot.gui_map.gui_sr import GuiSR
-from place_bot.gui_map.map_abstract import MapAbstract
+from place_bot.simu_world.closed_playground import ClosedPlayground
+from place_bot.simu_world.simulator import Simulator
+from place_bot.simu_world.world_abstract import WorldAbstract
 
 
 class MyRobotLidar(RobotAbstract):
@@ -27,12 +27,12 @@ class MyRobotLidar(RobotAbstract):
         return command
 
 
-class MyMapLidar(MapAbstract):
+class MyWorldLidar(WorldAbstract):
 
     def __init__(self, robot: RobotAbstract):
         super().__init__(robot=robot)
 
-        # PARAMETERS MAP
+        # PARAMETERS WORLD
         self._size_area = (1113, 750)
 
         # PLAYGROUND
@@ -47,14 +47,14 @@ class MyMapLidar(MapAbstract):
 
 if __name__ == '__main__':
     my_robot = MyRobotLidar(should_display_lidar=True)
-    my_map = MyMapLidar(robot=my_robot)
+    my_world = MyWorldLidar(robot=my_robot)
 
     # draw_lidar : enable the visualization of the lidar rays
     # enable_visu_noises : to enable the visualization. It will show also a demonstration of the integration
     # of odometer values, by drawing the estimated path in red.
-    gui = GuiSR(the_map=my_map,
-                draw_lidar=True,
-                use_keyboard=True,
-                enable_visu_noises=True,
-                )
-    gui.run()
+    simulator = Simulator(the_world=my_world,
+                          draw_lidar=True,
+                          use_keyboard=True,
+                          enable_visu_noises=True,
+                          )
+    simulator.run()

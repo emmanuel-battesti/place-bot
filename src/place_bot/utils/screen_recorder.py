@@ -28,20 +28,20 @@ class ScreenRecorder:
         four_cc = cv2.VideoWriter_fourcc(*'XVID')
         self.video = cv2.VideoWriter(out_file, four_cc, float(fps), (width, height))
 
-    def capture_frame(self, gui: TopDownView):
+    def capture_frame(self, simulator: TopDownView):
         """
          Call this method every frame.
-        :param gui: view to capture
+        :param simulator: view to capture
         :return: None
         """
 
         if self.video is None:
             return
 
-        gui.update()
+        simulator.update()
         # img_capture have float values between 0 and 1
         # The image should be flip and the color channel permuted
-        img_capture = cv2.flip(gui.get_np_img(), 0)
+        img_capture = cv2.flip(simulator.get_np_img(), 0)
         img_capture = cv2.cvtColor(img_capture, cv2.COLOR_RGB2BGR)
 
         # write the frame

@@ -7,9 +7,9 @@ import pytest
 from typing import Optional, List, Type
 
 from place_bot.entities.robot_abstract import RobotAbstract
-from place_bot.gui_map.closed_playground import ClosedPlayground
-from place_bot.gui_map.gui_sr import GuiSR
-from place_bot.gui_map.map_abstract import MapAbstract
+from place_bot.simu_world.closed_playground import ClosedPlayground
+from place_bot.simu_world.simulator import Simulator
+from place_bot.simu_world.world_abstract import WorldAbstract
 
 
 class MyRobot(RobotAbstract):
@@ -22,11 +22,11 @@ class MyRobot(RobotAbstract):
         return command
 
 
-class MyWorld(MapAbstract):
+class MyWorld(WorldAbstract):
     def __init__(self, robot: RobotAbstract):
         super().__init__(robot=robot)
 
-        # PARAMETERS MAP
+        # PARAMETERS WORLD
         self._size_area = (200, 200)
 
         # PLAYGROUND
@@ -49,15 +49,15 @@ class MyWorld(MapAbstract):
 
 def test_move():
     my_robot = MyRobot()
-    my_map = MyWorld(robot=my_robot)
+    my_world = MyWorld(robot=my_robot)
 
     robots_commands = {}
     for _ in range(100):
-        command = my_map.robot.control()
-        robots_commands[my_map.robot] = command
-        my_map._playground.step(commands=robots_commands)
+        command = my_world.robot.control()
+        robots_commands[my_world.robot] = command
+        my_world._playground.step(commands=robots_commands)
 
-    moved = my_map._playground.agents[0].true_position() != (0, 0)
+    moved = my_world._playground.agents[0].true_position() != (0, 0)
 
     assert moved is True
 
@@ -67,23 +67,23 @@ def test_lidar():
     Check values of the lidar
     """
     my_robot = MyRobot()
-    my_map = MyWorld(robot=my_robot)
+    my_world = MyWorld(robot=my_robot)
 
-    playground = my_map._playground
+    playground = my_world._playground
 
     for _ in range(1):
         playground.step()
 
     ok = True
-    if my_map.robot.lidar().get_sensor_values() is None:
+    if my_world.robot.lidar().get_sensor_values() is None:
         ok = False
 
-    w, h = my_map.size_area
+    w, h = my_world.size_area
     max_dist_theoretical = math.sqrt(w * w + h * h) / 2
     min_dist_theoretical = min(w, h) / 2
 
-    max_dist = max(my_map.robot.lidar().get_sensor_values())
-    min_dist = min(my_map.robot.lidar().get_sensor_values())
+    max_dist = max(my_world.robot.lidar().get_sensor_values())
+    min_dist = min(my_world.robot.lidar().get_sensor_values())
     # print("half_diag = ", half_diag)
     # print("max_dist = ", max_dist)
 
@@ -100,15 +100,15 @@ def test_lidar_nan():
     So, we don't have lidar value.
     """
     my_robot = MyRobot()
-    my_map = MyWorld(robot=my_robot)
+    my_world = MyWorld(robot=my_robot)
 
-    playground = my_map._playground
+    playground = my_world._playground
 
     ok = True
-    if my_map.robot.lidar().get_sensor_values() is None:
+    if my_world.robot.lidar().get_sensor_values() is None:
         ok = False
 
-    val = max(my_map.robot.lidar().get_sensor_values())
+    val = max(my_world.robot.lidar().get_sensor_values())
 
     assert ok is True and np.isnan(val)
 
@@ -118,27 +118,27 @@ def test_positions():
     Check values of the gps sensor
     """
     my_robot = MyRobot()
-    my_map = MyWorld(robot=my_robot)
+    my_world = MyWorld(robot=my_robot)
 
-    playground = my_map._playground
+    playground = my_world._playground
 
     for _ in range(1):
         playground.step()
 
     # -- ODOMETER -- #
-    odometer_array = my_map.robot.odometer_values()
+    odometer_array = my_world.robot.odometer_values()
     # odometer_array = array([-0.13856926, -0.01582876, -0.01264697])
     assert odometer_array is not None
     assert type(odometer_array) is np.ndarray
 
     # -- TRUE POSITION -- #
-    true_pos = my_map.robot.true_position()
+    true_pos = my_world.robot.true_position()
     # true_pos = Vec2d(12.3, 456.78)
     assert true_pos is not None
     assert type(true_pos) is pymunk.vec2d.Vec2d
 
     # -- TRUE ANGLE -- #
-    true_angle = my_map.robot.true_angle()
+    true_angle = my_world.robot.true_angle()
     # true_angle = 1.2345
     assert true_angle is not None
     assert type(true_angle) is float
@@ -149,18 +149,24 @@ def test_positions_nan():
     Check values of the gps sensor
     """
     my_robot = MyRobot()
-    my_map = MyWorld(robot=my_robot)
+    my_world = MyWorld(robot=my_robot)
 
-    playground = my_map._playground
+    playground = my_world._playground
 
     # -- ODOMETER -- #
-    odometer_array = my_map.robot.odometer_values()
+    odometer_array = my_world.robot.odometer_values()
     # odometer_array = array([-0.13856926, -0.01582876, -0.01264697])
     assert odometer_array is not None
     assert type(odometer_array) is np.ndarray
 
+    # -- TRUE POSITION -- #
+    true_pos = my_world.robot.true_position()
+    # true_pos = Vec2d(12.3, 456.78)
+    assert true_pos is not None
+    assert type(true_pos) is pymunk.vec2d.Vec2d
+
     # -- TRUE ANGLE -- #
-    true_angle = my_map.robot.true_angle()
+    true_angle = my_world.robot.true_angle()
     # true_angle = nan
     assert not np.isnan(true_angle)
     assert true_angle is not None

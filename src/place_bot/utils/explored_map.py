@@ -12,13 +12,13 @@ from place_bot.utils.utils import bresenham, circular_kernel
 
 class ExploredMap:
     """
-     Keep memory of which parts of the map was explored by the robot.
+     Keep memory of which parts of the world was explored by the robot.
      """
 
     def __init__(self):
         # img_playground : colored image of the playground without robot
         self._img_playground = np.zeros((0, 0))
-        # map_playground : black and white map of the playground and without robot
+        # map_playground : black and white world of the playground and without robot
         self._map_playground = np.zeros((0, 0))
 
         # _map_explo_lines : map of the point visited by robot (all positions of the robot)
