@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from spg_overlay.utils.utils import normalize_angle, sign
+from utils.utils import normalize_angle, sign
 
 
 def test_normalize_angle():
