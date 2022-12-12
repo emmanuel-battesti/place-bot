@@ -1,19 +1,12 @@
-PyYAML
-pymunk>=6.0.0
+arcade==2.6.16
+pymunk>=6.2.1
 numpy
-scikit-image
-Pillow
+pillow
 pytest
-opencv-contrib-python==4.5.5.64
+opencv-contrib-python>=4.5.5.64
 matplotlib
 setuptools
 spg @ git+https://github.com/emmanuel-battesti/simple-playgrounds.git@place-bot#egg=spg
 #-e /home/battesti/projetCompetRobotsDGA/simple-playgrounds
 #simple-playgrounds
 #spg
-fpdf
-pandas
-pathlib2
-gym
-arcade
-tripy
