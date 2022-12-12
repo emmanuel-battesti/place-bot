@@ -134,10 +134,10 @@ python3.8 -m pip install --upgrade pip
 python3.8 -m pip install -r requirements.txt
 ```
 
-- To test, you can launch:
+- To test, you can launch an example:
 
 ```bash
-python3.8 ./src/place_bot/launcher.py
+python3.8 ./examples/example.py
 ```
 
 ## Python IDE
@@ -154,7 +154,7 @@ This installation procedure has been tested with Windows 10. Installation is als
 ## *Python* installation
 
 - Open this link in your web browser:  https://www.python.org/downloads/windows/
-- Don't choose the lastest version of Python, but choose the 3.8 version. Currently (11/2022), it is the "*Python 3.8.10 - May 3, 2021*".
+- Don't choose the latest version of Python, but choose the 3.8 version. Currently (11/2022), it is the "*Python 3.8.10 - May 3, 2021*".
 - For modern machine, you have to choose the *Windows x86-64 executable installer*.
 - Once the installer is downloaded, run the Python installer.
 - **Important** : you should check the "**Add Python 3.8 to path**"  check box to include the interpreter in the execution path.
@@ -218,7 +218,7 @@ python -m pip install -r requirements.txt
 - To test, you can launch:
 
 ```bash
-python ./src/place_bot/launcher.py
+python ./examples/example.py
 ```
 
 # Elements of the environment
@@ -234,7 +234,7 @@ Robot is equipped with an odometry sensor that allow it to **estimate its positi
 
 ### Lidar sensor
 
-In the code, class *RobotLidar*.
+In the code, class *RobotLidar*, in the file src/place_bot/entities/robot_distance_sensors.py
 
 It emulates a lidar.
 
@@ -249,7 +249,7 @@ To visualize lidar sensor data, you should set the parameter *draw_lidar* parame
 
 ### Odometer sensor
 
-In the file *src/place_bot/spg_overlay/entities/robot_sensors.py*, it is described in the class *RobotOdometer*.
+In the file *src/place_bot/entities/robot_sensors.py*, it is described in the class *RobotOdometer*.
 
 This sensor returns an array of data containing:
 - dist_travel, the distance of the robot's movement during the last timestep.
@@ -273,7 +273,7 @@ You have 2 values to move your robot:
 - *forward_controller*, a float value between -1 and 1. This is a force apply to your robot in the longitudinal way.
 - *angular_vel_controller*, a float value between -1 and 1. This is the speed of rotation.
 
-You can find examples of actuator use in almost all files in *examples/* and *solutions/*.
+You can find examples of actuator use in almost all files in *examples/*.
 
 ## Playground
 
@@ -293,9 +293,36 @@ Each element has a position (x,y, theta), with x along the horizontal axis, y al
 
 ## Architecture of *Place-bot*
 
-### file *launcher.py*
+### Directory *src/place_bot*
 
-*launcher.py* is the main program file to launch a robot using your code.
+As its name indicates, this folder contains the code of the place_bot simulator.
+ It contains three main subdirectories:
+- *entities*: contains description of different entities used in the program.
+- *simu_world*: contains description of default world and the simulator interface.
+- *utils*: contains various functions and useful tools.
+
+We have also two others directories:
+- *resources*: contains the image for the sprite of the robot and the texture of the walls.
+- *tools*: contains tools to create complex worlds automatically.
+
+An important file is the *simu_world/simulator.py* which contains the class *Simulator*.
+If you want to use the keyboard to move the first robot, you should set the parameter *use_keyboard* to *True*.
+If you want to enable the visualization of the noises, you should set the parameter *enable_visu_noises* to *True*. It will show also a demonstration of the integration of odometer values, by drawing the estimated path.
+
+### Directory *examples*
+
+In the folder, you will find stand-alone programs to help you program with examples. In particular:
+- *display_lidar.py* shows a visualization of the lidar on a graph. You can see the noise added.
+- *example_keyboard.py* shows how to use the keyboard for development or debugging purpose. The usable keyboard keys :
+	- up / down key : forward and backward
+	- left / right key : turn left / right
+	- l key : display (or not) the lidar sensor
+	- q key : exit the program
+	- r key : reset
+
+### File *examples/example.py*
+
+*examples/example.py* is the main example file to launch a robot using your code.
 
 It will launch the robot that you will have customized in the world that you want, make it run.
 
@@ -310,33 +337,20 @@ class MyRobot(MyAwesomeRobot):
     pass
 ```
 
-*MyWorld* must inherit from the class of the world you want to use (here, in the example *MyWorldComplete01*). This world will be located in the folder *worlds*.
+*MyWorld* must inherit from the class of the world you want to use (here, in the example *MyWorldComplete01*). This world will be located in the folder *examples/worlds*.
 
-*MyRobot* must inherit from the class of the robot that you created (here, in the example, your awesome robot *MyAwesomeRobot*). This robot will be located in the folder *solutions*.
+*MyRobot* must inherit from the class of the robot that you created (here, in the example, your awesome robot *MyAwesomeRobot*). This robot will be located in the folder *examples/robots*.
 
-### directory *spg_overlay*
 
-As its name indicates, this folder is a software overlay of the spg (simple-playground) code.
- It contains three sub-directories:
- - *entities*: contains description of differents entities used in the program.
-- *simu_world*: contains description of default world and the simulator interface.
-- *utils*: contains various functions and useful tools.
+### Directory *examples/worlds*
 
-The files it contains must *not* be modified. It contains the definition of the class *Robot*, of the class of the sensors, etc.
-
-An important file is the *simu_world/simulator.py* which contains the class *Simulator*.
-If you want to use the keyboard to move the first robot, you should set the parameter *use_keyboard* to *True*.
-If you want to enable the visualization of the noises, you should set the parameter *enable_visu_noises* to *True*. It will show also a demonstration of the integration of odometer values, by drawing the estimated path.
-
-### directory *worlds*
-
-This directory contains the worlds in which the robot can move. New worlds may appear for new missions with the updates of this repository. You can also make your own worlds based on existing ones.
+This directory contains the worlds in which the robot can move. They are only used here as examples. You can make your own worlds based on existing ones.
 
 Each world must inherit from the class *WorldAbstract*.
 
-### directory *solutions*
+### Directory *examples/robots*
 
-This repository will contain your solutions. Taking inspiration from what is there and going beyond, you will put in the code that will define your robot and how it interacts with their environment.
+This directory contains some robots. They are only used here as examples. By taking inspiration from what is there and going beyond it, you will implement the code that will define your robot and the way it interacts with its environment.
 
 Each Robot must inherit from the class *RobotAbstract*. You have one mandatory member functions: **control()** that will give the action to do for each time step.
 
@@ -346,21 +360,6 @@ The true position of the robot can be accessed with the functions *true_position
 
 Some examples are provided:
 - *my_robot_random.py* shows the actuators
-
-### directory *examples*
-
-In the folder, you will find stand-alone programs to help you program with examples. In particular:
-- *display_lidar.py* shows a visualization of the lidar on a graph. You can see the noise added.
-- *example_keyboard.py* shows how to use the keyboard for development or debugging purpose. The usable keyboard keys :
-	- up / down key : forward and backward
-	- left / right key : turn left / right
-	- l key : display (or not) the lidar sensor
-	- q key : exit the program
-	- r key : reset
-
-### directory *tools*
-
-In this directory, you may find some tools... For example, the program *image_to_world.py* allows to build a world from a black and white image.
 
 ## Submission
 
