@@ -78,7 +78,7 @@ class RobotLidar(RobotDistanceSensor):
     def __init__(self, noise=True, invisible_elements=None, **kwargs):
         super().__init__(normalize=False,
                          fov=360,
-                         resolution=181,
+                         resolution=361,
                          max_range=600,
                          invisible_elements=invisible_elements,
                          noise=noise,
