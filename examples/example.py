@@ -1,4 +1,3 @@
-from solutions.my_robot_eval import MyRobotEval
 from place_bot.utils.screen_recorder import ScreenRecorder
 from place_bot.simu_world.simulator import Simulator
 
@@ -7,14 +6,14 @@ from worlds.world_complete_01 import MyWorldComplete01
 from worlds.world_complete_02 import MyWorldComplete02
 
 
-# from solutions.my_robot_random import MyRobotRandom
+from robots.my_robot_random import MyRobotRandom
 
 
 class MyWorld(MyWorldComplete02):
     pass
 
 
-class MyRobot(MyRobotEval):
+class MyRobot(MyRobotRandom):
     pass
 
 
