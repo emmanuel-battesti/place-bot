@@ -361,14 +361,6 @@ The true position of the robot can be accessed with the functions *true_position
 Some examples are provided:
 - *my_robot_random.py* shows the actuators
 
-## Submission
-
-At the end of the course, you will have to submit your solution to your teacher. The teacher will have this same software to evaluate your solution.
-
-Be careful, you will provide only:
-- the code to run your simulated robot, which will only come from the *solutions* directory,
-- the list of new dependencies needed to make your robot work.
-
 ## Various tips
 
 - To exit elegantly after launching a world, press 'q'.
