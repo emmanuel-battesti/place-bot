@@ -2,7 +2,7 @@
 
 - [Installation on Ubuntu](#installation-on-ubuntu)
 - [Installation on Windows 10](#installation-on-windows-10)
-- 
+
 # Installation on Ubuntu
 
 This installation procedure has been tested with Ubuntu 18.04 and 20.04.
