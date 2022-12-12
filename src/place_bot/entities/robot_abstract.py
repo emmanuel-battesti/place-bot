@@ -5,7 +5,7 @@ from enum import IntEnum
 from spg.agent.agent import Agent
 
 from place_bot.entities.robot_base import RobotBase
-from place_bot.entities.robot_distance_sensors import RobotLidar
+from place_bot.entities.robot_distance_sensors import RobotLidar, LidarParameters
 from place_bot.entities.robot_sensors import RobotOdometer
 
 import matplotlib.pyplot as plt
@@ -23,13 +23,15 @@ class RobotAbstract(Agent):
         LIDAR = 0
         ODOMETER = 1
 
-    def __init__(self, should_display_lidar=False):
+    def __init__(self,
+                 should_display_lidar=False,
+                 lidar_parameters: LidarParameters = LidarParameters()):
         super().__init__(interactive=True, lateral=False, radius=10)
 
         base = RobotBase()
         self.add(base)
 
-        self.base.add(RobotLidar(invisible_elements=self._parts))
+        self.base.add(RobotLidar(lidar_parameters=lidar_parameters, invisible_elements=self._parts))
         self.base.add(RobotOdometer())
 
         self._should_display_lidar = should_display_lidar

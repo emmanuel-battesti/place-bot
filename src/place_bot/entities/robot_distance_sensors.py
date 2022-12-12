@@ -18,12 +18,33 @@ def compute_ray_angles(fov_rad: float, nb_rays: int) -> np.ndarray:
     return np.array(ray_angles)
 
 
-class RobotDistanceSensor(DistanceSensor):
-    def __init__(self, noise=True, **kwargs):
-        super().__init__(**kwargs)
+class LidarParameters:
+    fov = 360
+    resolution = 361
+    max_range = 600
+    noise_enable = True
+    std_dev_noise = 2.5
 
-        self._noise = noise
-        self._std_dev_noise = 2.5
+
+class RobotLidar(DistanceSensor):
+    """
+    It emulates a lidar.
+    Lidar is an acronym of "light detection and ranging".
+    It is a real sensor that measures distances with a laser in different directions.
+    - fov (field of view): 360 degrees
+    - resolution (number of rays): 181
+    - max range (maximum range of the sensor): 300 pix
+    """
+    def __init__(self, lidar_parameters: LidarParameters = LidarParameters(), invisible_elements=None, **kwargs):
+        super().__init__(normalize=False,
+                         fov=lidar_parameters.fov,
+                         resolution=lidar_parameters.resolution,
+                         max_range=lidar_parameters.max_range,
+                         invisible_elements=invisible_elements,
+                         **kwargs)
+
+        self._noise = lidar_parameters.noise_enable
+        self._std_dev_noise = lidar_parameters.std_dev_noise
         self._noise_model = GaussianNoise(mean_noise=0, std_dev_noise=self._std_dev_noise)
 
         self._values = self._default_value
@@ -64,22 +85,3 @@ class RobotDistanceSensor(DistanceSensor):
     def shape(self):
         return self._resolution,
 
-
-class RobotLidar(RobotDistanceSensor):
-    """
-    It emulates a lidar.
-    Lidar is an acronym of "light detection and ranging".
-    It is a real sensor that measures distances with a laser in different directions.
-    - fov (field of view): 360 degrees
-    - resolution (number of rays): 181
-    - max range (maximum range of the sensor): 300 pix
-    """
-
-    def __init__(self, noise=True, invisible_elements=None, **kwargs):
-        super().__init__(normalize=False,
-                         fov=360,
-                         resolution=361,
-                         max_range=600,
-                         invisible_elements=invisible_elements,
-                         noise=noise,
-                         **kwargs)
