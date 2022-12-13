@@ -46,7 +46,7 @@ Robot is composed of different body parts attached to a *Base*.
 
 Robot **perceives his surroundings** through a first-person view sensor : the *Lidar* sensor.
 
-Robot is equipped with an odometry sensor that allow it to **estimate its position and orientation**. The odometer provides us positions and orientation relative to the previous position of the robot.
+Robot is equipped with an odometry sensor that allow it to **estimate its position and orientation**. The odometer provides us current position and orientation relative to the first position of the robot.
 
 ### Lidar sensor
 
@@ -67,17 +67,15 @@ To visualize lidar sensor data, you should set the parameter *draw_lidar* parame
 
 In the file *src/place_bot/entities/robot_sensors.py*, it is described in the class *RobotOdometer*.
 
-This sensor returns an array of data containing:
+This sensor returns an array of data containing the pose of the robot by integrating its displacement at each step.
+Its displacement is :
 - dist_travel, the distance of the robot's movement during the last timestep.
 - alpha, the relative angle of the current position with respect to the previous reference frame of the robot
 - theta, the orientation variation (or rotation) of the robot during the last step in the reference frame
-     
-Those data are relative the previous position of the robot. Usually, we use odometry by integrating measurements over time to get an estimate of the current position of the robot.
 
-Angles, alpha and theta, increase with a counter-clockwise rotation of the robot. Their value is between -Pi and Pi.
 Gaussian noise was added separately to the three parts of the data to make them look like real noise.
 
-![odometer values](img/odom.png)
+We use those noisy odometry data by integrating measurements over time to finally get an estimate of the current position of the robot.
 
 If you want to enable the visualization of the noises, you should set the parameter *enable_visu_noises* to *True*. It will show also a demonstration of the integration of odometer values, by drawing the estimated path.
 

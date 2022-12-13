@@ -127,7 +127,7 @@ def test_positions():
 
     # -- ODOMETER -- #
     odometer_array = my_world.robot.odometer_values()
-    # odometer_array = array([-0.13856926, -0.01582876, -0.01264697])
+    # odometer_array = array([138.56926, 158.2876, -0.01264697])
     assert odometer_array is not None
     assert type(odometer_array) is np.ndarray
 
@@ -155,7 +155,7 @@ def test_positions_nan():
 
     # -- ODOMETER -- #
     odometer_array = my_world.robot.odometer_values()
-    # odometer_array = array([-0.13856926, -0.01582876, -0.01264697])
+    # odometer_array = array([138.56926, 158.2876, -0.01264697])
     assert odometer_array is not None
     assert type(odometer_array) is np.ndarray
 

@@ -35,13 +35,11 @@ class VisuNoises:
                                                            playground_size[1] / 2)
 
         self._scr_pos_odom: Dict[RobotAbstract, deque[Tuple[int, int, float]]] = {}
-        self._last_world_pos_odom: Dict[RobotAbstract, Tuple[float, float, float]] = {}
         self._scr_pos_true: Dict[RobotAbstract, deque[Tuple[float, float, float]]] = {}
         self._max_size_circular_buffer = 150
 
     def reset(self):
         self._scr_pos_odom.clear()
-        self._last_world_pos_odom.clear()
         self._scr_pos_true.clear()
 
     def draw(self, enable: bool = True):
@@ -106,23 +104,14 @@ class VisuNoises:
                 self._scr_pos_true[self._robot] = deque([pos], maxlen=self._max_size_circular_buffer)
 
         # ODOMETER
-        dist, alpha, theta = (0.0, 0.0, 0.0)
+        x, y, orient = (0.0, 0.0, 0.0)
         if not self._robot.odometer_is_disabled():
-            dist, alpha, theta = tuple(self._robot.odometer_values())
-        if self._robot in self._last_world_pos_odom:
-            x, y, orient = self._last_world_pos_odom[self._robot]
-            new_x = x + dist * math.cos(alpha + orient)
-            new_y = y + dist * math.sin(alpha + orient)
-            new_orient = orient + theta
-
-            self._last_world_pos_odom[self._robot] = (new_x, new_y, new_orient)
-            new_pos_odom_screen = self.conv_world2screen(pos_world=(new_x, new_y),
-                                                         angle=new_orient)
+            x, y, orient = tuple(self._robot.odometer_values())
+            new_pos_odom_screen = self.conv_world2screen(pos_world=(x, y), angle=orient)
             self._scr_pos_odom[self._robot].append(new_pos_odom_screen)
         else:
             x, y = tuple(self._robot.true_position())
             orient = self._robot.true_angle()
-            self._last_world_pos_odom[self._robot] = (x, y, orient)
             new_pos_odom_screen = self.conv_world2screen(pos_world=(x, y), angle=orient)
             self._scr_pos_odom[self._robot] = deque([new_pos_odom_screen],
                                                     maxlen=self._max_size_circular_buffer)

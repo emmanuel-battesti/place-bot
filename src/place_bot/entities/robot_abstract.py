@@ -61,35 +61,20 @@ class RobotAbstract(Agent):
     def lidar_is_disabled(self):
         return self.lidar().is_disabled()
 
-    # def measured_velocity(self):
-    #     """
-    #     Give the measured velocity of the robot, in pixels per second
-    #     You must use this value for your calculation in the control() function.
-    #     """
-    #     speed = self.odometer_values()[0]
-    #     angle = self.compass_values()
-    #     vx = speed * math.cos(angle)
-    #     vy = speed * math.sin(angle)
-    #     return vx, vy
-
-    def measured_angular_velocity(self):
-        """
-        Give the measured angular velocity of the robot, in radians per second
-        You must use this value for your calculation in the control() function.
-        """
-        return self.odometer_values()[2]
-
     def odometer_is_disabled(self):
         return self.sensors[self.SensorType.ODOMETER].is_disabled()
 
     def odometer_values(self):
+        """
+        Give the estimated pose after integration of odometer's delta
+        """
         return self.sensors[self.SensorType.ODOMETER].get_sensor_values()
 
     def true_position(self):
         """
         Give the true orientation of the robot, in pixels
-        You must NOT use this value for your calculation in the control() function, you should
-        compute an estimated position from odometry values.
+        You must NOT use this value for your calculation in the control() function, instead you
+        should use the position estimated by the odometer sensor.
         But you can use it for debugging or logging.
         """
         return self.position
@@ -97,8 +82,8 @@ class RobotAbstract(Agent):
     def true_angle(self):
         """
         Give the true orientation of the robot, in radians between 0 and 2Pi.
-        You must NOT use this value for your calculation in the control() function, you should
-        compute an estimated angle from odometry values.
+        You must NOT use this value for your calculation in the control() function, instead you
+        should use the position estimated by the odometer sensor.
         But you can use it for debugging or logging.
         """
         return normalize_angle(self.angle)
@@ -106,16 +91,18 @@ class RobotAbstract(Agent):
     def true_velocity(self):
         """
         Give the true velocity of the robot, in pixels per second
-        You must NOT use this value for your calculation in the control() function, you should use
-        odometry data instead. But you can use it for debugging or logging.
+        You must NOT use this value for your calculation in the control() function, instead you
+        should use the position estimated by the odometer sensor.
+        But you can use it for debugging or logging.
         """
         return self.base.velocity
 
     def true_angular_velocity(self):
         """
         Give the true angular velocity of the robot, in radians per second
-        You must NOT use this value for your calculation in the control() function, you should use
-        odometry data instead. But you can use it for debugging or logging.
+        You must NOT use this value for your calculation in the control() function, instead you
+        should use the position estimated by the odometer sensor.
+        But you can use it for debugging or logging.
         """
         return self.base.angular_velocity
 
