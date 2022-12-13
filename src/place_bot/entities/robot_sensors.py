@@ -21,17 +21,17 @@ class RobotOdometer(InternalSensor):
         self._noise = True
 
         self.std_dev_dist_travel = 0.2
-        self.model_param_travel = 0.5
+        self.model_param_travel = 0.2
         self._noise_dist_travel_model = AutoregressiveModelNoise(model_param=self.model_param_travel,
                                                                  std_dev_noise=self.std_dev_dist_travel)
 
         self.std_dev_alpha = deg2rad(5.0)
-        self.model_param_alpha = 0.5
+        self.model_param_alpha = 0.2
         self._noise_alpha_model = AutoregressiveModelNoise(model_param=self.model_param_alpha,
                                                            std_dev_noise=self.std_dev_alpha)
 
         self.std_dev_theta = deg2rad(0.6)  # 0.6 deg = 0.0105 rad
-        self.model_param_theta = 0.5
+        self.model_param_theta = 0.2
         self._noise_theta_model = AutoregressiveModelNoise(model_param=self.model_param_theta,
                                                            std_dev_noise=self.std_dev_theta)
 
