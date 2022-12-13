@@ -93,10 +93,13 @@ class VisuNoises:
         if not self._scr_pos_true:
             self._scr_pos_true = {None: deque(maxlen=self._max_size_circular_buffer)}
 
+        if not self._scr_pos_odom:
+            self._scr_pos_odom = {None: deque(maxlen=self._max_size_circular_buffer)}
+
         # TRUE VALUES
         true_position = self._robot.true_position()
         true_angle = self._robot.true_angle()
-        if true_position and true_angle:
+        if true_position is not None and true_angle is not None:
             pos = self.conv_world2screen(pos_world=true_position, angle=true_angle)
             if self._robot in self._scr_pos_true:
                 self._scr_pos_true[self._robot].append(pos)
@@ -107,14 +110,11 @@ class VisuNoises:
         x, y, orient = (0.0, 0.0, 0.0)
         if not self._robot.odometer_is_disabled():
             x, y, orient = tuple(self._robot.odometer_values())
-            new_pos_odom_screen = self.conv_world2screen(pos_world=(x, y), angle=orient)
-            self._scr_pos_odom[self._robot].append(new_pos_odom_screen)
-        else:
-            x, y = tuple(self._robot.true_position())
-            orient = self._robot.true_angle()
-            new_pos_odom_screen = self.conv_world2screen(pos_world=(x, y), angle=orient)
-            self._scr_pos_odom[self._robot] = deque([new_pos_odom_screen],
-                                                    maxlen=self._max_size_circular_buffer)
+            pos_odom_screen = self.conv_world2screen(pos_world=(x, y), angle=orient)
+            if self._robot in self._scr_pos_odom:
+                self._scr_pos_odom[self._robot].append(pos_odom_screen)
+            else:
+                self._scr_pos_odom[self._robot] = deque([pos_odom_screen], maxlen=self._max_size_circular_buffer)
 
     def conv_world2screen(self, pos_world: Tuple[float, float], angle: float):
         if math.isnan(pos_world[0]) or math.isnan(pos_world[1]) or math.isnan(angle):
