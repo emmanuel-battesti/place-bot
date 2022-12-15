@@ -6,7 +6,7 @@ from spg.agent.agent import Agent
 
 from place_bot.entities.robot_base import RobotBase
 from place_bot.entities.robot_distance_sensors import RobotLidar, LidarParameters
-from place_bot.entities.robot_sensors import RobotOdometer
+from place_bot.entities.robot_odometer import RobotOdometer
 
 import matplotlib.pyplot as plt
 

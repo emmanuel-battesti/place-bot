@@ -70,6 +70,10 @@ class RobotOdometer(InternalSensor):
         self.integration()
 
     def integration(self):
+        """
+        Compute a new position of the robot by adding noisy displacement (delta) to the previous
+        position. It updates self._values.
+        """
         dist, alpha, theta = (0.0, 0.0, 0.0)
         if not self.is_disabled():
             dist, alpha, theta = tuple(self._delta)
