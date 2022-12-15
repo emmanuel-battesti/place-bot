@@ -50,7 +50,7 @@ Robot is equipped with an odometry sensor that allow it to **estimate its positi
 
 ### Lidar sensor
 
-In the code, class *RobotLidar*, in the file src/place_bot/entities/robot_distance_sensors.py
+In the code, class *Lidar*, in the file src/place_bot/entities/lidar.py
 
 It emulates a lidar.
 
@@ -65,7 +65,7 @@ To visualize lidar sensor data, you should set the parameter *draw_lidar* parame
 
 ### Odometer sensor
 
-In the file *src/place_bot/entities/robot_sensors.py*, it is described in the class *RobotOdometer*.
+In the file *src/place_bot/entities/odometer.py*, it is described in the class *Odometer*.
 
 This sensor returns an array of data containing the pose of the robot by integrating its displacement at each step.
 Its displacement is :

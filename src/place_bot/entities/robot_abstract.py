@@ -5,10 +5,10 @@ from enum import IntEnum
 from spg.agent.agent import Agent
 
 from place_bot.entities.robot_base import RobotBase
-from place_bot.entities.robot_lidar import RobotLidar, LidarParameters
-# from place_bot.entities.robot_odometer import RobotOdometer
-# from place_bot.entities.robot_odometer_v2 import RobotOdometerV2
-from place_bot.entities.robot_odometer_v3 import RobotOdometerV3
+from place_bot.entities.lidar import Lidar, LidarParams
+# from place_bot.entities.odometer import Odometer
+# from place_bot.entities.odometer_v2 import OdometerV2
+from place_bot.entities.odometer_v3 import OdometerV3
 from place_bot.utils.utils import normalize_angle
 
 import matplotlib.pyplot as plt
@@ -26,14 +26,14 @@ class RobotAbstract(Agent):
 
     def __init__(self,
                  should_display_lidar=False,
-                 lidar_parameters: LidarParameters = LidarParameters()):
+                 lidar_params: LidarParams = LidarParams()):
         super().__init__(interactive=True, lateral=False, radius=10)
 
         base = RobotBase()
         self.add(base)
 
-        self.base.add(RobotLidar(lidar_parameters=lidar_parameters, invisible_elements=self._parts))
-        self.base.add(RobotOdometerV3())
+        self.base.add(Lidar(lidar_params=lidar_params, invisible_elements=self._parts))
+        self.base.add(OdometerV3())
 
         self._should_display_lidar = should_display_lidar
 

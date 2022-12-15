@@ -8,9 +8,9 @@ from place_bot.utils.utils import deg2rad, rad2deg, normalize_angle
 from place_bot.utils.utils_noise import AutoregressiveModelNoise, GaussianNoise
 
 
-class RobotOdometerV3(InternalSensor):
+class OdometerV3(InternalSensor):
     """
-      RobotOdometer sensor returns a numpy array containing:
+      Odometer sensor returns a numpy array containing:
       - dist_travel, the distance of the travel of the robot during one step
       - alpha, the relative angle of the current position seen from the previous reference frame of the robot
       - theta, the variation of orientation (or rotation) of the robot during the last step in the reference frame

@@ -18,7 +18,7 @@ def compute_ray_angles(fov_rad: float, nb_rays: int) -> np.ndarray:
     return np.array(ray_angles)
 
 
-class LidarParameters:
+class LidarParams:
     fov = 360
     resolution = 361
     max_range = 600
@@ -26,7 +26,7 @@ class LidarParameters:
     std_dev_noise = 2.5
 
 
-class RobotLidar(DistanceSensor):
+class Lidar(DistanceSensor):
     """
     It emulates a lidar.
     Lidar is an acronym of "light detection and ranging".
@@ -35,16 +35,16 @@ class RobotLidar(DistanceSensor):
     - resolution (number of rays): 181
     - max range (maximum range of the sensor): 300 pix
     """
-    def __init__(self, lidar_parameters: LidarParameters = LidarParameters(), invisible_elements=None, **kwargs):
+    def __init__(self, lidar_params: LidarParams = LidarParams(), invisible_elements=None, **kwargs):
         super().__init__(normalize=False,
-                         fov=lidar_parameters.fov,
-                         resolution=lidar_parameters.resolution,
-                         max_range=lidar_parameters.max_range,
+                         fov=lidar_params.fov,
+                         resolution=lidar_params.resolution,
+                         max_range=lidar_params.max_range,
                          invisible_elements=invisible_elements,
                          **kwargs)
 
-        self._noise = lidar_parameters.noise_enable
-        self._std_dev_noise = lidar_parameters.std_dev_noise
+        self._noise = lidar_params.noise_enable
+        self._std_dev_noise = lidar_params.std_dev_noise
         self._noise_model = GaussianNoise(mean_noise=0, std_dev_noise=self._std_dev_noise)
 
         self._values = self._default_value
