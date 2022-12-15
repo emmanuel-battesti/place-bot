@@ -8,7 +8,7 @@ from place_bot.entities.robot_base import RobotBase
 from place_bot.entities.lidar import Lidar, LidarParams
 # from place_bot.entities.odometer import Odometer
 # from place_bot.entities.odometer_v2 import OdometerV2
-from place_bot.entities.odometer_v3 import OdometerV3
+from place_bot.entities.odometer_v3 import OdometerV3, OdometerParams
 from place_bot.utils.utils import normalize_angle
 
 import matplotlib.pyplot as plt
@@ -26,14 +26,15 @@ class RobotAbstract(Agent):
 
     def __init__(self,
                  should_display_lidar=False,
-                 lidar_params: LidarParams = LidarParams()):
+                 lidar_params: LidarParams = LidarParams(),
+                 odometer_params: OdometerParams = OdometerParams()):
         super().__init__(interactive=True, lateral=False, radius=10)
 
         base = RobotBase()
         self.add(base)
 
         self.base.add(Lidar(lidar_params=lidar_params, invisible_elements=self._parts))
-        self.base.add(OdometerV3())
+        self.base.add(OdometerV3(odometer_params=odometer_params))
 
         self._should_display_lidar = should_display_lidar
 

@@ -8,6 +8,13 @@ from place_bot.utils.utils import deg2rad, rad2deg, normalize_angle
 from place_bot.utils.utils_noise import AutoregressiveModelNoise, GaussianNoise
 
 
+class OdometerParams:
+    param1 = 0.2  # 0.2  # meter/meter, influence of translation to translation
+    param2 = 0.1  # 0.1  # meter/degree, influence of rotation to translation
+    param3 = 0.02  # 0.02 # degree/meter, influence of translation to rotation
+    param4 = 0.01  # 0.01 # degree/degree, influence of rotation to rotation
+
+
 class OdometerV3(InternalSensor):
     """
       Odometer sensor returns a numpy array containing:
@@ -26,15 +33,14 @@ class OdometerV3(InternalSensor):
       calculations of the noise...
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, odometer_params: OdometerParams = OdometerParams(), **kwargs):
         super().__init__(**kwargs)
         self._noise = True
 
-        self.param1 = 0.2  # 0.2  # meter/meter, influence of translation to translation
-        self.param2 = 0.1 # 0.1  # meter/degree, influence of rotation to translation
-        self.param3 = 0.02 # 0.02 # degree/meter, influence of translation to rotation
-        self.param4 = 0.01 # 0.01 # degree/degree, influence of rotation to rotation
-
+        self.param1 = odometer_params.param1
+        self.param2 = odometer_params.param2
+        self.param3 = odometer_params.param3
+        self.param4 = odometer_params.param4
 
         self._values = self._default_value
         self._dist = 0
