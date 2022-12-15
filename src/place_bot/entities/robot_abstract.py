@@ -6,11 +6,12 @@ from spg.agent.agent import Agent
 
 from place_bot.entities.robot_base import RobotBase
 from place_bot.entities.robot_lidar import RobotLidar, LidarParameters
-from place_bot.entities.robot_odometer import RobotOdometer
+# from place_bot.entities.robot_odometer import RobotOdometer
+# from place_bot.entities.robot_odometer_v2 import RobotOdometerV2
+from place_bot.entities.robot_odometer_v3 import RobotOdometerV3
+from place_bot.utils.utils import normalize_angle
 
 import matplotlib.pyplot as plt
-
-from place_bot.utils.utils import normalize_angle
 
 
 class RobotAbstract(Agent):
@@ -32,7 +33,7 @@ class RobotAbstract(Agent):
         self.add(base)
 
         self.base.add(RobotLidar(lidar_parameters=lidar_parameters, invisible_elements=self._parts))
-        self.base.add(RobotOdometer())
+        self.base.add(RobotOdometerV3())
 
         self._should_display_lidar = should_display_lidar
 
