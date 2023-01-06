@@ -13,7 +13,7 @@ class OdometerParams:
     param4 = 0.01  # 0.01 # degree/degree, influence of rotation to rotation
 
 
-class OdometerV3(InternalSensor):
+class Odometer(InternalSensor):
     """
       Odometer sensor returns a numpy array containing:
       - dist_travel, the distance of the travel of the robot during one step
