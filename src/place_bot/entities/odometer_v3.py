@@ -1,11 +1,9 @@
 import math
-from abc import ABC
 
 import numpy as np
 
 from spg.agent.sensor.internal import InternalSensor
-from place_bot.utils.utils import deg2rad, rad2deg, normalize_angle
-from place_bot.utils.utils_noise import AutoregressiveModelNoise, GaussianNoise
+from place_bot.utils.utils import rad2deg, normalize_angle
 
 
 class OdometerParams:
