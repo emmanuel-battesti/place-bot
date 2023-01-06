@@ -7,9 +7,9 @@ from place_bot.utils.utils import rad2deg, normalize_angle
 
 
 class OdometerParams:
-    param1 = 0.2  # 0.2  # meter/meter, influence of translation to translation
+    param1 = 0.3  # 0.3  # meter/meter, influence of translation to translation
     param2 = 0.1  # 0.1  # meter/degree, influence of rotation to translation
-    param3 = 0.02  # 0.02 # degree/meter, influence of translation to rotation
+    param3 = 0.04  # 0.04 # degree/meter, influence of translation to rotation
     param4 = 0.01  # 0.01 # degree/degree, influence of rotation to rotation
 
 
