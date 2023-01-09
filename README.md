@@ -25,11 +25,11 @@ The game engine, based on [Pymunk](http://www.pymunk.org) and [Arcade](https://a
 
 ## Game Engine
 
-In *Simple-Playgrounds*, the game engine used is *Arcade*. Robot enters a Playground, and starts acting and perceiving within this environment. The perception/action/communication loop is managed by the game engine. At each time step, all perception is acquired. Then according to actions to do, robot is moved. Everything is synchronized, unlike what you would get on a real robot.
+In *Simple-Playgrounds*, the game engine used is *Arcade*. The robot enters a Playground, and starts acting and perceiving within the environment. The perception/action/communication loop is managed by the game engine. At each time step, all perception is acquired. Then according to actions to do, robot is moved. Everything is synchronized, unlike what you would get on a real robot.
 
 ## Physics Engine
 
-In *Simple-Playgrounds*, the 2d physics library *Pymunk* is used. The physic engine deals with simple physics, such as collision and friction. This gives a mass and inertia to all objects.
+In *Simple-Playgrounds*, the 2D physics library *Pymunk* is used. The physics engine handles simple physics, such as collision and friction. This gives a mass and inertia to all objects.
 
 # Installation
 
@@ -58,8 +58,8 @@ It emulates a lidar.
 - *resolution* (number of rays): 181
 - *max range* (maximum range of the sensor): 300 pixels
 
-A gaussian noise has been added to the distance.
-As the *fov* is 360°, the first (at -Pi rad) and the last value (at Pi) should be the same.
+A gaussian noise is added to the distance measurements.
+As the field of view (fov) is 360°, the first (at -Pi rad) and the last value (at Pi) should be the same.
 
 To visualize lidar sensor data, you should set the parameter *draw_lidar* parameter of the *Simulator* class to *True*.
 
