@@ -5,27 +5,38 @@ from spg.agent.sensor import DistanceSensor
 
 from place_bot.utils.utils_noise import GaussianNoise
 
-
+# Helper function that computes the angles of the laser rays of the sensor
 def compute_ray_angles(fov_rad: float, nb_rays: int) -> np.ndarray:
+    # Compute the angle between consecutive rays
     a = fov_rad / (nb_rays - 1)
+    # Compute the angle of the first ray (at the center of the FOV)
     b = fov_rad / 2
     if nb_rays == 1:
+        # For one ray, the angle is 0
         ray_angles = [0.]
     else:
+        # For multiple rays, compute the angles of each ray
         ray_angles = [n * a - b for n in range(nb_rays)]
 
-    # 'ray_angles' is an array which contains the angles of the laser rays of the sensor
+    # Return the ray angles as a numpy array
     return np.array(ray_angles)
 
 
+# Class that holds the parameters of a Lidar instance
 class LidarParams:
+    # Field of view (FOV) in degrees
     fov = 360
+    # Resolution (number of rays)
     resolution = 361
+    # Maximum range (maximum distance that the sensor can measure) in pixels
     max_range = 600
+    # Flag that enables/disables noise
     noise_enable = True
+    # Standard deviation of the noise to add to sensor readings
     std_dev_noise = 2.5
 
 
+# Class that emulates a Lidar sensor
 class Lidar(DistanceSensor):
     """
     It emulates a lidar.
@@ -36,6 +47,7 @@ class Lidar(DistanceSensor):
     - max range (maximum range of the sensor): 300 pix
     """
     def __init__(self, lidar_params: LidarParams = LidarParams(), invisible_elements=None, **kwargs):
+        # Initialize the base class
         super().__init__(normalize=False,
                          fov=lidar_params.fov,
                          resolution=lidar_params.resolution,
@@ -43,13 +55,16 @@ class Lidar(DistanceSensor):
                          invisible_elements=invisible_elements,
                          **kwargs)
 
+        # Set the noise flag and standard deviation
         self._noise = lidar_params.noise_enable
         self._std_dev_noise = lidar_params.std_dev_noise
+        # Create a noise model based on Gaussian noise
         self._noise_model = GaussianNoise(mean_noise=0, std_dev_noise=self._std_dev_noise)
 
+        # Set the sensor values to the default value (nan)
         self._values = self._default_value
 
-        # 'ray_angles' is an array which contains the angles of the laser rays of the sensor
+        # Compute the ray angles
         self.ray_angles = compute_ray_angles(fov_rad=self.fov_rad(), nb_rays=self.resolution)
 
     def fov_rad(self):
@@ -68,19 +83,26 @@ class Lidar(DistanceSensor):
         return self._disabled
 
     def _apply_noise(self):
+        """Add noise to the sensor values"""
         self._values = self._noise_model.add_noise(self._values)
 
     def draw(self):
+        """Draw the Lidar"""
+        # Check if hitpoints are defined
         hitpoints_ok = not isinstance(self._hitpoints, int)
+        # If hitpoints are defined, call the base class draw method
         if hitpoints_ok:
             super().draw()
 
+    # Property that returns the default value for the sensor values
     @property
     def _default_value(self):
+        # Create an array of nan with the same shape as the Lidar's resolution
         null_sensor = np.empty(self.shape)
         null_sensor[:] = np.nan
         return null_sensor
 
+    # Property that returns the shape of the sensor values
     @property
     def shape(self):
         return self._resolution,

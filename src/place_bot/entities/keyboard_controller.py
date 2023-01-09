@@ -21,6 +21,7 @@ class KeyboardController:
                 self._command["rotation"] = -1.0
 
     def on_key_release(self, key, modifiers):
+        """Called whenever a key is released."""
         if self._command:
 
             if key == arcade.key.UP:

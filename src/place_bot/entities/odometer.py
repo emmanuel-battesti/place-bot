@@ -7,6 +7,15 @@ from place_bot.utils.utils import rad2deg, normalize_angle
 
 
 class OdometerParams:
+    """
+    Class containing parameters for the Odometer sensor
+
+    Parameters:
+    - param1 (float): Influence of translation on translation
+    - param2 (float): Influence of rotation on translation
+    - param3 (float): Influence of translation on rotation
+    - param4 (float): Influence of rotation on rotation
+    """
     param1 = 0.3  # 0.3  # meter/meter, influence of translation to translation
     param2 = 0.1  # 0.1  # meter/degree, influence of rotation to translation
     param3 = 0.04  # 0.04 # degree/meter, influence of translation to rotation
@@ -32,6 +41,13 @@ class Odometer(InternalSensor):
     """
 
     def __init__(self, odometer_params: OdometerParams = OdometerParams(), **kwargs):
+        """
+        Initialize the Odometer sensor instance.
+
+        Parameters:
+        - odometer_params: an OdometerParams instance containing parameters for the sensor
+        - kwargs: other keyword arguments
+        """
         super().__init__(**kwargs)
         self._noise = True
 
@@ -48,6 +64,9 @@ class Odometer(InternalSensor):
         self.prev_position = None
 
     def _compute_raw_sensor(self):
+        """
+        Compute the distance traveled, relative angle, and variation of orientation for the robot.
+        """
         # DIST_TRAVEL
         if self.prev_position is None:
             self.prev_position = self._anchor.position
