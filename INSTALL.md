@@ -93,17 +93,27 @@ source env/bin/activate
 
 To deactivate this virtual environment, simply type: `deactivate`
 
-- With this virtual environment activated, we can install all the dependency with the command:
+- With this virtual *environment activated*, we can install all the dependency with the command:
 
 ```bash
-python3.8 -m pip install --upgrade pip
-python3.8 -m pip install -r requirements.txt
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
 
-- To test, you can launch an example:
+- To test, we can launch a example from the folder examples. Before that, the librairy have to be install with the command :
 
 ```bash
-python3.8 ./examples/example.py
+python -m pip install -e . # for a editable installation (or "development mode") or
+```
+or
+```bash
+python -m pip install . # for a normal installation inside the virtual environment
+```
+
+- Then, you can launch an example:
+
+```bash
+python ./examples/example.py
 ```
 
 ## Python IDE
@@ -181,7 +191,17 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-- To test, you can launch:
+- To test, we can launch a example from the folder examples. Before that, the librairy have to be install with the command :
+
+```bash
+python -m pip install -e . # for a editable installation (or "development mode") or
+```
+or
+```bash
+python -m pip install . # for a normal installation inside the virtual environment
+```
+
+- Then, you can launch an example:
 
 ```bash
 python ./examples/example.py
