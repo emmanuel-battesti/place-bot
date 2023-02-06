@@ -103,7 +103,7 @@ python -m pip install -r requirements.txt
 - To test, we can launch a example from the folder examples. Before that, the librairy have to be install with the command :
 
 ```bash
-python -m pip install -e . # for a editable installation (or "development mode") or
+python -m pip install -e . # for a editable installation (or "development mode")
 ```
 or
 ```bash
@@ -194,7 +194,7 @@ python -m pip install -r requirements.txt
 - To test, we can launch a example from the folder examples. Before that, the librairy have to be install with the command :
 
 ```bash
-python -m pip install -e . # for a editable installation (or "development mode") or
+python -m pip install -e . # for a editable installation (or "development mode")
 ```
 or
 ```bash
