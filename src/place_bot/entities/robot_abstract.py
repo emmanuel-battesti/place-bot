@@ -117,7 +117,7 @@ class RobotAbstract(Agent):
             plt.figure(self.SensorType.LIDAR)
             plt.cla()
             plt.axis([-math.pi, math.pi, 0, self.lidar().max_range])
-            plt.plot(self.lidar().ray_angles, self.lidar().get_sensor_values(), "g.:")
+            plt.plot(self.lidar().get_ray_angles(), self.lidar().get_sensor_values(), "g.:")
             plt.grid(True)
             plt.draw()
             plt.pause(0.001)

@@ -5,7 +5,8 @@ from spg.agent.sensor import DistanceSensor
 
 from place_bot.utils.utils_noise import GaussianNoise
 
-# Helper function that computes the angles of the laser rays of the sensor
+
+# Helper function that computes the angles of the laser rays of the sensor in radians
 def compute_ray_angles(fov_rad: float, nb_rays: int) -> np.ndarray:
     # Compute the angle between consecutive rays
     a = fov_rad / (nb_rays - 1)
@@ -13,13 +14,13 @@ def compute_ray_angles(fov_rad: float, nb_rays: int) -> np.ndarray:
     b = fov_rad / 2
     if nb_rays == 1:
         # For one ray, the angle is 0
-        ray_angles = [0.]
+        angles = [0.]
     else:
         # For multiple rays, compute the angles of each ray
-        ray_angles = [n * a - b for n in range(nb_rays)]
+        angles = [n * a - b for n in range(nb_rays)]
 
     # Return the ray angles as a numpy array
-    return np.array(ray_angles)
+    return np.array(angles)
 
 
 # Class that holds the parameters of a Lidar instance
@@ -46,6 +47,7 @@ class Lidar(DistanceSensor):
     - resolution (number of rays): 181
     - max range (maximum range of the sensor): 300 pix
     """
+
     def __init__(self, lidar_params: LidarParams = LidarParams(), invisible_elements=None, **kwargs):
         # Initialize the base class
         super().__init__(normalize=False,
@@ -65,7 +67,7 @@ class Lidar(DistanceSensor):
         self._values = self._default_value
 
         # Compute the ray angles
-        self.ray_angles = compute_ray_angles(fov_rad=self.fov_rad(), nb_rays=self.resolution)
+        self._ray_angles = compute_ray_angles(fov_rad=self.fov_rad(), nb_rays=self.resolution)
 
     def fov_rad(self):
         """Field of view in radians"""
@@ -78,6 +80,10 @@ class Lidar(DistanceSensor):
     def get_sensor_values(self):
         """Get values of the lidar as a numpy array"""
         return self._values
+
+    def get_ray_angles(self):
+        """ Get ray angles in radians as a numpy array"""
+        return self._ray_angles
 
     def is_disabled(self):
         return self._disabled
@@ -106,4 +112,3 @@ class Lidar(DistanceSensor):
     @property
     def shape(self):
         return self._resolution,
-
