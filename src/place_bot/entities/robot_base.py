@@ -16,7 +16,7 @@ class RobotBase(PhysicalPart):
     ):
         super().__init__(
             mass=50,
-            filename=path_resources + "/robot_v2.png",
+            filename=path_resources + "/robot.png",
             sprite_front_is_up=True,
             shape_approximation="circle",
             # radius=15,
