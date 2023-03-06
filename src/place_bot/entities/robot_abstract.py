@@ -41,6 +41,7 @@ class RobotAbstract(Agent):
         if self._should_display_lidar:
             plt.figure(self.SensorType.LIDAR)
             plt.axis([-300, 300, 0, 300])
+            plt.title("lidar measurements")
             plt.ion()
 
     @abstractmethod
