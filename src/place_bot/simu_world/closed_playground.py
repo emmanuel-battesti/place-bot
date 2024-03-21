@@ -7,10 +7,9 @@ from place_bot.entities.normal_wall import NormalWall
 
 
 class ClosedPlayground(Playground):
-    def __init__(self, size: Tuple[int, int]):
+    def __init__(self, size: Tuple[int, int], use_shaders: bool = True):
         background = (220, 220, 220)
 
-        use_shaders = True
         if platform.system() == "Darwin":
             use_shaders = False
 
