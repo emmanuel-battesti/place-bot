@@ -1,2 +1,3 @@
 spg @ git+https://github.com/emmanuel-battesti/simple-playgrounds.git@place-bot#egg=spg
 #-e /home/battesti/projetCompetRobotsDGA/simple-playgrounds
+opencv-contrib-python>=4.10.0.84
