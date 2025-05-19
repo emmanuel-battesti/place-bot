@@ -17,7 +17,7 @@
 
 This program *Place-bot* is an extension of the *Simple-Playgrounds* (SPG) software library: [https://github.com/mgarciaortiz/simple-playgrounds](https://github.com/mgarciaortiz/simple-playgrounds). However, in the current installation of *Place-bot*, it is the branch *place-bot* of a fork of *Simple-Playgrounds* that is used: [https://github.com/emmanuel-battesti/simple-playgrounds](https://github.com/emmanuel-battesti/simple-playgrounds).
 
-It is recommended to read the [documentation of *Simple-Playgrounds*](https://github.com/emmanuel-battesti/simple-playgrounds#readme).
+It is recommended to read the [documentation of *Simple-Playgrounds*](https://github.com/emmanuel-battesti/simple-playgrounds/tree/place-bot#readme).
 
 *Simple-Playgrounds* is an easy-to-use, fast and flexible simulation environment. It bridges the gap between simple and efficient grid environments, and complex and challenging 3D environments. It proposes a large diversity of environments for embodied robots learning through physical interactions. The playgrounds are 2D environments where robots can move around and interact with scene elements.
 
@@ -33,9 +33,7 @@ In *Simple-Playgrounds*, the 2D physics library *Pymunk* is used. The physics en
 
 # Installation
 
-If you need to modify the code of this library, you will have to install it to work comfortably.
-
-The [INSTALL.md](INSTALL.md) file contains installation tips for Ubuntu and Windows.
+For installation instructions, please see [`INSTALL.md`](INSTALL.md).
 
 # Elements of the environment
 
@@ -59,9 +57,9 @@ It emulates a lidar.
 - *max range* (maximum range of the sensor): 300 pixels
 
 A gaussian noise is added to the distance measurements.
-As the field of view (fov) is 360°, the first (at -Pi rad) and the last value (at Pi) should be the same.
+As the *field of view* (fov) is 360°, the first (at -Pi rad) and the last value (at Pi) should be the same.
 
-To visualize lidar sensor data, you should set the parameter *draw_lidar* parameter of the *Simulator* class to *True*.
+To visualize lidar sensor data, you need to set the parameter *draw_lidar* parameter of the *Simulator* class to *True*.
 
 ### Odometer sensor
 
@@ -181,5 +179,5 @@ Some examples are provided:
 # Contact
 
 If you have questions about the code, you can contact:
-emmanuel . battesti at ensta-paris . fr
+emmanuel . battesti at ensta . fr
 
