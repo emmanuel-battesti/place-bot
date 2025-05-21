@@ -29,6 +29,15 @@ class RobotBase(PhysicalPart):
             **kwargs,
         )
 
+        # Friction normally goes between 0 (no friction) and 1.0 (high friction)
+        # Friction is between two objects in contact. It is important to remember
+        # in top-down games that friction moving along the 'floor' is controlled
+        # by damping.
+        # See: https://api.arcade.academy/en/latest/examples/pymunk_demo_top_down.html
+        for pm_shape in self._pm_shapes:
+            pm_shape.elasticity = 0.1
+            pm_shape.friction = 0.7 # default value in arcade is 0.2
+
         self.forward_controller = CenteredContinuousController(name="forward")
         self.add(self.forward_controller)
 

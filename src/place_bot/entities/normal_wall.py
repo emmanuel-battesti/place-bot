@@ -65,6 +65,17 @@ class SrColorWall(PhysicalElement):
 
         super().__init__(texture=texture, **kwargs)
 
+        # Friction normally goes between 0 (no friction) and 1.0 (high friction)
+        # Friction is between two objects in contact. It is important to remember
+        # in top-down games that friction moving along the 'floor' is controlled
+        # by damping.
+        # elasticity: How bouncy this object is. 0 is no bounce.
+        # Values of 1.0 and higher may behave badly.
+        # See: https://api.arcade.academy/en/2.6.7/examples/pymunk_demo_top_down.html
+        for pm_shape in self._pm_shapes:
+            pm_shape.elasticity = 0.1 # default value in pymunk is 0
+            pm_shape.friction = 0.7 # default value in arcade is 0.2
+
 
 class NormalWall(SrColorWall):
     """
