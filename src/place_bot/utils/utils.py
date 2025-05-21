@@ -38,13 +38,19 @@ def deg2rad(x):
 
 def bresenham(start, end):
     """
-    Implementation of Bresenham's line drawing algorithm
+    Implementation of Bresenham's line drawing algorithm.
+    It takes two points, start and end, as inputs and returns an array of
+    points that form a line between the two points.
     See en.wikipedia.org/wiki/Bresenham's_line_algorithm
-    Bresenham's Line Algorithm
+
     Produces a np.array from start and end (original from roguebasin.com)
     points1 = bresenham((4, 4), (6, 10))
     print(points1)
     np.array([[4,4], [4,5], [5,6], [5,7], [5,8], [6,9], [6,10]])
+
+    Inputs
+        start (tuple): The starting point of the line.
+        end (tuple): The ending point of the line.
     """
     # setup initial conditions
     x1, y1 = start
@@ -83,14 +89,15 @@ def bresenham(start, end):
 
 def circular_kernel(radius):
     """
-    The function cv2.getStructuringElement(cv2.MORPH_ELLIPSE, ...) of OpenCV is not satisfying because
-    the result is not symmetrical...
+    The function cv2.getStructuringElement(cv2.MORPH_ELLIPSE, ...) of OpenCV is
+    not satisfying because the result is not symmetrical...
     So here we use this code to do it. This was find here :
     https://stackoverflow.com/questions/8647024/how-to-apply-a-disc-shaped-mask-to-a-numpy-array
     :param radius:
-    :return: circle structuring element, that is, a filled circle inscribed into the
-    rectangle Rect(0, 0, 2*radius + 1, 2*radius + 1)
+    :return: circle structuring element, that is, a filled circle inscribed
+    into the rectangle Rect(0, 0, 2*radius + 1, 2*radius + 1)
     """
+
     kernel = np.zeros((2 * radius + 1, 2 * radius + 1), np.uint8)
     y, x = np.ogrid[-radius:radius + 1, -radius:radius + 1]
     mask = x ** 2 + y ** 2 <= radius ** 2

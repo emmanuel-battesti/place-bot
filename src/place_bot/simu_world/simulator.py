@@ -18,6 +18,12 @@ from place_bot.utils.visu_noises import VisuNoises
 
 
 class Simulator(TopDownView):
+    """
+    The Simulator class is a subclass of TopDownView and provides a graphical user
+    interface for the simulation. It handles the rendering of the playground,
+    robot, and other visual elements, as well as user input and interaction.
+    """
+
     def __init__(
             self,
             the_world: WorldAbstract,

@@ -1,6 +1,7 @@
 """
 This program can be launched directly.
-To move the robot, you have to click on the world, then use the arrows on the keyboard
+To move the robot, you have to click on the world, then use the arrows on the
+keyboard
 """
 
 import os
@@ -45,7 +46,7 @@ class MyWorldLidar(WorldAbstract):
         self._playground.add(robot, self._robot_pos)
 
 
-if __name__ == '__main__':
+def main():
     my_robot = MyRobotLidar(should_display_lidar=True)
     my_world = MyWorldLidar(robot=my_robot)
 
@@ -58,3 +59,6 @@ if __name__ == '__main__':
                           enable_visu_noises=True,
                           )
     simulator.run()
+
+if __name__ == '__main__':
+    main()

@@ -86,14 +86,15 @@ class Lidar(DistanceSensor):
         return self._ray_angles
 
     def is_disabled(self):
+        """Returns a boolean indicating if the sensor is disabled."""
         return self._disabled
 
     def _apply_noise(self):
-        """Add noise to the sensor values"""
+        """Applies noise to the lidar sensor values."""
         self._values = self._noise_model.add_noise(self._values)
 
     def draw(self):
-        """Draw the Lidar"""
+        """Draws the lidar sensor rays."""
         # Check if hitpoints are defined
         hitpoints_ok = not isinstance(self._hitpoints, int)
         # If hitpoints are defined, call the base class draw method

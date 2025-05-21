@@ -13,7 +13,7 @@
 
 [Access to the GitHub repository *Place-bot*](https://github.com/emmanuel-battesti/place-bot)
 
-# Simple-Playgrounds 
+# Simple-Playgrounds
 
 This program *Place-bot* is an extension of the *Simple-Playgrounds* (SPG) software library: [https://github.com/mgarciaortiz/simple-playgrounds](https://github.com/mgarciaortiz/simple-playgrounds). However, in the current installation of *Place-bot*, it is the branch *place-bot* of a fork of *Simple-Playgrounds* that is used: [https://github.com/emmanuel-battesti/simple-playgrounds](https://github.com/emmanuel-battesti/simple-playgrounds).
 

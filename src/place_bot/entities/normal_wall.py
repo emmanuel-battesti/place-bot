@@ -13,6 +13,20 @@ from place_bot.resources import path_resources
 
 
 class SrColorWall(PhysicalElement):
+    """
+    The SrColorWall class is a subclass of the PhysicalElement class. It
+    represents a colored wall or a wall with a texture. The class is used to
+    create walls with different colors or textures in the simulation
+    environment.
+
+    Example Usage
+        # Creating a colored wall
+        wall = SrColorWall(pos_start=(0, 0), pos_end=(10, 0), width=2, color=(255, 0, 0))
+
+        # Creating a textured wall
+        wall = SrColorWall(pos_start=(0, 0), pos_end=(10, 0), width=2, file_name="wall_texture.png")
+    """
+
     def __init__(self,
                  pos_start: Union[Tuple[float, float], pymunk.Vec2d],
                  pos_end: Union[Tuple[float, float], pymunk.Vec2d],
@@ -53,7 +67,13 @@ class SrColorWall(PhysicalElement):
 
 class NormalWall(SrColorWall):
     """
-    Custom Walls used by the tool 'image_to_world.py' in the directory tools
+    The NormalWall class is a subclass of the SrColorWall class. It is used by
+    the tool 'image_to_map.py' in the directory tools. This class represents
+    a normal wall with a specific color and texture.
+
+    Example Usage
+        # Creating a normal wall
+        wall = NormalWall(pos_start=(0, 0), pos_end=(10, 0))
     """
 
     def __init__(self, pos_start: Union[Tuple[float, float], pymunk.Vec2d],
@@ -84,11 +104,17 @@ class NormalWall(SrColorWall):
 
 class NormalBox(SrColorWall):
     """
-    A kind of custom wall but in the shape of box.
-    Used by the tool 'image_to_world.py' in the directory tools
+    The NormalBox class is a subclass of the SrColorWall class. It represents a
+     custom wall in the shape of a box.
+    This class is used by the tool 'image_to_map.py' in the directory tools.
+
+    Example Usage
+        # Creating a NormalBox object
+        box = NormalBox(up_left_point=(0, 0), width=5, height=3)
     """
 
-    def __init__(self, up_left_point: Union[Tuple[float, float], pymunk.Vec2d], width: float, height: float,
+    def __init__(self, up_left_point: Union[Tuple[float, float], pymunk.Vec2d],
+                 width: float, height: float,
                  **kwargs):
         self.color = (200, 240, 230)
 

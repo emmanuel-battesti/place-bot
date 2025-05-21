@@ -4,6 +4,23 @@ from typing import Tuple
 
 
 class MouseMeasure:
+    """
+    The MouseMeasure class is a tool for measuring and visualizing mouse
+    movements and clicks on a playground.
+    By selecting a zone with the mouse, it draws the  zone rectangle, and the
+    middle circle.
+    It calculates the distance and delta values between mouse clicks.
+    Used in GuiSR class.
+
+    Attributes:
+        x_mouse: Current x-coordinate of the mouse.
+        y_mouse: Current y-coordinate of the mouse.
+        x_mouse_prev: Previous x-coordinate of the mouse.
+        y_mouse_prev: Previous y-coordinate of the mouse.
+        draw_line: Flag indicating whether to draw a line or not.
+        _playground_size: Size of the playground.
+    """
+
     def __init__(self, playground_size: Tuple[int, int]):
         self.x_mouse = 0
         self.y_mouse = 0

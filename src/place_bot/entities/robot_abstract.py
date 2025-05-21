@@ -47,8 +47,10 @@ class RobotAbstract(Agent):
     @abstractmethod
     def control(self):
         """
-        This function is mandatory in the class you have to create that will inherit from this class.
-        This function should return a command which is a dict with values for the actuators.
+        This function is mandatory in the class you have to create that will
+        inherit from this class.
+        This function should return a command which is a dict with values for
+        the actuators.
         For example:
         command = {"forward": 1.0,
                    "rotation": -1.0}
@@ -100,7 +102,7 @@ class RobotAbstract(Agent):
         """
         return self.base.velocity
 
-    def true_angular_velocity(self):
+    def true_angular_velocity(self) -> float:
         """
         Give the true angular velocity of the robot, in radians per second
         You must NOT use this value for your calculation in the control() function, instead you

@@ -8,6 +8,12 @@ from place_bot.utils.constants import LINEAR_SPEED_RATIO, ANGULAR_SPEED_RATIO
 
 
 class RobotBase(PhysicalPart):
+    """
+    The RobotBase class represents a robot base in a simulation. It defines the
+    behavior and properties of the robot, including its movement and control
+     mechanisms.
+    """
+
     def __init__(
             self,
             linear_ratio: float = LINEAR_SPEED_RATIO,
@@ -26,7 +32,8 @@ class RobotBase(PhysicalPart):
         self.forward_controller = CenteredContinuousController(name="forward")
         self.add(self.forward_controller)
 
-        self.angular_vel_controller = CenteredContinuousController(name="rotation")
+        self.angular_vel_controller = (
+            CenteredContinuousController(name="rotation"))
         self.add(self.angular_vel_controller)
 
         self.linear_ratio = LINEAR_FORCE * linear_ratio

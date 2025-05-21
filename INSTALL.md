@@ -66,7 +66,7 @@ We need, at least, *Python 3.8*, which is the default version of *Python* on *Ub
 
 ```bash
 sudo apt update
-sudo apt install python3 python3-venv python3-dev python3-pip 
+sudo apt install python3 python3-venv python3-dev python3-pip
 ```
 You can verify the version with the command:
 ```bash
@@ -294,7 +294,7 @@ sudo apt upgrade
 
 Although not required, it is a good idea to use an IDE when programming in *Python*. It makes programming easier.
 
-For example, you can use the free *community* version of [*PyCharm*](https://www.jetbrains.com/pycharm/). In this case, you will need to set your *interpreter* path to your venv path for it to work. 
+For example, you can use the free *community* version of [*PyCharm*](https://www.jetbrains.com/pycharm/). In this case, you will need to set your *interpreter* path to your venv path for it to work.
 
 # Contact
 
