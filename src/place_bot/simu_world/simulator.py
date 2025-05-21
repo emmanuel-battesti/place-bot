@@ -33,7 +33,7 @@ class Simulator(TopDownView):
             display_uid: bool = False,
             draw_transparent: bool = False,
             draw_interactive: bool = False,
-            draw_lidar: bool = False,
+            draw_lidar_rays: bool = False,
             use_keyboard: bool = False,
             use_mouse_measure: bool = False,
             enable_visu_noises: bool = False,
@@ -59,6 +59,8 @@ class Simulator(TopDownView):
         if self._robot:
             self._robot_commands = {}
 
+        self._use_keyboard = use_keyboard
+
         self._playground.window.on_draw = self.on_draw
         self._playground.window.on_update = self.on_update
         self._playground.window.on_key_press = self.on_key_press
@@ -68,23 +70,30 @@ class Simulator(TopDownView):
         self._playground.window.on_mouse_release = self.on_mouse_release
         self._playground.window.set_update_rate(FRAME_RATE)
 
-        self._draw_lidar = draw_lidar
-        self._use_keyboard = use_keyboard
+        self._draw_lidar_rays = draw_lidar_rays
         self._use_mouse_measure = use_mouse_measure
         self._enable_visu_noises = enable_visu_noises
 
-        self._elapsed_time = 0
-        self._start_real_time = time.time()
-        self._real_time_elapsed = 0
+        self._elapsed_timestep = 0
+        self._start_timestamp = time.time()
+        self._elapsed_walltime = 0.001
 
         self._terminate = False
 
         self.fps_display = FpsDisplay(period_display=2)
         self._keyboardController = KeyboardController()
         self._mouse_measure = MouseMeasure(playground_size=self._playground.size)
-        self._visu_noises = VisuNoises(playground_size=self._playground.size, robot=self._robot)
+        self._visu_noises = VisuNoises(playground_size=self._playground.size,
+                                       robot=self._robot)
 
-        self.recorder = ScreenRecorder(self._size[0], self._size[1], fps=30, out_file=filename_video_capture)
+        self.recorder = ScreenRecorder(self._size[0], self._size[1], fps=30,
+                                       out_file=filename_video_capture)
+
+    def close(self):
+        self._playground.window.close()
+
+    def set_caption(self, window_title: str):
+        self._playground.window.set_caption(window_title)
 
     def run(self):
         self._playground.window.run()
@@ -95,9 +104,9 @@ class Simulator(TopDownView):
         self.draw()
 
     def on_update(self, delta_time):
-        self._elapsed_time += 1
+        self._elapsed_timestep += 1
 
-        if self._elapsed_time < 5:
+        if self._elapsed_timestep < 2:
             self._playground.step(commands=self._robot_commands)
             return
 
@@ -115,8 +124,8 @@ class Simulator(TopDownView):
 
         self._visu_noises.update(enable=self._enable_visu_noises)
 
-        end_real_time = time.time()
-        self._real_time_elapsed = (end_real_time - self._start_real_time)
+        last_timestamp = time.time()
+        self._elapsed_walltime = (last_timestamp - self._start_timestamp)
 
         # Capture the frame
         self.recorder.capture_frame(self)
@@ -141,7 +150,7 @@ class Simulator(TopDownView):
         self._playground.window.use()
         self._playground.window.clear(self._background)
 
-        if self._draw_lidar:
+        if self._draw_lidar_rays:
             for robot in self._playground.agents:
                 robot.lidar().draw()
 
@@ -165,7 +174,7 @@ class Simulator(TopDownView):
             self._visu_noises.reset()
 
         if key == arcade.key.L:
-            self._draw_lidar = not self._draw_lidar
+            self._draw_lidar_rays = not self._draw_lidar_rays
 
     def on_key_release(self, key, modifiers):
         self._keyboardController.on_key_release(key, modifiers)
@@ -176,15 +185,17 @@ class Simulator(TopDownView):
 
     # Creating function to check the mouse clicks
     def on_mouse_press(self, x: int, y: int, button: int, modifiers: int):
-        self._mouse_measure.on_mouse_press(x, y, button, enable=self._use_mouse_measure)
+        self._mouse_measure.on_mouse_press(x, y, button,
+                                           enable=self._use_mouse_measure)
 
     def on_mouse_release(self, x: int, y: int, button: int, modifiers: int):
-        self._mouse_measure.on_mouse_release(x, y, button, enable=self._use_mouse_measure)
+        self._mouse_measure.on_mouse_release(x, y, button,
+                                             enable=self._use_mouse_measure)
 
     @property
-    def elapsed_time(self):
-        return self._elapsed_time
+    def elapsed_timestep(self):
+        return self._elapsed_timestep
 
     @property
-    def real_time_elapsed(self):
-        return self._real_time_elapsed
+    def elapsed_walltime(self):
+        return self._elapsed_walltime

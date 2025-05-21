@@ -8,19 +8,35 @@ from place_bot.utils.utils_noise import GaussianNoise
 
 # Helper function that computes the angles of the laser rays of the sensor in radians
 def compute_ray_angles(fov_rad: float, nb_rays: int) -> np.ndarray:
-    # Compute the angle between consecutive rays
-    a = fov_rad / (nb_rays - 1)
-    # Compute the angle of the first ray (at the center of the FOV)
-    b = fov_rad / 2
-    if nb_rays == 1:
-        # For one ray, the angle is 0
-        angles = [0.]
-    else:
-        # For multiple rays, compute the angles of each ray
-        angles = [n * a - b for n in range(nb_rays)]
+    """
+    The compute_ray_angles function calculates the angles of the laser rays of
+    a sensor based on the field of view and the number of rays.
 
-    # Return the ray angles as a numpy array
-    return np.array(angles)
+    Example Usage
+        fov_rad = math.pi / 2
+        nb_rays = 5
+        ray_angles = compute_ray_angles(fov_rad, nb_rays)
+        print(ray_angles)
+
+        Output:
+        [-0.78539816, -0.39269908, 0.0, 0.39269908, 0.78539816]
+
+    Inputs
+        fov_rad (float): The field of view in radians.
+        nb_rays (int): The number of rays of the sensor.
+    """
+
+    if not isinstance(fov_rad, float) or fov_rad <= 0:
+        raise ValueError("fov_rad must be a positive float.")
+
+    if nb_rays == 1:
+        ray_angles = [0.]
+    else:
+        ray_angles = np.linspace(-fov_rad / 2, fov_rad / 2, nb_rays)
+
+    # 'ray_angles' is an array which contains the angles of the laser rays of
+    # the sensor
+    return np.array(ray_angles)
 
 
 # Class that holds the parameters of a Lidar instance

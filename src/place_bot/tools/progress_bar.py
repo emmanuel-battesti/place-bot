@@ -16,6 +16,17 @@ def print_progress_bar(index: float, total: float, label: str):
         total (float): The total number of items or steps in the progress.
         label (str): The label or description of the progress.
     """
+
+    if index > total:
+        index = total
+
+    if index < 0:
+        raise ValueError("Invalid index value. "
+                         "Index cannot be less than zero.")
+
+    if not isinstance(label, str):
+        raise TypeError("Label must be a string.")
+
     n_bar = 50  # Progress bar width
     progress = index / total
     percentage = int(100 * progress)

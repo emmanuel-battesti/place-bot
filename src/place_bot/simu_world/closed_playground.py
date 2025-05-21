@@ -41,17 +41,22 @@ class ClosedPlayground(Playground):
         assert isinstance(self._width, int)
         assert isinstance(self._height, int)
 
+        border_thickness: int = 6
+        self._walls_creation(border_thickness)
+
+        # print(f"Version OpenGL : {self._window.ctx.gl_version}")
+
+    def _walls_creation(self, border_thickness):
         h = self._height / 2
         w = self._width / 2
-        o = 2
-
+        o = border_thickness / 2
         pts = [
             [(-w + o, -h), (-w + o, h), ],
             [(-w, h - o), (w, h - o)],
             [(w - o, h), (w - o, -h)],
             [(w, -h + o), (-w, -h + o), ],
         ]
-
         for begin_pt, end_pt in pts:
-            wall = NormalWall(begin_pt, end_pt)
+            wall = NormalWall(pos_start=begin_pt, pos_end=end_pt,
+                              wall_thickness=border_thickness)
             self.add(wall, wall.wall_coordinates)

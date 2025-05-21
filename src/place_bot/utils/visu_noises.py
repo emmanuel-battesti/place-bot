@@ -24,6 +24,14 @@ def _draw_pseudo_robot(position_screen: Tuple[int, int, float],
         values.
         radius: An integer representing the radius of the robot.
     """
+
+    if not isinstance(position_screen, tuple) or len(position_screen) != 3:
+        raise ValueError("position_screen must be a tuple of length 3")
+    if not isinstance(color, tuple) or len(color) != 3:
+        raise ValueError("color must be a tuple of length 3")
+    if radius <= 0:
+        raise ValueError("Radius must be a positive number.")
+
     length_line = 2 * radius
     arcade.draw_circle_filled(position_screen[0],
                               position_screen[1],

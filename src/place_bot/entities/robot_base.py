@@ -40,8 +40,11 @@ class RobotBase(PhysicalPart):
         self.angular_ratio = ANGULAR_VELOCITY * angular_ratio
 
     def _apply_commands(self, **kwargs):
-        command_value = self.forward_controller.command_value
-        self._pm_body.apply_force_at_local_point(pymunk.Vec2d(command_value, 0) * self.linear_ratio, (0, 0))
+        cmd_forward = self.forward_controller.command_value
+        cmd_forward = max(min(cmd_forward, 1.0), -1.0)
+        self._pm_body.apply_force_at_local_point(
+            force=pymunk.Vec2d(cmd_forward, 0) * self.linear_ratio, point=(0, 0)
+        )
 
-        command_value = self.angular_vel_controller.command_value
-        self._pm_body.angular_velocity = command_value * self.angular_ratio
+        cmd_angular = self.angular_vel_controller.command_value
+        self._pm_body.angular_velocity = cmd_angular * self.angular_ratio

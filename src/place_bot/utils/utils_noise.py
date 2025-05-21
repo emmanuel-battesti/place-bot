@@ -23,6 +23,16 @@ def vector_gaussian_noise(size: int, mean_noise: float = 0,
         std_dev_noise (float, optional): The standard deviation of the Gaussian
         distribution. Defaults to 1.0.
     """
+
+    if not isinstance(size, int) or size <= 0:
+        raise ValueError("Size must be a positive integer.")
+
+    if std_dev_noise <= 0:
+        raise ValueError("std_dev_noise must be a positive number")
+
+    if not isinstance(mean_noise, (int, float)):
+        raise ValueError("mean_noise must be a number")
+
     gaussian_noise = np.random.normal(loc=mean_noise,
                                       scale=std_dev_noise,
                                       size=size)
