@@ -53,9 +53,9 @@ if __name__ == '__main__':
     my_robot = MyRobotKeyboard()
     my_world = MyWorldKeyboard(robot=my_robot)
 
-    # draw_lidar : enable the visualization of the lidar rays
+    # draw_lidar_rays : enable the visualization of the lidar rays
     simulator = Simulator(the_world=my_world,
-                          draw_lidar=True,
+                          draw_lidar_rays=True,
                           use_keyboard=True,
                           )
     simulator.run()

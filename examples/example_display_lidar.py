@@ -50,11 +50,11 @@ def main():
     my_robot = MyRobotLidar(should_display_lidar=True)
     my_world = MyWorldLidar(robot=my_robot)
 
-    # draw_lidar : enable the visualization of the lidar rays
+    # draw_lidar_rays : enable the visualization of the lidar rays
     # enable_visu_noises : to enable the visualization. It will show also a demonstration of the integration
     # of odometer values, by drawing the estimated path in red.
     simulator = Simulator(the_world=my_world,
-                          draw_lidar=True,
+                          draw_lidar_rays=True,
                           use_keyboard=True,
                           enable_visu_noises=True,
                           )

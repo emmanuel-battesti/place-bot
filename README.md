@@ -59,7 +59,7 @@ It emulates a lidar.
 A gaussian noise is added to the distance measurements.
 As the *field of view* (fov) is 360°, the first (at -Pi rad) and the last value (at Pi) should be the same.
 
-To visualize lidar sensor data, you need to set the parameter *draw_lidar* parameter of the *Simulator* class to *True*.
+To visualize lidar sensor data, you need to set the parameter *draw_lidar_rays* parameter of the *Simulator* class to *True*.
 
 ### Odometer sensor
 
