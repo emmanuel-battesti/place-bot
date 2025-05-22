@@ -28,7 +28,7 @@ class MyRobotRandom(RobotAbstract):
         sensor_values = self.lidar().get_sensor_values()
         if sensor_values is None:
             return False
-        return min(sensor_values) < 30
+        return min(sensor_values) < 20
 
     def control(self):
         """
