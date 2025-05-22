@@ -1,3 +1,5 @@
 spg @ git+https://github.com/emmanuel-battesti/simple-playgrounds.git@place-bot#egg=spg
 #-e /home/battesti/projetCompetDronesDGA/simple-playgrounds
 opencv-contrib-python>=4.10.0.84
+PyQt6
+pyqtgraph
