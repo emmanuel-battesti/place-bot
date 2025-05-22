@@ -17,7 +17,7 @@ class State(Enum):
 
 class MyRobotRandom(RobotAbstract):
     def __init__(self):
-        super().__init__(should_display_lidar=False)
+        super().__init__()
         self.counter_straight = random.randint(50, 100)
         self.target_angle = random.uniform(-math.pi, math.pi)
         self.state = State.STRAIGHT
