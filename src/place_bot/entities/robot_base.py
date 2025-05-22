@@ -24,7 +24,7 @@ class RobotBase(PhysicalPart):
             mass=50,
             filename=path_resources + "/robot.png",
             sprite_front_is_up=True,
-            shape_approximation="circle",
+            shape_approximation="hull",
             # radius=15,
             **kwargs,
         )
