@@ -66,7 +66,7 @@ class MyRobotRandom(RobotAbstract):
         return self.isTurningLeft or self.isTurningRight
 
 
-if __name__ == '__main__':
+def main():
     my_robot = MyRobotRandom()
     my_world = MyWorldIntermediate01(robot=my_robot)
 
@@ -76,3 +76,6 @@ if __name__ == '__main__':
                           enable_visu_noises=False,
                           )
     simulator.run()
+
+if __name__ == '__main__':
+    main()

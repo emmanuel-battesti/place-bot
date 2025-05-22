@@ -48,7 +48,7 @@ def print_keyboard_man():
     print("\t- r key : reset")
 
 
-if __name__ == '__main__':
+def main():
     print_keyboard_man()
     my_robot = MyRobotKeyboard()
     my_world = MyWorldKeyboard(robot=my_robot)
@@ -59,3 +59,6 @@ if __name__ == '__main__':
                           use_keyboard=True,
                           )
     simulator.run()
+
+if __name__ == '__main__':
+    main()
