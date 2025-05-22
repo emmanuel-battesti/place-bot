@@ -117,7 +117,7 @@ class Simulator(TopDownView):
 
         self._robot_commands[self._robot] = command
 
-        if self._robot:
+        if self._robot and hasattr(self._robot, 'display'):
             self._robot.display()
 
         self._playground.step(commands=self._robot_commands)

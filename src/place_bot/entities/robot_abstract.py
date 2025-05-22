@@ -6,8 +6,6 @@ from spg.agent.agent import Agent
 
 from place_bot.entities.robot_base import RobotBase
 from place_bot.entities.lidar import Lidar, LidarParams
-# from place_bot.entities.odometer import Odometer
-# from place_bot.entities.odometer_v2 import OdometerV2
 from place_bot.entities.odometer import Odometer, OdometerParams
 from place_bot.utils.utils import normalize_angle
 
@@ -25,7 +23,6 @@ class RobotAbstract(Agent):
         ODOMETER = 1
 
     def __init__(self,
-                 should_display_lidar=False,
                  lidar_params: LidarParams = LidarParams(),
                  odometer_params: OdometerParams = OdometerParams()):
         super().__init__(interactive=True, lateral=False, radius=10)
@@ -36,13 +33,6 @@ class RobotAbstract(Agent):
         self.base.add(Lidar(lidar_params=lidar_params, invisible_elements=self._parts))
         self.base.add(Odometer(odometer_params=odometer_params))
 
-        self._should_display_lidar = should_display_lidar
-
-        if self._should_display_lidar:
-            plt.figure(self.SensorType.LIDAR)
-            plt.axis([-300, 300, 0, 300])
-            plt.title("lidar measurements")
-            plt.ion()
 
     @abstractmethod
     def control(self):
@@ -111,17 +101,3 @@ class RobotAbstract(Agent):
         """
         return self.base.angular_velocity
 
-    def display(self):
-        if self._should_display_lidar:
-            self.display_lidar()
-
-    def display_lidar(self):
-        if self.lidar().get_sensor_values() is not None:
-            plt.figure(self.SensorType.LIDAR)
-            plt.cla()
-            plt.axis([-math.pi, math.pi, 0, self.lidar().max_range])
-            plt.plot(self.lidar().get_ray_angles(), self.lidar().get_sensor_values(), "g.:")
-            plt.grid(True)
-            plt.title("lidar measurements", fontsize=16)
-            plt.draw()
-            plt.pause(0.001)
