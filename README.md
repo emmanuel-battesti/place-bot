@@ -1,45 +1,36 @@
 # Table of Content
 
-- [Welcome to *place-bot*](#welcome-to--place-bot-)
-- [Simple-Playgrounds](#simple-playgrounds)
+- [Welcome to *Place-Bot*](#welcome-to-place-bot)
+- [Simulation Environment](#simulation-environment)
 - [Installation](#installation)
 - [Elements of the environment](#elements-of-the-environment)
-- [Programming](#programming)
+- [Programming Your Robot](#programming-your-robot)
 - [Contact](#contact)
 
-# Welcome to *place-bot*
+# Welcome to *Place-Bot*
 
-*Place-bot* is the environment that simulates a robot and his sensors.
+*Place-Bot* is the environment that simulates a robot and his sensors.
 
-[Access to the GitHub repository *Place-bot*](https://github.com/emmanuel-battesti/place-bot)
+[Access to the GitHub repository *Place-Bot*](https://github.com/emmanuel-battesti/place-bot)
 
-# Simple-Playgrounds
+# Simulation Environment
 
-This program *Place-bot* is an extension of the *Simple-Playgrounds* (SPG) software library: [https://github.com/mgarciaortiz/simple-playgrounds](https://github.com/mgarciaortiz/simple-playgrounds). However, in the current installation of *Place-bot*, it is the branch *place-bot* of a fork of *Simple-Playgrounds* that is used: [https://github.com/emmanuel-battesti/simple-playgrounds](https://github.com/emmanuel-battesti/simple-playgrounds).
+Place-Bot is built on a modified code of the 2D simulation library [**Simple-Playgrounds**](https://github.com/mgarciaortiz/simple-playgrounds) (SPG), which uses the **Pymunk** physics engine and the **Arcade** game engine.
 
-It is recommended to read the [documentation of *Simple-Playgrounds*](https://github.com/emmanuel-battesti/simple-playgrounds/tree/place-bot#readme).
-
-*Simple-Playgrounds* is an easy-to-use, fast and flexible simulation environment. It bridges the gap between simple and efficient grid environments, and complex and challenging 3D environments. It proposes a large diversity of environments for embodied robots learning through physical interactions. The playgrounds are 2D environments where robots can move around and interact with scene elements.
-
-The game engine, based on [Pymunk](http://www.pymunk.org) and [Arcade](https://api.arcade.academy/), deals with simple physics, such as collision and friction. Robots can act through continuous movements and discrete interactive actions. They perceive the scene with realistic first-person view sensors, top-down view sensors, and semantic sensors.
-
-## Game Engine
-
-In *Simple-Playgrounds*, the game engine used is *Arcade*. The robot enters a Playground, and starts acting and perceiving within the environment. The perception/action/communication loop is managed by the game engine. At each time step, all perception is acquired. Then according to actions to do, robot is moved. Everything is synchronized, unlike what you would get on a real robot.
-
-## Physics Engine
-
-In *Simple-Playgrounds*, the 2D physics library *Pymunk* is used. The physics engine handles simple physics, such as collision and friction. This gives a mass and inertia to all objects.
+In practical terms, this means:
+- Robots and objects have mass and inertia (they don't stop instantly).
+- Collisions are handled by the physics engine.
+- The simulator manages a perception-action-communication loop at each time step.
 
 # Installation
 
-For installation instructions, please see [`INSTALL.md`](INSTALL.md).
+For installation instructions, please refer to the [`INSTALL.md`](INSTALL.md) file.
 
 # Elements of the environment
 
 ## Robot
 
-Robot is a version of what is called **agent** in *Simple-Playgrounds*.
+Robot is a type of **agent** in *Simple-Playgrounds*.
 Robot is composed of different body parts attached to a *Base*.
 
 Robot **perceives his surroundings** through a first-person view sensor : the *Lidar* sensor.
@@ -48,61 +39,74 @@ Robot is equipped with an odometry sensor that allow it to **estimate its positi
 
 ### Lidar sensor
 
-In the code, class *Lidar*, in the file src/place_bot/entities/lidar.py
+In the file `src/place_bot/simulation/ray_sensors/lidar.py`, class *Lidar*.
 
-It emulates a lidar.
+It emulates a lidar sensor with the following specifications:
 
 - *fov* (field of view): 360 degrees
 - *resolution* (number of rays): 181
 - *max range* (maximum range of the sensor): 300 pixels
 
-A gaussian noise is added to the distance measurements.
-As the *field of view* (fov) is 360°, the first (at -Pi rad) and the last value (at Pi) should be the same.
+Gaussian noise has been added to the distance measurements to simulate real-world conditions.
+As the *field of view* (fov) is 360°, the first value (at -Pi rad) and the last value (at Pi) should be the same.
 
-To visualize lidar sensor data, you need to set the parameter *draw_lidar_rays* parameter of the *Simulator* class to *True*.
+To visualize lidar sensor data, you need to set the parameter *draw_lidar_rays* of the *Simulator* class to *True*.
 
 ### Odometer sensor
 
-In the file *src/place_bot/entities/odometer.py*, it is described in the class *Odometer*.
+In the file `src/place_bot/simulation/robot/robot_sensors.py`, it is described in the class *Odometer*.
 
 This sensor returns an array of data containing the pose of the robot by integrating its displacement at each step.
 Its displacement is :
-- dist_travel, the distance of the robot's movement during the last timestep.
-- alpha, the relative angle of the current position with respect to the previous reference frame of the robot
-- theta, the orientation variation (or rotation) of the robot during the last step in the reference frame
+- `dist_travel`: Distance traveled during the last timestep (in pixels)
+- `alpha`: Relative angle of the current position with respect to the previous frame (in radians)
+- `theta`: Orientation variation (rotation) during the last timestep (in radians)
 
+Angles, alpha and theta, increase with a counter-clockwise rotation of the robot. Their value is between -Pi and Pi.
 Gaussian noise was added separately to the three parts of the data to make them look like real noise.
 
 We use those noisy odometry data by integrating measurements over time to finally get an estimate of the current position of the robot.
 
-If you want to enable the visualization of the noises, you should set the parameter *enable_visu_noises* to *True*. It will show also a demonstration of the integration of odometer values, by drawing the estimated path.
+If you want to enable the visualization of the noises, you need to set the parameter *enable_visu_noises* parameter of the *Simulator* class constructor to *True*. It will show also a demonstration of the integration of odometer values, by drawing the estimated path.
 
 ### Actuators
 
 At each time step, you must provide values for your actuators.
 
-You have 2 values to move your robot:
-- *forward_controller*, a float value between -1 and 1. This is a force apply to your robot in the longitudinal way.
-- *angular_vel_controller*, a float value between -1 and 1. This is the speed of rotation.
+You have 2 values to control your robot's movement:
+- *forward*: A float value between -1 and 1. This applies force in the longitudinal direction.
+- *rotation*: A float value between -1 and 1. This controls the rotation speed.
 
-You can find examples of actuator use in almost all files in *examples/*.
+You can find examples of actuator use in almost all files in `examples/`.
 
 ## Playground
 
-Robot act and perceive in a *Playground*.
+Robot acts and perceives in a *Playground*.
 
 A *playground* is composed of scene elements, which can be fixed or movable.
-The playground with all its elements, except for the robot, are called "World" within this *Place-bot* repository.
+The playground with all its elements, except for the robot, is called a "World" within this *Place-Bot* repository.
 
 ### Coordinate System
 
-A playground is described using a Cartesian coordinate system.
+The playground uses a standard Cartesian coordinate system:
 
-Each element has a position (x,y, theta), with x along the horizontal axis, y along the vertical axis, and theta the orientation in radians, aligned on the horizontal axis. The position (0, 0) is at the center of the world. The value of theta is between -Pi and Pi. Theta increases with a counter-clockwise rotation of the robot. For theta = 0, the robot is oriented towards the right. A playground has a size [width, height], with the width along x-axis, and height along y-axis.
+* The position `(x, y)` :
+  - Origin (0,0) is at the center of the world.
+  - `x`: Horizontal position (positive values to the right)
+  - `y`: Vertical position (positive values upward)
 
-# Programming
+* The orientation `theta`:
+  - Measured in radians between -π and π
+  - Increases with counter-clockwise rotation
+  - At `theta` = 0, the robot faces right (positive x-axis)
 
-## Architecture of *Place-bot*
+* World Dimensions:
+  - Worlds have a size [width, height], with width along x-axis and height along y-axis
+  - All measurements are in pixels
+
+# Programming Your Robot
+
+## Architecture of *Place-Bot*
 
 ### Directory *src/place_bot*
 
@@ -122,9 +126,9 @@ If you want to enable the visualization of the noises, you should set the parame
 
 ### Directory *examples*
 
-In the folder, you will find stand-alone programs to help you program with examples. In particular:
-- *display_lidar.py* shows a visualization of the lidar on a graph. You can see the noise added.
-- *example_keyboard.py* shows how to use the keyboard for development or debugging purpose. The usable keyboard keys :
+In the `examples/` folder at the root of the repository, you will find stand-alone programs to help you understand key concepts. In particular:
+- `example_display_lidar.py` shows a visualization of the lidar on a graph, with noise.
+- `example_keyboard.py` shows how to use the keyboard for development or debugging. Usable keys include:
 	- up / down key : forward and backward
 	- left / right key : turn left / right
 	- l key : display (or not) the lidar sensor
@@ -155,7 +159,9 @@ class MyRobot(MyAwesomeRobot):
 
 ### Directory *examples/worlds*
 
-This directory contains the worlds in which the robot can move. They are only used here as examples. You can make your own worlds based on existing ones.
+This directory `examples/worlds` contains the worlds used by the robot. They are only used here as examples. You can also create your own worlds based on existing ones.
+
+Every world file contains a main function, allowing the file to be executed directly to observe the world. In this case, the world is run with a stationary robot. The parameter `use_mouse_measure` is set to `True` so the measuring tool is active when clicking on the screen.
 
 Each world must inherit from the class *WorldAbstract*.
 
@@ -172,12 +178,93 @@ The true position of the robot can be accessed with the functions *true_position
 Some examples are provided:
 - *my_robot_random.py* shows the actuators
 
+## Directory *tools*
+
+In `src/place_bot/tools`, you may find utilities to create worlds, make measurements, etc. Notably:
+- `image_to_world.py` builds a world from a black and white image.
+- `check_world.py` shows a world without robot; clicking prints coordinates—useful for designing or modifying a world.
+
 ## Various tips
 
-- To exit elegantly after launching a world, press 'q'.
+### Exiting an execution
+
+- To exit elegantly after launching a world, press `Q` in the simulation window (exits current round).
+- To exit the entire program immediately, press `E` in the simulation window (exits all rounds).
+
+### Enable some visualizations
+
+The `Simulator` class can be constructed with the following parameters (defaults shown):
+- `draw_lidar_rays`: False. Draws lidar rays.
+- `use_keyboard`: False.
+- `use_mouse_measure`: False. Click to print the mouse position.
+- `enable_visu_noises`: False.
+- `filename_video_capture`: None to disable; otherwise the output video filename.
+
+### Print FPS performance in the terminal
+
+Display the program's FPS in the console at regular intervals by changing the global variable at the top of `src/place_bot/simulation/gui_world/gui_sr.py`: `DISPLAY_FPS = True`. 
+See `src/place_bot/simulation/utils/fps_display.py` for details.
+
+### Show your own display
+
+In *RobotAbstract*, you can override two functions to draw overlays:
+- `draw_top_layer()`: draw on top of all layers.
+- `draw_bottom_layer()`: draw below all other layers.
+
+For example, draw the robot identifier by calling `self.draw_identifier()` inside `draw_top_layer()`.
+
+### Create a new world
+
+Creating custom worlds is useful to reproduce specific scenarios, stress-test parts of your algorithm, and compare strategies under controlled conditions.
+It also lets you prototype challenges (wall layouts, wounded placements, and special zones) before the final evaluation on unknown worlds.
+
+To add a new world you must create and add two files in `src/place_bot/worlds`:
+- `world_<name>.py` — defines the World class (inherits from `WorldAbstract`). In the `__init__` of your World class paste the initialization lines printed by `image_to_world.py` (for example `self._size_area`, `self._rescue_center`, `self._rescue_center_pos`, `self._wounded_persons_pos`) so the world parameters exactly match the conversion. Implement `build_playground()` to set robot' start positions and to call helper functions that add walls/boxes.
+- `walls_<name>.py` — contains the helper functions generated by `image_to_world.py` (the script writes `generated_code.py`). Copy the generated helper functions (for example `add_walls(playground)` and `add_boxes(playground)`) into `walls_<name>.py` and import them from `world_<name>.py`.
+
+Step-by-step workflow
+
+1. Draw your world as a PNG image with clear, consistent colors:
+   - Walls: pure black (RGB 0,0,0), ~10 px thick for robust detection.
+2. Edit `img_path` in `src/place_bot/tools/image_to_world.py` to point to your PNG and run the script. The tool is interactive and shows intermediate images with OpenCV (`cv2.imshow`); press any key to advance (`cv2.waitKey(0)`). On success it will:
+   - write a `generated_code.py` that contains helper functions (walls/boxes), and
+   - print a few Python initialization lines in the console.
+3. Copy the helper functions from `generated_code.py` into a new file `src/place_bot/worlds/walls_<name>.py`.
+4. COPY the initialization lines printed in the console into the `__init__` of your `World` class in `src/place_bot/worlds/world_<name>.py`. Important: copy these exact assignments so your world parameters match the converter output:
+   - `self._size_area`
+   These values ensure the world dimensions, rescue center placement and wounded persons coordinates are identical to the conversion (the console output from `image_to_world.py` is authoritative).
+5. Implement `build_playground()` in `world_<name>.py` to:
+   - import and call the helper functions from `walls_<name>.py` to add walls/boxes,
+   - define robot' starting area/positions (the converter does not create robot starts automatically),
+   - add any return area or extra elements required by your scenario.
+6. Validate visually using `src/place_bot/tools/check_world.py` (displays the world without robot and prints coordinates when clicking). After visual validation, run a short simulation to smoke-test the world:
+
+Notes & troubleshooting
+- Exact variables to copy: when you run `image_to_world.py` the console output contains the Python lines to paste into your `world_<name>.py`. In particular copy the assignments for `self._size_area`, `self._rescue_center`, `self._rescue_center_pos`, and `self._wounded_persons_pos` into your World class `__init__`.
+- Color detection: `image_to_world.py` detects yellow hues for wounded persons and red for the rescue center using HSV/luma thresholds. If detection fails for a particular shade (for instance yellow vs green), tweak the thresholds inside `src/place_bot/tools/image_to_world.py` (adjust yellow/green thresholds there). The README intentionally points to the tool for color tuning rather than enumerating many variants.
+- Robot start positions: the converter does not set robot starting positions. Add them explicitly in `world_<name>.py` — see existing `world_*.py` examples for idiomatic patterns.
+- Small elements and thickness: keep walls reasonably thick in the source PNG (~8–12 px) to avoid fragmentation during detection.
+- Final check: after creating both files (`world_<name>.py`, `walls_<name>.py`) and validating with `check_world.py`, run a short simulation to validate the world in situ.
+
+# Getting Started
+
+Welcome to Place-Bot! This section will help you quickly set up and run your first simulation with a custom robot controller.
+
+## Installation
+
+Follow [INSTALL.md](INSTALL.md) to set up your environment, install dependencies, and troubleshoot common issues. Supported platforms include Ubuntu (recommended) and Windows (with WSL2 or Git Bash).
+
+## Quick Start Example
+
+Once installed, you can launch a default simulation with:
+
+```bash
+python3 examples/example.py
+```
+
 
 # Contact
 
-If you have questions about the code, you can contact:
+If you have questions about the code, propose improvements or report bugs, you can contact:
 emmanuel . battesti at ensta . fr
 
