@@ -2,8 +2,8 @@ import math
 import random
 
 from place_bot.simulation.old_entities.robot_abstract import RobotAbstract
-from place_bot.simulation.simu_world import ClosedPlayground
-from place_bot.simulation.simu_world import WorldAbstract
+from place_bot.simulation.old_simu_world import ClosedPlayground
+from place_bot.simulation.old_simu_world import WorldAbstract
 
 from .walls_complete_world_1 import add_walls, add_boxes
 

@@ -1,4 +1,4 @@
-from place_bot.simulation.simu_world.simulator import Simulator
+from place_bot.simulation.old_simu_world.simulator import Simulator
 
 from worlds.world_complete_02 import MyWorldComplete02
 

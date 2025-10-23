@@ -12,9 +12,9 @@ from spg.playground.playground import CommandsDict
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from place_bot.simulation.old_entities.robot_abstract import RobotAbstract
-from place_bot.simulation.simu_world import ClosedPlayground
-from place_bot.simulation.simu_world.simulator import Simulator
-from place_bot.simulation.simu_world import WorldAbstract
+from place_bot.simulation.old_simu_world import ClosedPlayground
+from place_bot.simulation.old_simu_world.simulator import Simulator
+from place_bot.simulation.old_simu_world import WorldAbstract
 
 
 class MyRobotKeyboard(RobotAbstract):
