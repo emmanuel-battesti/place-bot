@@ -8,6 +8,8 @@ import os
 import sys
 from typing import Type
 
+from spg.playground.playground import CommandsDict
+
 # This line add, to sys.path, the path to parent path of this file
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -21,11 +23,11 @@ from place_bot.simu_world.world_abstract import WorldAbstract
 
 
 class MyRobotLidar(RobotAbstractDisplayLidarV2):
-    def control(self):
+    def control(self) -> CommandsDict:
         """
         We only send a command to do nothing
         """
-        command = {"forward": 0.0,
+        command: CommandsDict = {"forward": 0.0,
                    "rotation": 0.0}
         return command
 

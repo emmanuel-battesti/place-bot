@@ -1,11 +1,19 @@
 import cv2
 
-img_path1 = "/home/battesti/projetRobotMobile/place-bot/world_data/complete_world_2.png"
-img1 = cv2.imread(img_path1, cv2.IMREAD_GRAYSCALE)
-cv2.imshow("img1", img1)
+def show_image(img_path: str) -> None:
+    """
+    Loads and displays a grayscale image from the given path.
 
-img_path2 = "/home/battesti/projetRobotMobile/place-bot/world_data/complete_world_2_clean.png"
-img2 = cv2.imread(img_path2, cv2.IMREAD_GRAYSCALE)
-cv2.imshow("img2", img2)
+    Args:
+        img_path (str): Path to the image file.
+    """
+    img1 = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+    cv2.imshow("img1", img1)
+    cv2.waitKey(0)
 
-cv2.waitKey(0)
+def main():
+    img_path1 = "/home/battesti/projetRobotMobile/place-bot/world_data/complete_world_2.png"
+    show_image(img_path1)
+
+if __name__ == '__main__':
+    main()

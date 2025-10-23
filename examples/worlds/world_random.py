@@ -21,8 +21,8 @@ class MyWorldRandom(WorldAbstract):
         self._playground = ClosedPlayground(size=self._size_area)
 
         # POSITION OF THE ROBOT
-        x = random.uniform(-self._size_area[0]/2, self._size_area[0]/2)
-        y = random.uniform(-self._size_area[1]/2, self._size_area[1]/2)
+        x = random.uniform(-self._size_area[0] / 2, self._size_area[0] / 2)
+        y = random.uniform(-self._size_area[1] / 2, self._size_area[1] / 2)
         angle = random.uniform(-math.pi, math.pi)
-	self._robot_pos = ((x, y), angle)
+        self._robot_pos = ((x, y), angle)
         self._playground.add(robot, self._robot_pos)

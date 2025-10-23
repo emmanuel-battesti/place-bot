@@ -25,7 +25,7 @@ class MyRobotRandom(RobotAbstract):
         self.isTurningLeft = False
         self.isTurningRight = False
 
-    def control(self):
+    def control(self) -> CommandsDict:
         """
         The Robot will move forward and turn for a random angle when an obstacle is hit
         """

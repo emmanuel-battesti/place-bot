@@ -7,6 +7,8 @@ import os
 import sys
 from typing import Type
 
+from spg.playground.playground import CommandsDict
+
 # This line add, to sys.path, the path to parent path of this file
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -17,8 +19,8 @@ from place_bot.simu_world.world_abstract import WorldAbstract
 
 
 class MyRobotKeyboard(RobotAbstract):
-    def control(self):
-        command = {"forward": 0.0,
+    def control(self) -> CommandsDict:
+        command: CommandsDict = {"forward": 0.0,
                    "rotation": 0.0}
         return command
 
@@ -43,9 +45,9 @@ def print_keyboard_man():
     print("How to use the keyboard to direct the robot?")
     print("\t- up / down key : forward and backward")
     print("\t- left / right key : turn left / right")
-    print("\t- l key : display (or not) the lidar sensor")
-    print("\t- q key : exit the program")
-    print("\t- r key : reset")
+    print("\t- L key : display (or not) the lidar sensor")
+    print("\t- Q key : exit the program")
+    print("\t- R key : reset")
 
 
 def main():

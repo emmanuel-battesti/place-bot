@@ -11,13 +11,18 @@ class MyWorld(MyWorldComplete02):
 
 
 class MyRobot(RobotAbstract):
+    """
+    Dummy robot class for world checking.
+    """
 
-    def control(self):
+    def control(self) -> CommandsDict:
         pass
 
 
-if __name__ == "__main__":
-    print("")
+def main():
+    """
+    Runs a GUI to check the world visually with a dummy robot.
+    """
     my_robot = MyRobot
     my_world = MyWorld(robot=my_robot)
 
@@ -25,3 +30,6 @@ if __name__ == "__main__":
                           use_mouse_measure=True)
 
     simulator.run()
+
+if __name__ == '__main__':
+    main()
