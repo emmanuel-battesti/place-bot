@@ -12,7 +12,7 @@ from spg.element import PhysicalElement
 from place_bot.resources import path_resources
 
 
-class SrColorWall(PhysicalElement):
+class ColorWall(PhysicalElement):
     """
     The SrColorWall class is a subclass of the PhysicalElement class. It
     represents a colored wall or a wall with a texture. The class is used to
@@ -77,7 +77,7 @@ class SrColorWall(PhysicalElement):
             pm_shape.friction = 0.7 # default value in arcade is 0.2
 
 
-class NormalWall(SrColorWall):
+class NormalWall(ColorWall):
     """
     The NormalWall class is a subclass of the SrColorWall class. It is used by
     the tool 'image_to_map.py' in the directory tools. This class represents
@@ -113,7 +113,7 @@ class NormalWall(SrColorWall):
                          **kwargs)
 
 
-class NormalBox(SrColorWall):
+class NormalBox(ColorWall):
     """
     The NormalBox class is a subclass of the SrColorWall class. It represents a
      custom wall in the shape of a box.

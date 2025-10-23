@@ -11,7 +11,6 @@ Examples can be found in spg/agents/agents.py
 """
 from __future__ import annotations
 
-from place_bot.simulation.robot.communicator import Communicator
 from place_bot.simulation.robot.controller import Controller, CommandsDict
 from place_bot.simulation.robot.robot_base import RobotBase
 from place_bot.simulation.ray_sensors.external_sensor import ExternalSensor
@@ -141,15 +140,6 @@ class Agent(Entity):
     def _name_to_controller(self) -> dict:
         """Return a mapping from controller names to controller objects."""
         return {contr.name: contr for contr in self.controllers}
-
-    @property
-    def communicators(self) -> list[Communicator]:
-        """Return a list of communicators attached to the agent."""
-        return [
-            comm
-            for comm in self.base.devices
-            if isinstance(comm, Communicator)
-        ]
 
     @property
     def sensors(self) -> list[Sensor]:

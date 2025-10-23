@@ -1,8 +1,9 @@
 import math
+from typing import Optional
 
 import numpy as np
 
-from spg.agent.sensor.internal import InternalSensor
+from place_bot.simulation.robot.sensor import Sensor
 from place_bot.simulation.utils.utils import rad2deg, normalize_angle
 
 
@@ -22,7 +23,7 @@ class OdometerParams:
     param4 = 0.01  # 0.01 # degree/degree, influence of rotation to rotation
 
 
-class Odometer(InternalSensor):
+class Odometer(Sensor):
     """
       Odometer sensor returns a numpy array containing:
       - dist_travel, the distance of the travel of the robot during one step
@@ -63,7 +64,7 @@ class Odometer(InternalSensor):
         self.prev_angle = None
         self.prev_position = None
 
-    def _compute_raw_sensor(self):
+    def _compute_raw_sensor(self) -> None:
         """
         Compute the distance traveled, relative angle, and variation of orientation for the robot.
         """
@@ -115,24 +116,45 @@ class Odometer(InternalSensor):
 
         self._values = np.array([new_x, new_y, new_orient])
 
-    def _apply_normalization(self):
+    def _apply_normalization(self) -> None:
+        """
+        No normalization applied for odometer.
+        """
         pass
 
     @property
     def _default_value(self) -> np.ndarray:
+        """
+        Returns the default value for the sensor.
+        """
         return np.zeros(self.shape)
 
-    def get_sensor_values(self):
-        return self._values
+    def get_sensor_values(self) -> Optional[np.ndarray]:
+        """
+        Get the odometer sensor values.
 
-    def draw(self):
+        Returns:
+            np.ndarray or None: Sensor values or None if disabled.
+        """
+        if not self._disabled:
+            return self._values
+        else:
+            return None
+
+    def draw(self) -> None:
+        """
+        Draws the odometer sensor (no-op).
+        """
         pass
 
     @property
     def shape(self) -> tuple:
+        """
+        Returns the shape of the sensor output.
+        """
         return 3,
 
-    def _apply_noise(self):
+    def _apply_noise(self) -> None:
         """
         Overload of an internal function of _apply_noise of the class InternalSensor
         As we have to do more computation (integration) after this function, we cannot use it.
@@ -156,5 +178,11 @@ class Odometer(InternalSensor):
         self._alpha = noisy_alpha
         self._theta = noisy_theta
 
-    def is_disabled(self):
+    def is_disabled(self) -> bool:
+        """
+        Returns whether the sensor is disabled.
+
+        Returns:
+            bool: True if disabled, False otherwise.
+        """
         return self._disabled

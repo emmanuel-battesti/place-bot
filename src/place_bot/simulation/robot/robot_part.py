@@ -11,7 +11,6 @@ from typing import TYPE_CHECKING, Dict, List, Optional, Union
 
 from place_bot.simulation.robot.controller import Command
 from place_bot.simulation.robot.device import Device
-from place_bot.simulation.robot.grasper import Grasper
 from place_bot.simulation.elements.physical_entity import PhysicalEntity
 
 if TYPE_CHECKING:
@@ -105,9 +104,6 @@ class RobotPart(PhysicalEntity, ABC):
         """
         self._apply_commands(**kwargs)
 
-        for device in self.devices:
-            if isinstance(device, Grasper):
-                device.apply_commands()
 
     @abstractmethod
     def _apply_commands(self, **kwargs) -> None:

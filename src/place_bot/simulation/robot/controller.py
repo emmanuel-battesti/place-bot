@@ -131,63 +131,7 @@ class Controller(PocketDevice):
         return self._command
 
 
-class GrasperController(Controller):
-    """
-    Grasper Commands.
-    Command values can take a number within a list of integers.
-    0 is always the default command, even if not given at initialization.
-    """
-
-    def __init__(
-            self,
-            name: str,
-            **kwargs,
-    ):
-        """
-        Initialize the GrasperController.
-
-        Args:
-            name (str): Name of the controller.
-            **kwargs: Additional keyword arguments.
-        """
-        super().__init__(name=name, **kwargs)
-
-        self._valid_command_values = [0, 1]
-
-    def _check(self, command: Command) -> bool:
-        """
-        Check if the command is valid for the grasper.
-
-        Args:
-            command (Command): The command to check.
-
-        Returns:
-            bool: True if valid, False otherwise.
-        """
-        return command in self._valid_command_values
-
-    @property
-    def default(self) -> int:
-        """
-        Returns the default command value (0).
-        """
-        return 0
-
-    @property
-    def valid_commands(self):
-        """
-        Returns the list of valid command values.
-        """
-        return self._valid_command_values
-
-    def get_random_commands(self) -> int:
-        """
-        Returns a random valid command value.
-        """
-        return self._playground.rng.choice(self._valid_command_values)
-
-
-class CenteredContinuousController(Controller):
+ class CenteredContinuousController(Controller):
     """
     Controller for continuous commands in the range [-1, 1].
     """

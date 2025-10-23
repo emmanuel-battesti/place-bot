@@ -1,13 +1,16 @@
+import math
+
+import arcade
 import pymunk
-from spg.agent.controller import CenteredContinuousController
-from spg.agent.part import PhysicalPart
-from spg.utils.definitions import LINEAR_FORCE, ANGULAR_VELOCITY
 
 from place_bot.resources import path_resources
+from place_bot.simulation.robot.controller import CenteredContinuousController
+from place_bot.simulation.robot.robot_part import RobotPart
 from place_bot.simulation.utils.constants import LINEAR_SPEED_RATIO, ANGULAR_SPEED_RATIO
+from place_bot.simulation.utils.definitions import LINEAR_FORCE, ANGULAR_VELOCITY
 
 
-class RobotBase(PhysicalPart):
+class RobotBase(RobotPart):
     """
     The RobotBase class represents a robot base in a simulation. It defines the
     behavior and properties of the robot, including its movement and control
@@ -20,6 +23,14 @@ class RobotBase(PhysicalPart):
             angular_ratio: float = ANGULAR_SPEED_RATIO,
             **kwargs,
     ):
+        """
+        Initialize the RobotBase.
+
+        Args:
+            linear_ratio (float): Ratio for linear speed.
+            angular_ratio (float): Ratio for angular speed.
+            **kwargs: Additional keyword arguments.
+        """
         super().__init__(
             mass=50,
             filename=path_resources + "/robot.png",
@@ -39,16 +50,22 @@ class RobotBase(PhysicalPart):
             pm_shape.friction = 0.7 # default value in arcade is 0.2
 
         self.forward_controller = CenteredContinuousController(name="forward")
-        self.add(self.forward_controller)
+        self.add_device(self.forward_controller)
 
         self.angular_vel_controller = (
             CenteredContinuousController(name="rotation"))
-        self.add(self.angular_vel_controller)
+        self.add_device(self.angular_vel_controller)
 
         self.linear_ratio = LINEAR_FORCE * linear_ratio
         self.angular_ratio = ANGULAR_VELOCITY * angular_ratio
 
-    def _apply_commands(self, **kwargs):
+    def _apply_commands(self, **kwargs) -> None:
+        """
+        Apply the control commands to the robot's physical body.
+
+        Args:
+            **kwargs: Additional keyword arguments.
+        """
         cmd_forward = self.forward_controller.command_value
         cmd_forward = max(min(cmd_forward, 1.0), -1.0)
         self._pm_body.apply_force_at_local_point(
