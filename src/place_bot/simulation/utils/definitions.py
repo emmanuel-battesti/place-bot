@@ -35,15 +35,9 @@ class CollisionTypes(IntEnum):
     PART = auto()
 
     WALL = auto()
-    DRONE = auto()
-    WOUNDED = auto()
-    RESCUE_CENTER = auto()
+    ROBOT = auto()
 
     DEVICE = auto()
-    DISABLER_ZONE = auto()
-
-    GRASPER = auto()
-    RETURN_AREA = auto()
 
 
 def add_custom_collision(collision_types: Type[IntEnum], name: str) -> type:

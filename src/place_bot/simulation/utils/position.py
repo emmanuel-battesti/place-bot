@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING, Optional, Tuple, Union, Iterator
 import numpy as np
 
 if TYPE_CHECKING:
-    from swarm_rescue.simulation.gui_map.playground import Playground
+    from place_bot.simulation.gui_map.playground import Playground
 
 Coordinate = Tuple[Tuple[float, float], float]
 

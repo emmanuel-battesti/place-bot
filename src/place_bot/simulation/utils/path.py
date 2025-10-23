@@ -1,6 +1,6 @@
 import numpy as np
 
-from swarm_rescue.simulation.utils.pose import Pose
+from place_bot.simulation.utils.pose import Pose
 
 
 class Path:

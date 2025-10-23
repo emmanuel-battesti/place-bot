@@ -61,3 +61,4 @@ MANIFEST
 .venv*/
 .conda*/
 .python-version
+/src/place_bot/tmp/

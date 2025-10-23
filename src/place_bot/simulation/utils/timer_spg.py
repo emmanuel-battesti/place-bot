@@ -4,7 +4,7 @@ from abc import ABC
 from typing import TYPE_CHECKING, List, Optional, Tuple, Union
 
 if TYPE_CHECKING:
-    from swarm_rescue.simulation.gui_map.playground import Playground
+    from place_bot.simulation.gui_map.playground import Playground
 
 
 class Timer(ABC):

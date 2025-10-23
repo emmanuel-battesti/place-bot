@@ -10,7 +10,7 @@ class MouseMeasure:
     By selecting a zone with the mouse, it draws the  zone rectangle, and the
     middle circle.
     It calculates the distance and delta values between mouse clicks.
-    Used in GuiSR class.
+    Used in Simulator class.
 
     Attributes:
         x_mouse: Current x-coordinate of the mouse.
