@@ -1,4 +1,4 @@
-from place_bot.simulation.old_entities.robot_abstract import RobotAbstract
+from place_bot.simulation.robot.robot_abstract import RobotAbstract
 from place_bot.simulation.old_simu_world.simulator import Simulator
 
 from worlds.world_intermediate_01 import MyWorldIntermediate01

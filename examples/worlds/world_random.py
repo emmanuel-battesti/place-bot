@@ -1,7 +1,7 @@
 import math
 import random
 
-from place_bot.simulation.old_entities.robot_abstract import RobotAbstract
+from place_bot.simulation.robot.robot_abstract import RobotAbstract
 from place_bot.simulation.old_simu_world import ClosedPlayground
 from place_bot.simulation.old_simu_world import WorldAbstract
 

@@ -2,8 +2,8 @@ import math
 from abc import abstractmethod
 
 from place_bot.simulation.old_entities.lidar import LidarParams
-from place_bot.simulation.old_entities.odometer import OdometerParams
-from place_bot.simulation.old_entities.robot_abstract import RobotAbstract
+from place_bot.simulation.robot.odometer import OdometerParams
+from place_bot.simulation.robot.robot_abstract import RobotAbstract
 
 import pyqtgraph
 # from pyqtgraph.Qt import QtCore, QtWidgets

@@ -7,7 +7,7 @@ from spg.agent.controller.controller import Command, Controller
 from spg.view import TopDownView
 
 from place_bot.simulation.utils.constants import FRAME_RATE
-from place_bot.simulation.old_entities.robot_abstract import RobotAbstract
+from place_bot.simulation.robot.robot_abstract import RobotAbstract
 from place_bot.simulation.old_entities.keyboard_controller import KeyboardController
 from place_bot.simulation.utils.fps_display import FpsDisplay
 from place_bot.simulation.old_simu_world.world_abstract import WorldAbstract

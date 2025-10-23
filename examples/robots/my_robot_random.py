@@ -6,7 +6,7 @@ import math
 import random
 from enum import Enum
 
-from place_bot.simulation.old_entities.robot_abstract import RobotAbstract
+from place_bot.simulation.robot.robot_abstract import RobotAbstract
 from place_bot.simulation.utils.utils import normalize_angle
 
 
