@@ -4,17 +4,16 @@ from typing import Optional, Tuple, Dict, Union, Type
 import cv2
 
 from spg.agent.controller.controller import Command, Controller
-from spg.playground import Playground
 from spg.view import TopDownView
 
-from place_bot.utils.constants import FRAME_RATE
-from place_bot.entities.robot_abstract import RobotAbstract
-from place_bot.entities.keyboard_controller import KeyboardController
-from place_bot.utils.fps_display import FpsDisplay
-from place_bot.simu_world.world_abstract import WorldAbstract
-from place_bot.utils.mouse_measure import MouseMeasure
-from place_bot.utils.screen_recorder import ScreenRecorder
-from place_bot.utils.visu_noises import VisuNoises
+from place_bot.simulation.utils.constants import FRAME_RATE
+from place_bot.simulation.entities.robot_abstract import RobotAbstract
+from place_bot.simulation.entities.keyboard_controller import KeyboardController
+from place_bot.simulation.utils.fps_display import FpsDisplay
+from place_bot.simulation.simu_world.world_abstract import WorldAbstract
+from place_bot.simulation.utils.mouse_measure import MouseMeasure
+from place_bot.simulation.utils.screen_recorder import ScreenRecorder
+from place_bot.simulation.utils.visu_noises import VisuNoises
 
 
 class Simulator(TopDownView):

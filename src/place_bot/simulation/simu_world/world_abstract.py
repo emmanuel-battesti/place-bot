@@ -1,9 +1,9 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import Type, Union
 
 from spg.playground import Playground
 
-from place_bot.entities.robot_abstract import RobotAbstract
+from place_bot.simulation.entities.robot_abstract import RobotAbstract
 
 
 class WorldAbstract(ABC):

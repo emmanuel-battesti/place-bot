@@ -6,8 +6,8 @@ import math
 import random
 from enum import Enum
 
-from place_bot.entities.robot_abstract import RobotAbstract
-from place_bot.utils.utils import normalize_angle
+from place_bot.simulation.entities.robot_abstract import RobotAbstract
+from place_bot.simulation.utils.utils import normalize_angle
 
 
 class State(Enum):

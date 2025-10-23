@@ -3,7 +3,7 @@ import numpy as np
 
 from spg.agent.sensor import DistanceSensor
 
-from place_bot.utils.utils_noise import GaussianNoise
+from place_bot.simulation.utils.utils_noise import GaussianNoise
 
 
 # Helper function that computes the angles of the laser rays of the sensor in radians

@@ -2,14 +2,12 @@ import math
 
 import numpy as np
 import pymunk
-import pytest
 
-from typing import Optional, List, Type
+from typing import Type
 
-from place_bot.entities.robot_abstract import RobotAbstract
-from place_bot.simu_world.closed_playground import ClosedPlayground
-from place_bot.simu_world.simulator import Simulator
-from place_bot.simu_world.world_abstract import WorldAbstract
+from place_bot.simulation.entities.robot_abstract import RobotAbstract
+from place_bot.simulation.simu_world import ClosedPlayground
+from place_bot.simulation.simu_world import WorldAbstract
 
 
 class MyRobot(RobotAbstract):

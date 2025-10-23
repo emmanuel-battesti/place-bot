@@ -11,9 +11,9 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from worlds.world_intermediate_01 import MyWorldIntermediate01
-from place_bot.entities.robot_abstract import RobotAbstract
-from place_bot.simu_world.simulator import Simulator
-from place_bot.utils.utils import normalize_angle
+from place_bot.simulation.entities.robot_abstract import RobotAbstract
+from place_bot.simulation.simu_world.simulator import Simulator
+from place_bot.simulation.utils.utils import normalize_angle
 
 
 class MyRobotRandom(RobotAbstract):

@@ -1,12 +1,9 @@
 import math
 import random
-from typing import Type
 
-from spg.playground import Playground
-
-from place_bot.entities.robot_abstract import RobotAbstract
-from place_bot.simu_world.closed_playground import ClosedPlayground
-from place_bot.simu_world.world_abstract import WorldAbstract
+from place_bot.simulation.entities.robot_abstract import RobotAbstract
+from place_bot.simulation.simu_world import ClosedPlayground
+from place_bot.simulation.simu_world import WorldAbstract
 
 from .walls_complete_world_2 import add_walls, add_boxes
 

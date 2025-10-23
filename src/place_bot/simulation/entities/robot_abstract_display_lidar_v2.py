@@ -1,14 +1,9 @@
 import math
 from abc import abstractmethod
-from enum import IntEnum
 
-from spg.agent.agent import Agent
-
-from place_bot.entities.robot_base import RobotBase
-from place_bot.entities.lidar import Lidar, LidarParams
-from place_bot.entities.odometer import Odometer, OdometerParams
-from place_bot.utils.utils import normalize_angle
-from place_bot.entities.robot_abstract import RobotAbstract
+from place_bot.simulation.entities.lidar import LidarParams
+from place_bot.simulation.entities.odometer import OdometerParams
+from place_bot.simulation.entities.robot_abstract import RobotAbstract
 
 import pyqtgraph
 # from pyqtgraph.Qt import QtCore, QtWidgets

@@ -3,7 +3,7 @@ import math
 import numpy as np
 
 from spg.agent.sensor.internal import InternalSensor
-from place_bot.utils.utils import rad2deg, normalize_angle
+from place_bot.simulation.utils.utils import rad2deg, normalize_angle
 
 
 class OdometerParams:
