@@ -3,7 +3,7 @@ from typing import Type, Union
 
 from spg.playground import Playground
 
-from place_bot.simulation.entities.robot_abstract import RobotAbstract
+from place_bot.simulation.old_entities.robot_abstract import RobotAbstract
 
 
 class WorldAbstract(ABC):

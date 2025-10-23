@@ -1,9 +1,9 @@
 import math
 from abc import abstractmethod
 
-from place_bot.simulation.entities.lidar import LidarParams
-from place_bot.simulation.entities.odometer import OdometerParams
-from place_bot.simulation.entities.robot_abstract import RobotAbstract
+from place_bot.simulation.old_entities.lidar import LidarParams
+from place_bot.simulation.old_entities.odometer import OdometerParams
+from place_bot.simulation.old_entities.robot_abstract import RobotAbstract
 
 import matplotlib
 matplotlib.use('TkAgg')

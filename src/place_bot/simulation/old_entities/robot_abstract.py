@@ -3,9 +3,9 @@ from enum import IntEnum
 
 from spg.agent.agent import Agent
 
-from place_bot.simulation.entities.robot_base import RobotBase
-from place_bot.simulation.entities.lidar import Lidar, LidarParams
-from place_bot.simulation.entities.odometer import Odometer, OdometerParams
+from place_bot.simulation.old_entities.robot_base import RobotBase
+from place_bot.simulation.old_entities.lidar import Lidar, LidarParams
+from place_bot.simulation.old_entities.odometer import Odometer, OdometerParams
 from place_bot.simulation.utils.utils import normalize_angle
 
 
