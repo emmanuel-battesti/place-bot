@@ -1,13 +1,15 @@
 import math
-import arcade
-from typing import Tuple, Dict
 from collections import deque
-from place_bot.simulation.entities.robot_abstract import RobotAbstract
+from typing import Tuple, List, Dict, Union, Deque
+
+import arcade
+
+from place_bot.simulation.robot.robot_abstract import RobotAbstract
 
 
 def _draw_pseudo_robot(position_screen: Tuple[int, int, float],
-                       color: Tuple[int, int, int],
-                       radius=15):
+                       color: Union[Tuple[int, int, int], Tuple[int, int, int, int]],
+                       radius: int = 15) -> None:
     """
     This function is responsible for drawing a pseudo robot on the screen. It
     takes the screen position of the robot, the color of the robot, and the
@@ -27,8 +29,8 @@ def _draw_pseudo_robot(position_screen: Tuple[int, int, float],
 
     if not isinstance(position_screen, tuple) or len(position_screen) != 3:
         raise ValueError("position_screen must be a tuple of length 3")
-    if not isinstance(color, tuple) or len(color) != 3:
-        raise ValueError("color must be a tuple of length 3")
+    if not isinstance(color, tuple) or len(color) not in (3, 4):
+        raise ValueError("color must be a tuple of length 3 or 4 (RGB or RGBA)")
     if radius <= 0:
         raise ValueError("Radius must be a positive number.")
 
@@ -52,6 +54,14 @@ def _draw_pseudo_robot(position_screen: Tuple[int, int, float],
 
 
 class VisuNoises:
+    """
+    Visualization tool for displaying noisy and true positions of the robot.
+
+    Args:
+        playground_size (Tuple[int, int]): Size of the playground.
+        robot (RobotAbstract): Robot to visualize.
+    """
+
     def __init__(self, playground_size: Tuple[int, int], robot: RobotAbstract):
         self._playground_size = playground_size
         self._robot = robot
@@ -62,7 +72,7 @@ class VisuNoises:
         self._scr_pos_true: Dict[RobotAbstract, deque[Tuple[float, float, float]]] = {}
         self._max_size_circular_buffer = 150
 
-    def reset(self):
+    def reset(self) -> None:
         """
         The reset method is responsible for resetting the state of the
         VisuNoises object by clearing all the dictionaries that store the
@@ -71,17 +81,28 @@ class VisuNoises:
         self._scr_pos_odom.clear()
         self._scr_pos_true.clear()
 
-    def draw(self, enable: bool = True):
+    def draw(self, enable: bool = True) -> None:
+        """
+        Draw all noisy and true robot positions and paths.
+
+        Args:
+            enable (bool): Whether to draw.
+        """
         if not enable:
             return
 
-        self._draw_odom(self._robot)
-        self._draw_true(self._robot)
+        self._draw_odom_path(self._robot, enable=True)
+        self._draw_odom_position(self._robot, enable=True)
 
-    def _draw_odom(self, robot: RobotAbstract, enable: bool = True):
+        self._draw_true_path(self._robot)
+
+    def _draw_odom_position(self, robot: RobotAbstract, enable: bool = True) -> None:
         """
-        The _draw_odom method is responsible for drawing the position
-        of a robot on screen based on its odometry data.
+        Draw the odometry position of a robot.
+
+        Args:
+            robot (RobotAbstract): The robot.
+            enable (bool): Whether to draw.
         """
         if not enable:
             return
@@ -90,46 +111,60 @@ class VisuNoises:
         if robot not in self._scr_pos_odom:
             return
 
-        prev_pos_screen = None
-        for pos_screen in self._scr_pos_odom[robot]:
-            if prev_pos_screen is not None:
-                arcade.draw_line(pos_screen[0],
-                                 pos_screen[1],
-                                 prev_pos_screen[0],
-                                 prev_pos_screen[1],
-                                 color=arcade.color.RED)
-            prev_pos_screen = pos_screen
-
         last_pos_screen = self._scr_pos_odom[robot][-1]
         _draw_pseudo_robot(position_screen=last_pos_screen,
                            color=arcade.color.RED)
 
-    def _draw_true(self, robot: RobotAbstract):
+    def _draw_odom_path(self, robot: RobotAbstract, enable: bool = True):
         """
-        The _draw_true method is responsible for drawing the true path of
-        a robot on the screen.
+        Draw the odometry path of a robot.
+        This trajectory may drift and not correspond at all to reality.
+
+        Args:
+            robot (RobotAbstract): The robot.
+            enable (bool): Whether to draw.
+        """
+        if not enable:
+            return
+        if not self._scr_pos_odom:
+            return
+        if robot not in self._scr_pos_odom:
+            return
+
+        point_list = []
+        for pos_screen in self._scr_pos_odom[robot]:
+            point_list.append((pos_screen[0], pos_screen[1]))
+
+        arcade.draw_line_strip(point_list=point_list, color=arcade.color.RED)
+
+    def _draw_true_path(self, robot: RobotAbstract) -> None:
+        """
+        Draw the true path of a robot.
         """
         if not self._scr_pos_true:
             return
         if robot not in self._scr_pos_true:
             return
 
-        prev_pos_screen = None
+        point_list = []
         for pos_screen in self._scr_pos_true[robot]:
-            if prev_pos_screen is not None:
-                arcade.draw_line(pos_screen[0],
-                                 pos_screen[1],
-                                 prev_pos_screen[0],
-                                 prev_pos_screen[1],
-                                 color=arcade.color.BLACK)
-            prev_pos_screen = pos_screen
+            point_list.append((pos_screen[0], pos_screen[1]))
 
-    def update(self, enable: bool = True):
+        arcade.draw_line_strip(point_list=point_list, color=arcade.color.BLACK)
+
+    def update(self, enable: bool = True) -> None:
+        """
+        Update the visualization state with current robot positions.
+
+        Args:
+            enable (bool): Whether to update.
+        """
         if not enable:
             return
 
         if not self._scr_pos_true:
-            self._scr_pos_true = {None: deque(maxlen=self._max_size_circular_buffer)}
+            self._scr_pos_true = \
+                {None: deque(maxlen=self._max_size_circular_buffer)}
 
         if not self._scr_pos_odom:
             self._scr_pos_odom = {None: deque(maxlen=self._max_size_circular_buffer)}
@@ -137,12 +172,14 @@ class VisuNoises:
         # TRUE VALUES
         true_position = self._robot.true_position()
         true_angle = self._robot.true_angle()
-        if true_position is not None and true_angle is not None:
-            pos = self.conv_world2screen(pos_world=true_position, angle=true_angle)
+        if true_position is not None:
+            pos = self.conv_world2screen(
+                pos_world=true_position, angle=true_angle)
             if self._robot in self._scr_pos_true:
                 self._scr_pos_true[self._robot].append(pos)
             else:
-                self._scr_pos_true[self._robot] = deque([pos], maxlen=self._max_size_circular_buffer)
+                self._scr_pos_true[self._robot] = (
+                    deque([pos], maxlen=self._max_size_circular_buffer))
 
         # ODOMETER
         x, y, orient = (0.0, 0.0, 0.0)
@@ -154,7 +191,17 @@ class VisuNoises:
             else:
                 self._scr_pos_odom[self._robot] = deque([pos_odom_screen], maxlen=self._max_size_circular_buffer)
 
-    def conv_world2screen(self, pos_world: Tuple[float, float], angle: float):
+    def conv_world2screen(self, pos_world: Tuple[float, float], angle: float) -> Tuple[int, int, float]:
+        """
+        Convert world coordinates to screen coordinates.
+
+        Args:
+            pos_world (Tuple[float, float]): World position.
+            angle (float): Orientation angle.
+
+        Returns:
+            Tuple[int, int, float]: Screen position and angle.
+        """
         if (math.isnan(pos_world[0])
                 or math.isnan(pos_world[1])
                 or math.isnan(angle)):
@@ -165,7 +212,16 @@ class VisuNoises:
         pos_screen: Tuple[int, int, float] = (x, y, alpha)
         return pos_screen
 
-    def conv_screen2world(self, pos_screen: Tuple[int, int]):
+    def conv_screen2world(self, pos_screen: Tuple[int, int]) -> Tuple[Tuple[float, float], float]:
+        """
+        Convert screen coordinates to world coordinates.
+
+        Args:
+            pos_screen (Tuple[int, int]): Screen position.
+
+        Returns:
+            Tuple[Tuple[float, float], float]: World position and angle.
+        """
         if math.isnan(pos_screen[0]) or math.isnan(pos_screen[1]):
             return float('NaN'), float('NaN'), float('NaN')
         x = float(pos_screen[0] - self._half_playground_size[0])

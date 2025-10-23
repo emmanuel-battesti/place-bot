@@ -1,5 +1,6 @@
 import math
-from typing import Union, Type
+from typing import Union, Type, Optional
+
 import numpy as np
 
 
@@ -16,9 +17,9 @@ def vector_gaussian_noise(size: int, mean_noise: float = 0,
         mean of 0, and a standard deviation of 1.0. The resulting noise vector
          is then printed.
 
-    Inputs
-        size (int): The size of the desired noise vector.
-        mean_noise (float, optional): The mean of the Gaussian distribution.
+    Args:
+        size (int): Size of the desired noise vector.
+        mean_noise (float): Mean of the Gaussian distribution.
         Defaults to 0.
         std_dev_noise (float, optional): The standard deviation of the Gaussian
         distribution. Defaults to 1.0.
@@ -41,8 +42,8 @@ def vector_gaussian_noise(size: int, mean_noise: float = 0,
 
 class GaussianNoise:
     """
-    The GaussianNoise class is used to add Gaussian noise to input values. It
-    takes in the mean and standard deviation of the noise as parameters and
+    Add Gaussian noise to input values.
+    It takes in the mean and standard deviation of the noise as parameters and
     provides a method to add the noise to the input values.
 
     Example Usage
@@ -62,21 +63,34 @@ class GaussianNoise:
         # noisy_values will be the original values plus random values drawn
         from a Gaussian distribution with mean 0 and standard deviation 1.0
 
+    Args:
+        mean_noise (float): Mean of the Gaussian noise.
+        std_dev_noise (float): Standard deviation of the Gaussian noise.
     """
+
     def __init__(self, mean_noise: float = 0, std_dev_noise: float = 1.0):
         self._mean_noise = mean_noise
         # std_dev_noise is the standard deviation of the resulted gaussian
         # noise
         self._std_dev_noise = std_dev_noise
 
-        self._shape: Union[tuple, Type[None]] = None
+        self._shape: Optional[tuple] = None
 
     def add_noise(self, values: Union[np.ndarray, float]):
+        """
+        Add Gaussian noise to the input values.
+
+        Args:
+            values (np.ndarray or float): Input values.
+
+        Returns:
+            np.ndarray or float: Noisy values.
+        """
         if values is None:
             return None
 
         values2 = values
-        gaussian_noise: Union[np.ndarray, float, Type[None]] = None
+        gaussian_noise: Optional[np.ndarray | float] = None
         if isinstance(values, np.ndarray):
             # if values.ndim == 1:
             #     # change shape from (n,) to (n, 1), ie a column vector
@@ -97,14 +111,19 @@ class GaussianNoise:
 
 class AutoregressiveModelNoise:
     """
-     We use a noise that follow an autoregressive model of order 1 : https://en.wikipedia.org/wiki/Autoregressive_model#Example:_An_AR(1)_process
+    Add autoregressive model noise of order 1 to input values. https://en.wikipedia.org/wiki/Autoregressive_model#Example:_An_AR(1)_process
+
      We have two parameters :
      - std_dev_noise : it is the standard deviation of the resulted noise
      - model_param : value between 0 and 1 (but <1)
      noise = model_param * previous_noise + white_noise
      if model_param = 0 : the final noise is a white noise
      if model_param -> 1 : the noise get some derive
-     """
+
+    Args:
+        model_param (float): AR(1) model parameter (0 <= model_param < 1).
+        std_dev_noise (float): Standard deviation of the resulting noise.
+    """
 
     def __init__(self, model_param: float, std_dev_noise: float):
         self._model_param = model_param
@@ -115,15 +134,24 @@ class AutoregressiveModelNoise:
         self._std_dev_wn = math.sqrt(
             self._std_dev_noise ** 2 * (1 - self._model_param ** 2))
 
-        self._last_noise: Union[np.ndarray, float, Type[None]] = None
-        self._shape: Union[tuple, Type[None]] = None
+        self._last_noise: Union[np.ndarray, float, None] = None
+        self._shape: Union[tuple, None] = None
 
     def add_noise(self, values: Union[np.ndarray, float, Type[None]]):
+        """
+        Add AR(1) noise to the input values.
+
+        Args:
+            values (np.ndarray or float): Input values.
+
+        Returns:
+            np.ndarray or float: Noisy values.
+        """
         if values is None:
             return None
 
         values2 = values
-        white_noise: Union[np.ndarray, float, Type[None]] = None
+        white_noise: Union[np.ndarray, float, None] = None
         if isinstance(values, np.ndarray):
             # if values.ndim == 1:
             #     # change shape from (n,) to (n, 1), ie a column vector

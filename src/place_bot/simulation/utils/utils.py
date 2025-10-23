@@ -4,39 +4,25 @@ from typing import Union
 import numpy as np
 
 
-def normalize_angle(angle, zero_2_2pi=False):
+def normalize_angle(angle: Union[float, np.ndarray], zero_2_2pi: bool = False) -> Union[float, np.ndarray]:
     """
-      Angle modulo operation
-      Default angle modulo range is [-pi, pi)
+    Normalize an angle or array of angles to a specified range.
 
-      Parameters
-      ----------
-      angle : float or array_like
-          A angle or an array of angles. This array is flattened for
-          the calculation. When an angle is provided, a float angle is
-          returned.
-      zero_2_2pi : bool, optional
-          Change angle modulo range to [0, 2pi)
-          Default is False.
+    Args:
+        angle (float or np.ndarray): Angle or array of angles to normalize.
+        zero_2_2pi (bool): If True, normalize to [0, 2pi). Otherwise, [-pi, pi).
 
-      Returns
-      -------
-      ret : float or ndarray
-          an angle or an array of modulated angle.
-
-      Examples
-      --------
-      >>> normalize_angle(-4.0)
-      2.28318531
-
-      >>> normalize_angle([-4.0])
-      np.array(2.28318531)
-
-      """
-    if isinstance(angle, float):
+    Returns:
+        float or np.ndarray: Normalized angle(s).
+    """
+    if isinstance(angle, float) or isinstance(angle, int):
         is_float = True
+        angle = float(angle)
     else:
         is_float = False
+
+    if not isinstance(angle, (float, np.ndarray)):
+        raise TypeError("Input angle must be a float or a numpy.ndarray.")
 
     angle = np.asarray(angle).flatten()
 
@@ -51,12 +37,23 @@ def normalize_angle(angle, zero_2_2pi=False):
         return mod_angle
 
 
-def sign(x):
+def sign(x: float) -> float:
+    """
+    Return the sign of a number as +1.0 or -1.0.
+
+    Args:
+        x (float): Input value.
+
+    Returns:
+        float: 1.0 if x >= 0, -1.0 if x < 0.
+    """
     return math.copysign(1, x)
 
 
 def rad2deg(angle: Union[int, float]) -> Union[int, float]:
     """
+    Convert radians to degrees.
+
     The rad2deg function takes a value in radians and converts it to degrees
     using the math.degrees function from the math module. If the input value is
     None, the function returns None.
@@ -78,10 +75,10 @@ def rad2deg(angle: Union[int, float]) -> Union[int, float]:
         # Output: None
 
     Args:
-        angle (float): The value in radians to be converted to degrees.
+        angle (int or float): Angle in radians.
 
     Returns:
-        float: The value in degrees.
+        int or float: Angle in degrees.
     """
     if not isinstance(angle, (int, float)):
         raise TypeError("Input angle must be an integer or a float.")
@@ -91,6 +88,8 @@ def rad2deg(angle: Union[int, float]) -> Union[int, float]:
 
 def deg2rad(angle: Union[int, float]) -> Union[int, float]:
     """
+    Convert degrees to radians.
+
     The deg2rad function is used to convert an angle from degrees to radians.
     It takes an angle as input and returns the corresponding angle in radians.
     If the input angle is None, the function returns None.
@@ -99,6 +98,12 @@ def deg2rad(angle: Union[int, float]) -> Union[int, float]:
         angle_in_degrees = 45
         angle_in_radians = deg2rad(angle_in_degrees)
         print(angle_in_radians)
+
+    Args:
+        angle (int or float): Angle in degrees.
+
+    Returns:
+        int or float: Angle in radians.
     """
     if not isinstance(angle, (int, float)):
         raise TypeError("Input angle must be an integer or a float.")
@@ -106,9 +111,15 @@ def deg2rad(angle: Union[int, float]) -> Union[int, float]:
     return math.radians(angle)
 
 
-def circular_mean(angles: np.ndarray):
+def circular_mean(angles: np.ndarray) -> float:
     """
-    compute circular mean. cf: https://en.wikipedia.org/wiki/Circular_mean
+    Compute the circular mean of an array of angles. cf: https://en.wikipedia.org/wiki/Circular_mean
+
+    Args:
+        angles (np.ndarray): Array of angles in radians.
+
+    Returns:
+        float: Circular mean angle in radians.
     """
     if len(angles) == 0:
         raise ValueError("Input angles cannot be empty.")
@@ -122,7 +133,7 @@ def circular_mean(angles: np.ndarray):
     return mean_angle
 
 
-def bresenham(start, end):
+def bresenham(start: tuple, end: tuple) -> np.ndarray:
     """
     Implementation of Bresenham's line drawing algorithm.
     It takes two points, start and end, as inputs and returns an array of
@@ -134,9 +145,12 @@ def bresenham(start, end):
     print(points1)
     np.array([[4,4], [4,5], [5,6], [5,7], [5,8], [6,9], [6,10]])
 
-    Inputs
+    Args:
         start (tuple): The starting point of the line.
         end (tuple): The ending point of the line.
+
+    Returns:
+        np.ndarray: Array of points forming the line.
     """
     # setup initial conditions
     x1, y1 = start
@@ -173,17 +187,24 @@ def bresenham(start, end):
     return points
 
 
-def circular_kernel(radius):
+def circular_kernel(radius: int) -> np.ndarray:
     """
+    Create a circular structuring element (filled disk) for image processing.
+
     The function cv2.getStructuringElement(cv2.MORPH_ELLIPSE, ...) of OpenCV is
     not satisfying because the result is not symmetrical...
     So here we use this code to do it. This was find here :
     https://stackoverflow.com/questions/8647024/how-to-apply-a-disc-shaped-mask-to-a-numpy-array
     :param radius:
-    :return: circle structuring element, that is, a filled circle inscribed
+    :return: circle structuring elements, that is, a filled circle inscribed
     into the rectangle Rect(0, 0, 2*radius + 1, 2*radius + 1)
-    """
 
+    Args:
+        radius (int): Radius of the disk.
+
+    Returns:
+        np.ndarray: Binary mask of the disk.
+    """
     if not isinstance(radius, int) or radius <= 0:
         raise ValueError("Radius must be a positive integer.")
 
@@ -195,7 +216,18 @@ def circular_kernel(radius):
 
 
 def clamp(val: Union[float, int], min_val: Union[float, int],
-          max_val: Union[float, int]):
+          max_val: Union[float, int]) -> Union[float, int]:
+    """
+    Clamp a value between a minimum and maximum.
+
+    Args:
+        val (float or int): Value to clamp.
+        min_val (float or int): Minimum allowed value.
+        max_val (float or int): Maximum allowed value.
+
+    Returns:
+        float or int: Clamped value.
+    """
     if val < min_val:
         return min_val
     elif val > max_val:

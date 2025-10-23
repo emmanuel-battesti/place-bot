@@ -25,18 +25,21 @@ class FpsDisplay:
         Reset the counter
 
     Attributes:
-        mean_fps: Mean FPS value.
-        fps: Current FPS value.
-        smooth_fps: Smoothed FPS value.
-        start: Start time of the FPS calculation.
-        t1: Previous time of the FPS calculation.
-        t2: Current time of the FPS calculation.
+        mean_fps (float): Mean FPS value.
+        fps (float): Current FPS value.
+        smooth_fps (float): Smoothed FPS value.
+        start (float): Start time of the FPS calculation.
+        t1 (float): Previous time of the FPS calculation.
+        t2 (float): Current time of the FPS calculation.
     """
 
-    def __init__(self, period_display=1):
+    def __init__(self, period_display: int = 1):
         """
         Initializes the FpsDisplay object
         with the specified display period (default is 1 second).
+
+        Args:
+            period_display (int): Period in seconds for displaying FPS.
         """
         self._period_display = period_display
         self._counter = 0
@@ -50,7 +53,7 @@ class FpsDisplay:
         self.t1 = self.start
         self.t2 = self.start
 
-    def reset(self):
+    def reset(self) -> None:
         """
         Resets the counter and mean FPS value.
         """
@@ -58,10 +61,13 @@ class FpsDisplay:
         self._initialized = False
         self.mean_fps = 0
 
-    def update(self, display: bool = True):
+    def update(self, display: bool = True) -> None:
         """
         Updates the FPS values and displays the FPS information if specified.
         If not initialized, it initializes the necessary variables.
+
+        Args:
+            display (bool): Whether to print FPS info.
         """
         if not self._initialized:
             self._initialized = True
