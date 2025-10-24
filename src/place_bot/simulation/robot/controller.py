@@ -83,7 +83,8 @@ class Controller(PocketDevice):
         check_passed = self._check(command)
 
         if not check_passed and self._hard_check:
-            raise ValueError(f"Invalid command '{command}' for controller '{self.name}'. Expected type: {type(self.default).__name__}")
+            raise ValueError(
+                f"Invalid command '{command}' for controller '{self.name}'. Expected type: {type(self.default).__name__}")
 
         # Maybe replace by closest later?
         if not check_passed or self._currently_disabled:
@@ -131,7 +132,7 @@ class Controller(PocketDevice):
         return self._command
 
 
- class CenteredContinuousController(Controller):
+class CenteredContinuousController(Controller):
     """
     Controller for continuous commands in the range [-1, 1].
     """

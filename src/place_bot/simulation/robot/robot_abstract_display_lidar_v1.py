@@ -1,7 +1,7 @@
 import math
 from abc import abstractmethod
 
-from place_bot.simulation.old_entities.lidar import LidarParams
+from place_bot.simulation.ray_sensors.lidar import LidarParams
 from place_bot.simulation.robot.odometer import OdometerParams
 from place_bot.simulation.robot.robot_abstract import RobotAbstract
 

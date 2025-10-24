@@ -1,11 +1,10 @@
-import math
 from abc import abstractmethod
 from enum import IntEnum
 import numpy as np
 from spg.agent.agent import Agent
 
 from place_bot.simulation.robot.robot_base import RobotBase
-from place_bot.simulation.old_entities.lidar import Lidar, LidarParams
+from place_bot.simulation.ray_sensors.lidar import Lidar, LidarParams
 from place_bot.simulation.robot.odometer import Odometer, OdometerParams
 from place_bot.simulation.utils.utils import normalize_angle
 

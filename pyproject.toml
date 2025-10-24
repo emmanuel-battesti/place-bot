@@ -51,11 +51,8 @@ dev = [
 
 [tool.setuptools.package-data]
 "place_bot" = [
-    "resources/drone_v2.png",
-    "resources/drone_v2_dead.png",
-    "resources/character_v2.png",
+    "resources/robot.png",
     "resources/stone_texture_g_04.png",
-    "resources/rescue_center.png",
     "solutions/*.yml",
     "simulation/ray_sensors/shaders/*.glsl"
 ]

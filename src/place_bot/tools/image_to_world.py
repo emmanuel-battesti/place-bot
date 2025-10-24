@@ -7,7 +7,7 @@ import numpy as np
 
 class ImageToWorld:
     """
-    Converts an image to a world representation by extracting walls, boxes, people, and rescue center.
+    Converts an image to a world representation by extracting walls, boxes.
 
     Attributes:
         _img_src (cv2.Mat): Source image.
@@ -309,7 +309,7 @@ class ImageToWorld:
         f.write("# script, in this case simulation.\n")
         f.write("sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))\n\n")
 
-        f.write("from swarm_rescue.simulation.elements.normal_wall import NormalWall, "
+        f.write("from place_bot.simulation.elements.normal_wall import NormalWall, "
                 "NormalBox\n\n\n")
 
         f.write("# Dimension of the world : ({}, {})\n"

@@ -3,9 +3,6 @@ from typing import List, Type, Union, Optional
 
 from place_bot.simulation.robot.robot_abstract import RobotAbstract
 from place_bot.simulation.gui_map.playground import Playground
-from place_bot.simulation.reporting.evaluation import ZonesConfig
-from place_bot.simulation.reporting.explored_map import ExploredMap
-from place_bot.simulation.utils.constants import DRONE_INITIAL_HEALTH
 
 
 class WorldAbstract(ABC):

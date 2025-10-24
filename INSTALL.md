@@ -41,7 +41,7 @@ This installation procedure has been tested on Ubuntu 20.04, 22.04 and 24.04.
 
 **VirtualBox users have reported compatibility issues**.
 
-*Place-Bot* uses *OpenGL* shaders to accelerate computations. The lidar and semantic sensor calculations are performed directly on the GPU via these shaders for optimal performance.
+*Place-Bot* uses *OpenGL* shaders to accelerate computations. The lidar calculations are performed directly on the GPU via these shaders for optimal performance.
 
 VirtualBox has known issues with graphics drivers and OpenGL handling, which can cause problems with *Place-Bot*.
 
@@ -151,12 +151,11 @@ This installation procedure has been tested on Windows 11 (october 2025)
 
 **Common Problems:**
 - Lidar sensors detecting through walls
-- Semantic sensors continuing to detect wounded persons even when grasped
 - General simulation instabilities
 
 **Root Cause:**
 
-*Place-Bot* uses OpenGL shaders for GPU-accelerated computations (lidar and semantic sensor calculations). These issues appear to stem from graphics driver compatibility or Windows' OpenGL implementation.
+*Place-Bot* uses OpenGL shaders for GPU-accelerated computations (lidar sensor calculations). These issues appear to stem from graphics driver compatibility or Windows' OpenGL implementation.
 The problem doesn't seem to occur on Ubuntu. On some "more powerful" Windows machines (desktop), it also works correctly.
 
 **Environment Requirements:**
