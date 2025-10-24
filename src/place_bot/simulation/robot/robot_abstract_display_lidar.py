@@ -6,14 +6,14 @@ from place_bot.simulation.robot.odometer import OdometerParams
 from place_bot.simulation.robot.robot_abstract import RobotAbstract
 
 import pyqtgraph
-# from pyqtgraph.Qt import QtCore, QtWidgets
 from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QApplication
 
-class RobotAbstractDisplayLidarV2(RobotAbstract):
+
+class RobotAbstractDisplayLidar(RobotAbstract):
     """
     This class should be used as a parent class to create your own Robot class.
-    It displays the lidar measurements using PyQtGraph, which is a faster than Matplotlib.
+    It displays the lidar measurements using PyQtGraph, which is faster than Matplotlib.
     To use this class, you need to install with apt:
     sudo apt-get install libxcb-cursor0 libxcb-cursor-dev
     and maybe also:
@@ -59,3 +59,4 @@ class RobotAbstractDisplayLidarV2(RobotAbstract):
     @abstractmethod
     def control(self):
         pass
+

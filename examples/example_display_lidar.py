@@ -16,11 +16,10 @@ from place_bot.simulation.gui_map.simulator import Simulator
 from place_bot.simulation.gui_map.world_abstract import WorldAbstract
 from place_bot.simulation.robot.controller import CommandsDict
 from place_bot.simulation.robot.robot_abstract import RobotAbstract
-#from place_bot.simulation.robot.robot_abstract_display_lidar_v1 import RobotAbstractDisplayLidarV1
-from place_bot.simulation.robot.robot_abstract_display_lidar_v2 import RobotAbstractDisplayLidarV2
+from place_bot.simulation.robot.robot_abstract_display_lidar import RobotAbstractDisplayLidar
 
 
-class MyRobotLidar(RobotAbstractDisplayLidarV2):
+class MyRobotLidar(RobotAbstractDisplayLidar):
     def control(self) -> CommandsDict:
         """
         We only send a command to do nothing
