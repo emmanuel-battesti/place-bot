@@ -56,18 +56,25 @@ To visualize lidar sensor data, you need to set the parameter *draw_lidar_rays* 
 
 In the file `src/place_bot/simulation/robot/odometer.py`, it is described in the class *Odometer*.
 
-This sensor returns an array of data containing the pose of the robot by integrating its displacement at each step.
-Its displacement is :
+This sensor provides an **estimated position** of the robot by integrating displacement measurements over time (dead reckoning).
+
+**What the odometer returns** (via `robot.odometer_values()`):
+- `x`: Estimated x position in pixels from the starting point
+- `y`: Estimated y position in pixels from the starting point
+- `orientation`: Estimated orientation in radians (-π to π) from the starting orientation
+
+**How it works internally:**
+At each timestep, the sensor computes three raw displacement values:
 - `dist_travel`: Distance traveled during the last timestep (in pixels)
 - `alpha`: Relative angle of the current position with respect to the previous frame (in radians)
 - `theta`: Orientation variation (rotation) during the last timestep (in radians)
 
-Angles, alpha and theta, increase with a counter-clockwise rotation of the robot. Their value is between -Pi and Pi.
-Gaussian noise was added separately to the three parts of the data to make them look like real noise.
+Gaussian noise is added to these raw displacement values to simulate real sensor errors.
+The noisy displacements are then integrated over time to compute the cumulative position estimate.
 
-We use those noisy odometry data by integrating measurements over time to finally get an estimate of the current position of the robot.
+**Important:** The position estimate accumulates errors over time. This is realistic behavior for odometry-based localization.
 
-If you want to enable the visualization of the noises, you need to set the parameter *enable_visu_noises* parameter of the *Simulator* class constructor to *True*. It will show also a demonstration of the integration of odometer values, by drawing the estimated path.
+If you want to enable the visualization of the noises, you need to set the parameter *enable_visu_noises* parameter of the *Simulator* class constructor to *True*. It will show also a demonstration of the integration of odometer values, by drawing the estimated path in red.
 
 ### Actuators
 

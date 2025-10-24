@@ -25,20 +25,31 @@ class OdometerParams:
 
 class Odometer(Sensor):
     """
-      Odometer sensor returns a numpy array containing:
-      - dist_travel, the distance of the travel of the robot during one step
-      - alpha, the relative angle of the current position seen from the previous reference frame of the robot
-      - theta, the variation of orientation (or rotation) of the robot during the last step in the reference frame
+    Odometer sensor that estimates robot position through dead reckoning.
 
-      For the noise model, it is inspired by these pages:
-      - https://blog.lxsang.me/post/id/16
-      - https://www.mrpt.org/tutorials/programming/odometry-and-motion-models/probabilistic_motion_models/
-      - https://docs.ufpr.br/~danielsantos/ProbabilisticRobotics.pdf  page 113
+    The sensor computes displacement at each timestep using three values:
+    - dist_travel: Distance traveled during the last timestep
+    - alpha: Relative angle of the current position from the previous robot frame
+    - theta: Orientation change (rotation) during the last timestep
 
-      I could not use directly the model given in the first link, because my robot slides a bit sideways.
-      This causes calculation problems. If the robot moves sideways, it will be calculated that the robot has done
-      a 90° degree rotation, moved straight and then another 90° in the other direction. This distorts the
-      calculations of the noise...
+    These raw values are then INTEGRATED over time to estimate the robot's
+    cumulative position and orientation since initialization.
+
+    The get_sensor_values() method returns the INTEGRATED position estimate:
+    - x: Estimated x position (in pixels) from starting point
+    - y: Estimated y position (in pixels) from starting point
+    - orientation: Estimated orientation (in radians, -π to π) from starting orientation
+
+    Gaussian noise is added to the raw displacement values before integration
+    to simulate real odometry sensor errors. The noise model is based on:
+    - https://blog.lxsang.me/post/id/16
+    - https://www.mrpt.org/tutorials/programming/odometry-and-motion-models/probabilistic_motion_models/
+    - https://docs.ufpr.br/~danielsantos/ProbabilisticRobotics.pdf (page 113)
+
+    Note: I could not use directly the model given in the first link, because my robot slides a bit sideways.
+    This causes calculation problems. If the robot moves sideways, it will be calculated that the robot has done
+    a 90° degree rotation, moved straight and then another 90° in the other direction. This distorts the
+    calculations of the noise...
     """
 
     def __init__(self, odometer_params: OdometerParams = OdometerParams(), **kwargs):
@@ -66,7 +77,20 @@ class Odometer(Sensor):
 
     def _compute_raw_sensor(self) -> None:
         """
-        Compute the distance traveled, relative angle, and variation of orientation for the robot.
+        Compute the raw displacement values and integrate them to update position estimate.
+
+        This method:
+        1. Computes raw displacement (dist_travel, alpha, theta) from robot movement
+        2. Applies Gaussian noise to simulate real sensor errors
+        3. Integrates the noisy displacement to update the estimated position
+
+        Raw displacement values computed:
+        - _dist: Distance traveled since last timestep (in pixels)
+        - _alpha: Relative angle of movement in previous robot frame (in radians)
+        - _theta: Change in orientation since last timestep (in radians)
+
+        These raw values are NOT returned by get_sensor_values(). They are used
+        internally for integration to compute the cumulative position estimate.
         """
         # DIST_TRAVEL
         if self.prev_position is None:
@@ -102,10 +126,20 @@ class Odometer(Sensor):
 
         self.integration()
 
-    def integration(self):
+    def integration(self) -> None:
         """
-        Compute a new position of the robot by adding noisy displacement to the previous
-        position. It updates self._values.
+        Integrate noisy displacement to update the estimated position.
+
+        This method computes the new estimated position (x, y, orientation) by adding
+        the noisy displacement (dist, alpha, theta) to the previous estimated position.
+        This is the core of dead reckoning: accumulating incremental movements over time.
+
+        The integration uses the following formulas:
+        - new_x = x + dist * cos(alpha + orient)
+        - new_y = y + dist * sin(alpha + orient)
+        - new_orient = orient + theta
+
+        This updates self._values with the new integrated position.
         """
         x, y, orient = tuple(self._values)
         new_x = x + self._dist * math.cos(self._alpha + orient)
@@ -131,10 +165,22 @@ class Odometer(Sensor):
 
     def get_sensor_values(self) -> Optional[np.ndarray]:
         """
-        Get the odometer sensor values.
+        Get the integrated odometer position estimate.
+
+        This method returns the estimated position of the robot computed by
+        integrating noisy displacement measurements over time since initialization.
 
         Returns:
-            np.ndarray or None: Sensor values or None if disabled.
+            Optional[np.ndarray]: Array containing [x, y, orientation] where:
+                - x (float): Estimated x position in pixels from starting point
+                - y (float): Estimated y position in pixels from starting point
+                - orientation (float): Estimated orientation in radians (-π to π) from starting orientation
+                Returns None if the sensor is disabled.
+
+        Note:
+            This is NOT the raw displacement (dist_travel, alpha, theta) but the
+            accumulated/integrated position estimate. The raw values are used
+            internally but not exposed.
         """
         if not self._disabled:
             return self._values
@@ -186,3 +232,24 @@ class Odometer(Sensor):
             bool: True if disabled, False otherwise.
         """
         return self._disabled
+
+    def get_last_displacement(self) -> tuple[float, float, float]:
+        """
+        Get the last raw displacement values before integration.
+
+        This method is provided for debugging and analysis purposes.
+        These are the noisy raw displacement values from the last timestep,
+        NOT the integrated position.
+
+        Returns:
+            tuple[float, float, float]: Tuple containing:
+                - dist (float): Distance traveled during last timestep (in pixels)
+                - alpha (float): Relative angle in previous robot frame (in radians)
+                - theta (float): Orientation change during last timestep (in radians)
+
+        Note:
+            These values include the noise model applied to simulate real sensors.
+            Use this for debugging or to understand the raw sensor data before integration.
+        """
+        return (self._dist, self._alpha, self._theta)
+
