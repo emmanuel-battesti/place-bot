@@ -1,29 +1,59 @@
 from abc import ABC
-from typing import Type, Union
-
-from spg.playground import Playground
+from typing import List, Type, Union, Optional
 
 from place_bot.simulation.robot.robot_abstract import RobotAbstract
+from place_bot.simulation.gui_map.playground import Playground
+from place_bot.simulation.reporting.evaluation import ZonesConfig
+from place_bot.simulation.reporting.explored_map import ExploredMap
+from place_bot.simulation.utils.constants import DRONE_INITIAL_HEALTH
 
 
 class WorldAbstract(ABC):
     """
-    It is abstract class to construct every worlds used in the directory worlds
+    The WorldAbstract class is an abstract class that serves as a blueprint for
+    constructing different types of maps used in the directory "maps".
     """
 
     def __init__(self, robot: Union[RobotAbstract, None]):
-        self._size_area = None
+        """
+        Initialize the WorldAbstract.
+
+        Args:
+            robot (RobotAbstract): The robot instance to use.
+        """
+        self._playground: Optional[Playground] = None
         self._robot = robot
-        self._playground: Union[Playground, Type[None]] = None
+        self._size_area = None
+
 
     @property
-    def robot(self):
+    def playground(self) -> Union[Playground, Type[None]]:
+        """
+        Returns the playground instance.
+
+        Returns:
+            Playground or None: The playground.
+        """
+        return self._playground
+
+    @property
+    def robot(self) -> RobotAbstract:
+        """
+        Returns the list of robot in the map.
+
+        Returns:
+            RobotAbstract: The robot.
+        """
         return self._robot
 
     @property
     def size_area(self):
+        """
+        Returns the size of the area.
+
+        Returns:
+            Any: The size of the area.
+        """
         return self._size_area
 
-    @property
-    def playground(self):
-        return self._playground
+

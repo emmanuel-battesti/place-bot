@@ -1,9 +1,13 @@
 import platform
 from typing import Tuple
 
-from spg.playground import Playground
-
+from place_bot.simulation.robot.agent import Agent
+from place_bot.simulation.robot.robot_abstract import (robot_collision_wall,
+                                                          robot_collision_robot)
+from place_bot.simulation.elements.embodied import EmbodiedEntity
 from place_bot.simulation.elements.normal_wall import NormalWall
+from place_bot.simulation.gui_map.playground import Playground
+from place_bot.simulation.utils.definitions import CollisionTypes
 
 
 class ClosedPlayground(Playground):
@@ -27,7 +31,14 @@ class ClosedPlayground(Playground):
         _height: The height of the playground.
     """
 
-    def __init__(self, size: Tuple[int, int], use_shaders: bool = True):
+    def __init__(self, size: Tuple[int, int], use_shaders: bool = True, border_thickness: int = 6):
+        """
+        Initialize the ClosedPlayground.
+
+        Args:
+            size (Tuple[int, int]): Size of the playground (width, height).
+            border_thickness (int): Thickness of the border walls.
+        """
         background = (220, 220, 220)
 
         if platform.system() == "Darwin":
@@ -38,25 +49,43 @@ class ClosedPlayground(Playground):
                          background=background,
                          use_shaders=use_shaders)
 
-        assert isinstance(self._width, int)
-        assert isinstance(self._height, int)
+        assert isinstance(self.size[0], int)
+        assert isinstance(self.size[1], int)
 
-        border_thickness: int = 6
         self._walls_creation(border_thickness)
 
         # print(f"Version OpenGL : {self._window.ctx.gl_version}")
 
-    def _walls_creation(self, border_thickness):
-        h = self._height / 2
-        w = self._width / 2
+    def _walls_creation(self, border_thickness: int) -> None:
+        """
+        Create the border walls for the playground.
+
+        Args:
+            border_thickness (int): Thickness of the border walls.
+        """
+        width, height = self.size
+        h = height / 2
+        w = width / 2
         o = border_thickness / 2
         pts = [
-            [(-w + o, -h), (-w + o, h), ],
+            [(-w + o, -h), (-w + o, h)],
             [(-w, h - o), (w, h - o)],
             [(w - o, h), (w - o, -h)],
-            [(w, -h + o), (-w, -h + o), ],
+            [(w, -h + o), (-w, -h + o)],
         ]
         for begin_pt, end_pt in pts:
             wall = NormalWall(pos_start=begin_pt, pos_end=end_pt,
                               wall_thickness=border_thickness)
             self.add(wall, wall.wall_coordinates)
+
+    def get_closest_robot(self, entity: EmbodiedEntity) -> Agent:
+        """
+        Get the closest robot agent to a given entity.
+
+        Args:
+            entity (EmbodiedEntity): The entity to compare distances to.
+
+        Returns:
+            Agent: The closest agent.
+        """
+        return min(self.agents, key=lambda a: entity.position.get_dist_sqrd(a.true_position()))
