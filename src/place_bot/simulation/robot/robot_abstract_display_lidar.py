@@ -21,7 +21,7 @@ class RobotAbstractDisplayLidar(RobotAbstract):
     """
 
     def __init__(self,
-                 should_display_lidar=False,
+                 should_display_lidar=True,
                  lidar_params: LidarParams = LidarParams(),
                  odometer_params: OdometerParams = OdometerParams()):
         super().__init__(lidar_params=lidar_params,
