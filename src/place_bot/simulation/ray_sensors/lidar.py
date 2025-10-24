@@ -36,8 +36,8 @@ class Lidar(DistanceSensor):
     It is a real sensor that measures distances with a laser in different
     directions.
     - fov (field of view): 360 degrees
-    - resolution (number of rays): 181
-    - max range (maximum range of the sensor): 300 pix
+    - resolution (number of rays): 361
+    - max range (maximum range of the sensor): 600 pix
     """
 
     def __init__(self, lidar_params: LidarParams = LidarParams(), invisible_elements=None, **kwargs):
