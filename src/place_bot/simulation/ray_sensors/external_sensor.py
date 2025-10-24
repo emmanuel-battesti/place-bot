@@ -88,7 +88,7 @@ class ExternalSensor(Sensor, ABC):
     @property
     def invisible_ids(self) -> list:
         """
-        Returns a list of IDs of invisible old_entities for the external_sensor.
+        Returns a list of IDs of invisible entities for the external_sensor.
         """
         return [ent.uid for ent in self._temporary_invisible + self._invisible_elements]
 

@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 class InteractiveAnchored(EmbodiedEntity, ABC):
     """
-    Base class for interactive devices anchored to physical old_entities.
+    Base class for interactive devices anchored to physical entities.
     """
 
     def __init__(

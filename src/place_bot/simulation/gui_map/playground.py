@@ -552,7 +552,7 @@ class Playground:
         # Mark the entity as not removed
         entity.removed = False
 
-        # Add shapes directly for InteractiveAnchored old_entities without moving them
+        # Add shapes directly for InteractiveAnchored entities without moving them
         # because they are anchored to a fixed position
         if isinstance(entity, InteractiveAnchored):
             self._space.add(*entity.pm_elements)
@@ -702,7 +702,7 @@ class Playground:
 
     def add_view(self, view):
         """
-        Add a view to the playground and register all old_entities with it.
+        Add a view to the playground and register all entities with it.
 
         Args:
             view: The view to add.
@@ -848,7 +848,7 @@ class Playground:
         Clean up resources and prepare for garbage collection.
         Should be called when the playground is no longer needed.
         """
-        # Clear all old_entities
+        # Clear all entities
         for agent in self._agents.copy():
             self.remove(agent, definitive=True)
 

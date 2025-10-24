@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 class TopDownView:
     """
-    TopDownView provides a 2D top-down rendering of the playground and its old_entities.
+    TopDownView provides a 2D top-down rendering of the playground and its entities.
     """
 
     def __init__(
@@ -195,7 +195,7 @@ class TopDownView:
 
     def update_sprites_position(self, force: bool = False) -> None:
         """
-        Update the sprites position and angle of the old_entities in the view from
+        Update the sprites position and angle of the entities in the view from
         the pymunk position and angle.
 
         Args:

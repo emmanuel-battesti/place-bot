@@ -11,12 +11,12 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from worlds.walls_complete_world_2 import add_walls, add_boxes
-# from place_bot.old_entities.robot_abstract_display_lidar_v1 import RobotAbstractDisplayLidarV1
 from place_bot.simulation.gui_map.closed_playground import ClosedPlayground
 from place_bot.simulation.gui_map.simulator import Simulator
 from place_bot.simulation.gui_map.world_abstract import WorldAbstract
 from place_bot.simulation.robot.controller import CommandsDict
 from place_bot.simulation.robot.robot_abstract import RobotAbstract
+#from place_bot.simulation.robot.robot_abstract_display_lidar_v1 import RobotAbstractDisplayLidarV1
 from place_bot.simulation.robot.robot_abstract_display_lidar_v2 import RobotAbstractDisplayLidarV2
 
 

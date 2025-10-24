@@ -6,8 +6,8 @@ import pymunk
 from typing import Type
 
 from place_bot.simulation.robot.robot_abstract import RobotAbstract
-from place_bot.simulation.old_simu_world import ClosedPlayground
-from place_bot.simulation.old_simu_world import WorldAbstract
+from place_bot.simulation.gui_map.closed_playground import ClosedPlayground
+from place_bot.simulation.gui_map.world_abstract import WorldAbstract
 
 
 class MyRobot(RobotAbstract):

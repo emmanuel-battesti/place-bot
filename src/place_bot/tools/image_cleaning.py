@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from tools.progress_bar import print_progress_bar
+from place_bot.tools.progress_bar import print_progress_bar
 
 
 def wall_width_correction(image_source: cv2.Mat) -> cv2.Mat:

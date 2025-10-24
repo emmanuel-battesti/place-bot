@@ -18,8 +18,8 @@ from place_bot.simulation.utils.position import Coordinate, CoordinateSampler, I
 
 class EmbodiedEntity(Entity, ABC):
     """
-    Represents old_entities physically present in the playground, capable of interacting
-    with others through pymunk collisions. These old_entities have physical properties
+    Represents entities physically present in the playground, capable of interacting
+    with others through pymunk collisions. These entities have physical properties
     such as position, velocity, and dimensions, and can be rendered as sprites.
     """
 

@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from utils.utils import normalize_angle, sign
+from place_bot.simulation.utils.utils import normalize_angle, sign
 
 
 def test_normalize_angle():

@@ -1,7 +1,7 @@
-""" Contains the base class for old_entities.
+""" Contains the base class for entities.
 
 Entity classes should be used to create body parts of
-an agent, scene old_entities, spawners, timers, etc.
+an agent, scene entities, spawners, timers, etc.
 
 Entity is the generic building block of physical and interactive
 objects in simple-playgrounds.
@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 
 class Entity(ABC):
     """
-    Base class that defines the old_entities that composing a Playground.
+    Base class that defines the entities that composing a Playground.
     Entities can be: SceneElement, Agent, Spawner, Timer, ...
     """
 

@@ -6,18 +6,20 @@ To move the robot, you have to click on the world, then use the arrows on the ke
 import os
 import sys
 
-
 # This line add, to sys.path, the path to parent path of this file
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from place_bot.simulation.robot.robot_abstract import RobotAbstract
+from place_bot.simulation.gui_map.closed_playground import ClosedPlayground
 from place_bot.simulation.gui_map.simulator import Simulator
+from place_bot.simulation.gui_map.world_abstract import WorldAbstract
+from place_bot.simulation.robot.controller import CommandsDict
+from place_bot.simulation.robot.robot_abstract import RobotAbstract
 
 
 class MyRobotKeyboard(RobotAbstract):
     def control(self) -> CommandsDict:
         command: CommandsDict = {"forward": 0.0,
-                   "rotation": 0.0}
+                                 "rotation": 0.0}
         return command
 
 
@@ -57,6 +59,7 @@ def main():
                           use_keyboard=True,
                           )
     simulator.run()
+
 
 if __name__ == '__main__':
     main()

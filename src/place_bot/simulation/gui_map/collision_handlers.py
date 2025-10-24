@@ -11,14 +11,14 @@ if TYPE_CHECKING:
 
 def get_colliding_entities(playground: "Playground", arbiter: pymunk.Arbiter):
     """
-    Retrieve the two old_entities involved in a collision from the arbiter.
+    Retrieve the two entities involved in a collision from the arbiter.
 
     Args:
         playground (Playground): The playground instance.
         arbiter (pymunk.Arbiter): The collision arbiter.
 
     Returns:
-        tuple: The two colliding old_entities.
+        tuple: The two colliding entities.
     """
     shape_1, shape_2 = arbiter.shapes
     entity_1 = playground.get_entity_from_shape(shape_1)

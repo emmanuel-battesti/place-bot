@@ -1,9 +1,10 @@
+from place_bot.simulation.robot.controller import CommandsDict
 from place_bot.simulation.robot.robot_abstract import RobotAbstract
 from place_bot.simulation.gui_map.simulator import Simulator
 
-from worlds.world_intermediate_01 import MyWorldIntermediate01
-from worlds.world_complete_01 import MyWorldComplete01
-from worlds.world_complete_02 import MyWorldComplete02
+from examples.worlds.world_intermediate_01 import MyWorldIntermediate01
+from examples.worlds.world_complete_01 import MyWorldComplete01
+from examples.worlds.world_complete_02 import MyWorldComplete02
 
 
 class MyWorld(MyWorldComplete02):

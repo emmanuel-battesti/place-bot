@@ -1,12 +1,12 @@
 import time
-from typing import Optional, Tuple, List, Dict
+from typing import Optional, Tuple, List, Dict, Union, Type
 import sys
 import time
 
 import arcade
 import cv2
 
-from place_bot.simulation.robot.controller import CommandName, Command
+from place_bot.simulation.robot.controller import Command, Controller
 from place_bot.simulation.robot.robot_abstract import RobotAbstract
 from place_bot.simulation.gui_map.keyboard_controller import KeyboardController
 from place_bot.simulation.gui_map.world_abstract import WorldAbstract
@@ -196,13 +196,13 @@ class Simulator(TopDownView):
         # Is it necessary ? It seems to work without it.
         self._fbo.use()
 
-        # Draw the playground and all the old_entities in it
+        # Draw the playground and all the entities in it
         # Copier le contenu de draw() ici ?
         self.draw()
 
     def on_update(self, delta_time: float) -> None:
         """
-        Update the simulation state and draw the playground and old_entities.
+        Update the simulation state and draw the playground and entities.
 
         Args:
             delta_time (float): Time since last update.
@@ -257,7 +257,7 @@ class Simulator(TopDownView):
 
     def draw(self, force: bool = False) -> None:
         """
-        Draw the playground and all the old_entities in it in the window.
+        Draw the playground and all the entities in it in the window.
 
         Args:
             force (bool): If True, force update of all sprites.
