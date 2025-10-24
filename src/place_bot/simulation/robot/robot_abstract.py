@@ -129,7 +129,7 @@ class RobotAbstract(Agent):
         Returns:
             Any: Ray angles.
         """
-        return self.lidar().ray_angles
+        return self.lidar().get_ray_angles()
 
     def odometer_values(self):
         """
@@ -215,7 +215,7 @@ class RobotAbstract(Agent):
         Display the lidar sensor data using matplotlib.
         """
         if self.lidar_values() is not None:
-            angles = self.lidar().ray_angles
+            angles = self.lidar().get_ray_angles()
             distances = self.lidar().get_sensor_values()
             self._curve.setData(angles, distances)
             QCoreApplication.processEvents()

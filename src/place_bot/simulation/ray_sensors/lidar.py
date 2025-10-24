@@ -54,12 +54,21 @@ class Lidar(DistanceSensor):
         # Create a noise model based on Gaussian noise
         self._noise_model = GaussianNoise(mean_noise=0, std_dev_noise=self._std_dev_noise)
 
-        # 'ray_angles' is an array which contains the angles of the laser rays
+        # '_ray_angles' is an array which contains the angles of the laser rays
         # of the sensor
-        self.ray_angles = compute_ray_angles(fov_rad=self.fov_rad(), nb_rays=self.resolution)
+        self._ray_angles = compute_ray_angles(fov_rad=self.fov_rad(), nb_rays=self.resolution)
 
         # Set the sensor values to the default value (nan)
         self._values = self._default_value
+
+    def get_ray_angles(self) -> np.ndarray:
+        """
+        Get the angles of the laser rays of the sensor.
+
+        Returns:
+            np.ndarray: Array containing the angles of the laser rays in radians.
+        """
+        return self._ray_angles
 
     def fov_rad(self) -> float:
         """
