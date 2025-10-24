@@ -20,6 +20,9 @@ from place_bot.simulation.robot.robot_abstract_display_lidar import RobotAbstrac
 
 
 class MyRobotLidar(RobotAbstractDisplayLidar):
+    def __init__(self, should_display_lidar):
+        super().__init__(should_display_lidar=should_display_lidar)
+
     def control(self) -> CommandsDict:
         """
         We only send a command to do nothing

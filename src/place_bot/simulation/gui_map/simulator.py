@@ -221,10 +221,12 @@ class Simulator(TopDownView):
 
         self._robot_commands[self._robot] = command
 
+        self._playground.step(all_commands=self._robot_commands)
+
+        # Update display after step so sensor values are available
         if self._robot and hasattr(self._robot, 'display'):
             self._robot.display()
 
-        self._playground.step(all_commands=self._robot_commands)
 
         self._visu_noises.update(enable=self._enable_visu_noises)
 

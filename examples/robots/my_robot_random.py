@@ -16,15 +16,35 @@ class State(Enum):
 
 
 class MyRobotRandom(RobotAbstract):
-    def __init__(self):
+    """
+    A robot that moves forward and turns randomly when detecting obstacles.
+
+    The robot alternates between two states:
+    - STRAIGHT: Moving forward
+    - TURN: Rotating to a random target angle
+    """
+
+    def __init__(self, debug=False):
+        """
+        Initialize the random robot.
+
+        Args:
+            debug (bool): If True, print debug information about state transitions.
+        """
         super().__init__()
         self.counter_straight = random.randint(50, 100)
         self.target_angle = random.uniform(-math.pi, math.pi)
         self.state = State.STRAIGHT
         self.pause_after_turn = 0
+        self.debug = debug
 
-    def process_lidar_sensor(self):
-        """Detects if an obstacle is closer than a threshold."""
+    def process_lidar_sensor(self) -> bool:
+        """
+        Detects if an obstacle is closer than a threshold.
+
+        Returns:
+            bool: True if an obstacle is detected within 20 pixels.
+        """
         sensor_values = self.lidar().get_sensor_values()
         if sensor_values is None:
             return False
@@ -53,7 +73,8 @@ class MyRobotRandom(RobotAbstract):
             # or it has moved enough distance, then it will turn.
 
             # Transition to TURN state
-            print(f"STRAIGHT => TURN, touched = {touched}")
+            if self.debug:
+                print(f"STRAIGHT => TURN, touched = {touched}")
             self.state = State.TURN
             # We set the target angle to a random value between -pi and pi
             self.target_angle = random.uniform(-math.pi, math.pi)
@@ -63,13 +84,15 @@ class MyRobotRandom(RobotAbstract):
             # then it will go straight
 
             # Transition to STRAIGHT state
-            print(f"TURN => STRAIGHT, diff = {diff_angle:.2f}")
+            if self.debug:
+                print(f"TURN => STRAIGHT, diff = {diff_angle:.2f}")
             self.state = State.STRAIGHT
             self.pause_after_turn = 15
             self.counter_straight = random.randint(50, 100)
 
         if self.state == State.TURN:
-            print(f"Turning, diff = {diff_angle:.2f}")
+            if self.debug:
+                print(f"Turning, diff = {diff_angle:.2f}")
             if diff_angle > 0:
                 return command_turn_left
             else:
@@ -79,6 +102,8 @@ class MyRobotRandom(RobotAbstract):
                 self.counter_straight -= 1
             if self.pause_after_turn > 0:
                 self.pause_after_turn -= 1
-            print(
-                f"Straight, touched = {touched}, counter = {self.counter_straight}, counterTurns = {self.pause_after_turn}")
+            if self.debug:
+                print(f"Straight, touched = {touched}, counter = {self.counter_straight}, "
+                      f"counterTurns = {self.pause_after_turn}")
             return command_straight
+

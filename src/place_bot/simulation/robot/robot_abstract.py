@@ -1,13 +1,15 @@
 from abc import abstractmethod
 from enum import IntEnum
+from typing import Optional
+
 import numpy as np
-from PySide6.QtCore import QCoreApplication
 
 from place_bot.simulation.robot.agent import Agent
 from place_bot.simulation.robot.controller import CommandsDict
 from place_bot.simulation.robot.robot_base import RobotBase
 from place_bot.simulation.ray_sensors.lidar import Lidar, LidarParams
 from place_bot.simulation.robot.odometer import Odometer, OdometerParams
+from place_bot.simulation.utils.constants import ROBOT_DEFAULT_RADIUS
 from place_bot.simulation.utils.utils import normalize_angle
 
 
@@ -42,9 +44,6 @@ class RobotAbstract(Agent):
 
         # Control the robot
         command = robot.control()
-
-    Attributes:
-        _should_display_lidar_graph (bool): Whether to display lidar data with PyQtGraph.
     """
 
     class SensorType(IntEnum):
@@ -57,19 +56,21 @@ class RobotAbstract(Agent):
     def __init__(
             self,
             lidar_params: LidarParams = LidarParams(),
-            odometer_params: OdometerParams = OdometerParams(),
-            display_lidar_graph: bool = False):
+            odometer_params: OdometerParams = OdometerParams()):
         """
         Initialize the RobotAbstract.
+
+        Args:
+            lidar_params (LidarParams): Parameters for the lidar sensor.
+            odometer_params (OdometerParams): Parameters for the odometer sensor.
         """
-        super().__init__(interactive=True, lateral=False, radius=10)
+        super().__init__(interactive=True, lateral=False, radius=ROBOT_DEFAULT_RADIUS)
 
         self.add_base(RobotBase())
 
         self.base.add_device(Lidar(lidar_params=lidar_params, invisible_elements=self.base))
         self.base.add_device(Odometer(odometer_params=odometer_params))
 
-        self._should_display_lidar_graph = display_lidar_graph
 
     @abstractmethod
     def control(self) -> CommandsDict:
@@ -121,18 +122,21 @@ class RobotAbstract(Agent):
         """
         return self.lidar().get_sensor_values()
 
-    def lidar_rays_angles(self):
+    def lidar_rays_angles(self) -> np.ndarray:
         """
         Get the angles of the lidar rays.
 
         Returns:
-            Any: Ray angles.
+            np.ndarray: Array of ray angles in radians.
         """
         return self.lidar().get_ray_angles()
 
-    def odometer_values(self):
+    def odometer_values(self) -> Optional[np.ndarray]:
         """
-        Give the estimated pose after integration of odometer's delta
+        Get the estimated pose after integration of odometer's delta.
+
+        Returns:
+            Optional[np.ndarray]: Array containing [dist_travel, alpha, theta] or None if disabled.
         """
         return self.sensors[self.SensorType.ODOMETER].get_sensor_values()
 
@@ -211,22 +215,6 @@ class RobotAbstract(Agent):
         """
         return self.base._pm_body.angular_velocity
 
-    def display(self) -> None:
-        """
-        Display lidar graph if enabled.
-        """
-        if self._should_display_lidar_graph:
-            self.display_lidar_graph()
-
-    def display_lidar_graph(self) -> None:
-        """
-        Display the lidar sensor data using matplotlib.
-        """
-        if self.lidar_values() is not None:
-            angles = self.lidar().get_ray_angles()
-            distances = self.lidar().get_sensor_values()
-            self._curve.setData(angles, distances)
-            QCoreApplication.processEvents()
 
     def draw_bottom_layer(self) -> None:
         """

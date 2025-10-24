@@ -1,5 +1,3 @@
-from typing import Optional
-
 from place_bot.simulation.robot.controller import CommandsDict
 from place_bot.simulation.robot.robot_abstract import RobotAbstract
 
@@ -9,23 +7,14 @@ class RobotMotionless(RobotAbstract):
     A robot that does not move. Used for testing or as a static agent.
     """
 
-    def __init__(
-        self,
-        identifier: Optional[int] = None,
-        **kwargs,
-    ):
+    def __init__(self, **kwargs):
         """
         Initialize a motionless robot.
 
         Args:
-            identifier (Optional[int]): Unique identifier for the robot.
-            **kwargs: Additional keyword arguments.
+            **kwargs: Additional keyword arguments (lidar_params, odometer_params).
         """
-        super().__init__(
-            identifier=identifier,
-            display_lidar_graph=False,
-            **kwargs
-        )
+        super().__init__(**kwargs)
 
     def define_message_for_all(self) -> None:
         """
