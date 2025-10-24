@@ -1,8 +1,10 @@
 from abc import abstractmethod
 from enum import IntEnum
 import numpy as np
-from spg.agent.agent import Agent
+from PySide6.QtCore import QCoreApplication
 
+from place_bot.simulation.robot.agent import Agent
+from place_bot.simulation.robot.controller import CommandsDict
 from place_bot.simulation.robot.robot_base import RobotBase
 from place_bot.simulation.ray_sensors.lidar import Lidar, LidarParams
 from place_bot.simulation.robot.odometer import Odometer, OdometerParams
@@ -54,9 +56,10 @@ class RobotAbstract(Agent):
         ODOMETER = 1
 
     def __init__(
-        self,
-                               lidar_params: LidarParams = LidarParams(),
-                 odometer_params: OdometerParams = OdometerParams()):
+            self,
+            lidar_params: LidarParams = LidarParams(),
+            odometer_params: OdometerParams = OdometerParams(),
+            display_lidar_graph: bool = False):
         """
         Initialize the RobotAbstract.
         """
@@ -64,9 +67,10 @@ class RobotAbstract(Agent):
 
         self.add_base(RobotBase())
 
-        self.base.add_device(Lidar(lidar_params=lidar_params, invisible_elements=self._parts))
+        self.base.add_device(Lidar(lidar_params=lidar_params, invisible_elements=self.base))
         self.base.add_device(Odometer(odometer_params=odometer_params))
 
+        self._should_display_lidar_graph = display_lidar_graph
 
     @abstractmethod
     def control(self) -> CommandsDict:
@@ -216,7 +220,6 @@ class RobotAbstract(Agent):
             self._curve.setData(angles, distances)
             QCoreApplication.processEvents()
 
-
     def draw_bottom_layer(self) -> None:
         """
         Draw elements on the bottom layer (override as needed).
@@ -228,8 +231,6 @@ class RobotAbstract(Agent):
         Draw elements on the top layer (override as needed).
         """
         pass
-
-
 
     def pre_step(self) -> None:
         """

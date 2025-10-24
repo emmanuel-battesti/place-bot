@@ -51,7 +51,7 @@ class RobotAbstractDisplayLidarV2(RobotAbstract):
 
     def display_lidar(self):
         if self.lidar().get_sensor_values() is not None:
-            angles = self.lidar().get_ray_angles()
+            angles = self.lidar().ray_angles
             distances = self.lidar().get_sensor_values()
             self._curve.setData(angles, distances)
             QCoreApplication.processEvents()

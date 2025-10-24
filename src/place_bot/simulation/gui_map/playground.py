@@ -4,10 +4,6 @@ Playground class should be inherited to create environments
 where agents can play.
 Playground defines the physics and mechanics of the game, and manages
 how elements interact with each other.
-
-Examples can be found in :
-    - spg/playgrounds/empty.py
-    - spg/playgrounds/collection
 """
 # pylint: disable=too-many-public-methods
 
@@ -43,12 +39,8 @@ from place_bot.simulation.utils.position import Coordinate
 # pylint: disable=line-too-long
 
 AllCommandsDict = Dict[Agent, CommandsDict]
-TargetCommunicator = Optional[Union[Communicator, List[Communicator]]]
-AllSentMessagesDict = Dict[Agent, Dict[Communicator, Tuple[TargetCommunicator, Message]]]
 
 ObservationsDict = Dict[Agent, Dict[Sensor, SensorValue]]
-ReceivedMessagesDict = Dict[Agent, Dict[Communicator, Tuple[Communicator, Message]]]
-RewardsDict = Dict[Agent, float]
 
 
 class Playground:
@@ -355,7 +347,6 @@ class Playground:
     def step(
             self,
             all_commands: Optional[AllCommandsDict] = None,
-            all_messages: Optional[AllSentMessagesDict] = None,
             pymunk_steps: int = PYMUNK_STEPS,
     ):
         """
@@ -391,10 +382,6 @@ class Playground:
         self._compute_observations()
 
         self._post_step()
-
-        rew = {agent: agent.reward for agent in self._agents}
-        if all_messages:
-            mess = self._transmit_messages(all_messages)
 
         self._timestep += 1
 
@@ -436,7 +423,7 @@ class Playground:
         for agent in self._agents:
             agent.apply_commands()
 
-   
+
 
     def _compute_observations(self) -> None:
         """

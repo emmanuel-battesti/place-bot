@@ -7,7 +7,7 @@ from place_bot.resources import path_resources
 from place_bot.simulation.robot.controller import CenteredContinuousController
 from place_bot.simulation.robot.robot_part import RobotPart
 from place_bot.simulation.utils.constants import LINEAR_SPEED_RATIO, ANGULAR_SPEED_RATIO
-from place_bot.simulation.utils.definitions import LINEAR_FORCE, ANGULAR_VELOCITY
+from place_bot.simulation.utils.definitions import LINEAR_FORCE, ANGULAR_VELOCITY, CollisionTypes
 
 
 class RobotBase(RobotPart):
@@ -47,7 +47,7 @@ class RobotBase(RobotPart):
         # See: https://api.arcade.academy/en/latest/examples/pymunk_demo_top_down.html
         for pm_shape in self._pm_shapes:
             pm_shape.elasticity = 0.1
-            pm_shape.friction = 0.7 # default value in arcade is 0.2
+            pm_shape.friction = 0.7  # default value in arcade is 0.2
 
         self.forward_controller = CenteredContinuousController(name="forward")
         self.add_device(self.forward_controller)
@@ -74,3 +74,10 @@ class RobotBase(RobotPart):
 
         cmd_angular = self.angular_vel_controller.command_value
         self._pm_body.angular_velocity = cmd_angular * self.angular_ratio
+
+    @property
+    def _collision_type(self):
+        """
+        Returns the collision type for the robot base.
+        """
+        return CollisionTypes.ROBOT

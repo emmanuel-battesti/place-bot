@@ -12,7 +12,7 @@ from place_bot.simulation.gui_map.keyboard_controller import KeyboardController
 from place_bot.simulation.gui_map.world_abstract import WorldAbstract
 from place_bot.simulation.gui_map.top_down_view import TopDownView
 from place_bot.simulation.reporting.screen_recorder import ScreenRecorder
-from place_bot.simulation.utils.constants import FRAME_RATE, DRONE_INITIAL_HEALTH, ENABLE_WINDOW_AUTO_RESIZE
+from place_bot.simulation.utils.constants import FRAME_RATE, ENABLE_WINDOW_AUTO_RESIZE
 from place_bot.simulation.utils.fps_display import FpsDisplay
 from place_bot.simulation.utils.mouse_measure import MouseMeasure
 from place_bot.simulation.utils.visu_noises import VisuNoises

@@ -2,12 +2,9 @@ import platform
 from typing import Tuple
 
 from place_bot.simulation.robot.agent import Agent
-from place_bot.simulation.robot.robot_abstract import (robot_collision_wall,
-                                                          robot_collision_robot)
 from place_bot.simulation.elements.embodied import EmbodiedEntity
 from place_bot.simulation.elements.normal_wall import NormalWall
 from place_bot.simulation.gui_map.playground import Playground
-from place_bot.simulation.utils.definitions import CollisionTypes
 
 
 class ClosedPlayground(Playground):

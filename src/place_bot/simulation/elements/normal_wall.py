@@ -9,6 +9,7 @@ from PIL import Image
 
 from place_bot.resources import path_resources
 from place_bot.simulation.elements.physical_element import PhysicalElement
+from place_bot.simulation.utils.definitions import CollisionTypes
 
 
 class ColorWall(PhysicalElement):

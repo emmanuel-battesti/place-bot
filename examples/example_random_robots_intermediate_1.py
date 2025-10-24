@@ -7,6 +7,8 @@ import os
 import random
 import sys
 
+from place_bot.simulation.robot.controller import CommandsDict
+
 # This line add, to sys.path, the path to parent path of this file
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -40,13 +42,13 @@ class MyRobotRandom(RobotAbstract):
 
         if not self._is_turning() and self.counterStraight > self.counterStopStraight:
             self.angleStopTurning = random.uniform(-math.pi, math.pi)
-            diff_angle = normalize_angle(self.angleStopTurning - self.angle)
+            diff_angle = normalize_angle(self.angleStopTurning - self.true_angle())
             if diff_angle > 0:
                 self.isTurningLeft = True
             else:
                 self.isTurningRight = True
 
-        diff_angle = normalize_angle(self.angleStopTurning - self.angle)
+        diff_angle = normalize_angle(self.angleStopTurning - self.true_angle())
         if self._is_turning() and abs(diff_angle) < 0.2:
             self.isTurningLeft = False
             self.isTurningRight = False

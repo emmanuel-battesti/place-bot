@@ -1,6 +1,6 @@
 import arcade
-import numpy as np
 import pymunk
+import numpy as np
 from PIL import Image
 from skimage.draw import disk, polygon
 

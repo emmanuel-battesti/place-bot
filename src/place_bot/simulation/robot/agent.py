@@ -5,9 +5,6 @@
 Agent class should be inherited to create agents.
 It is possible to define custom Agent with
 body parts, sensors and corresponding Keyboard controllers.
-
-Examples can be found in spg/agents/agents.py
-
 """
 from __future__ import annotations
 

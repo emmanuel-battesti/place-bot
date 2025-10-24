@@ -6,15 +6,12 @@ To move the robot, you have to click on the world, then use the arrows on the ke
 import os
 import sys
 
-from spg.playground.playground import CommandsDict
 
 # This line add, to sys.path, the path to parent path of this file
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from place_bot.simulation.robot.robot_abstract import RobotAbstract
-from place_bot.simulation.old_simu_world import ClosedPlayground
 from place_bot.simulation.gui_map.simulator import Simulator
-from place_bot.simulation.old_simu_world import WorldAbstract
 
 
 class MyRobotKeyboard(RobotAbstract):
