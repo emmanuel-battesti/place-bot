@@ -7,15 +7,16 @@ import os
 import random
 import sys
 
-from place_bot.simulation.robot.controller import CommandsDict
+
 
 # This line add, to sys.path, the path to parent path of this file
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from worlds.world_intermediate_01 import MyWorldIntermediate01
-from place_bot.simulation.robot.robot_abstract import RobotAbstract
 from place_bot.simulation.gui_map.simulator import Simulator
+from place_bot.simulation.robot.controller import CommandsDict
+from place_bot.simulation.robot.robot_abstract import RobotAbstract
 from place_bot.simulation.utils.utils import normalize_angle
+from worlds.world_intermediate_01 import MyWorldIntermediate01
 
 
 class MyRobotRandom(RobotAbstract):

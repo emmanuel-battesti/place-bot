@@ -2,7 +2,6 @@ from place_bot.simulation.gui_map.simulator import Simulator
 
 from worlds.world_complete_02 import MyWorldComplete02
 
-
 from robots.my_robot_random import MyRobotRandom
 
 
