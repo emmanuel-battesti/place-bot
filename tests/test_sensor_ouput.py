@@ -53,9 +53,10 @@ def test_move():
     for _ in range(100):
         command = my_world.robot.control()
         robots_commands[my_world.robot] = command
-        my_world._playground.step(commands=robots_commands)
+        my_world._playground.step(all_commands=robots_commands)
 
-    moved = my_world._playground.agents[0].true_position() != (0, 0)
+    position = my_world._playground.agents[0].true_position()
+    moved = not np.allclose(position, [0, 0])
 
     assert moved is True
 
@@ -133,7 +134,7 @@ def test_positions():
     true_pos = my_world.robot.true_position()
     # true_pos = Vec2d(12.3, 456.78)
     assert true_pos is not None
-    assert type(true_pos) is pymunk.vec2d.Vec2d
+    assert type(true_pos) is np.ndarray
 
     # -- TRUE ANGLE -- #
     true_angle = my_world.robot.true_angle()
@@ -161,7 +162,7 @@ def test_positions_nan():
     true_pos = my_world.robot.true_position()
     # true_pos = Vec2d(12.3, 456.78)
     assert true_pos is not None
-    assert type(true_pos) is pymunk.vec2d.Vec2d
+    assert type(true_pos) is np.ndarray
 
     # -- TRUE ANGLE -- #
     true_angle = my_world.robot.true_angle()

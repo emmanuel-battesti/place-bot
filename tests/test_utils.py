@@ -16,8 +16,8 @@ def test_normalize_angle():
     assert normalize_angle(400) < 3.1416
 
     assert np.isnan(normalize_angle(np.nan))
-    assert np.isnan(normalize_angle(np.Inf))
-    assert np.isnan(normalize_angle(np.NINF))
+    assert np.isnan(normalize_angle(np.inf))
+    assert np.isnan(normalize_angle(-np.inf))
 
 
 def test_sign():
@@ -27,6 +27,6 @@ def test_sign():
     assert sign(10000) == 1
     assert sign(-10000) == -1
 
-    assert sign(np.NAN) == 1
-    assert sign(np.Inf) == 1
-    assert sign(np.NINF) == -1
+    assert sign(np.nan) == 1
+    assert sign(np.inf) == 1
+    assert sign(-np.inf) == -1
