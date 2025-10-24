@@ -230,7 +230,7 @@ class Simulator(TopDownView):
         self._visu_noises.update(enable=self._enable_visu_noises)
 
         last_timestamp = time.time()
-        self._elapsed_walltime = (last_timestamp - self._start_timestamp)
+        self._elapsed_walltime = last_timestamp - self._start_timestamp
 
         # Capture the frame
         # Au bon endroit ? Il faudrait le mettre avant le draw() ?

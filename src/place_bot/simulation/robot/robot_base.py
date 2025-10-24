@@ -52,8 +52,7 @@ class RobotBase(RobotPart):
         self.forward_controller = CenteredContinuousController(name="forward")
         self.add_device(self.forward_controller)
 
-        self.angular_vel_controller = (
-            CenteredContinuousController(name="rotation"))
+        self.angular_vel_controller = CenteredContinuousController(name="rotation")
         self.add_device(self.angular_vel_controller)
 
         self.linear_ratio = LINEAR_FORCE * linear_ratio
