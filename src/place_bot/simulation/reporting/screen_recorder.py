@@ -1,6 +1,6 @@
 import cv2
 
-from swarm_rescue.simulation.gui_map.top_down_view import TopDownView
+from place_bot.simulation.gui_map.top_down_view import TopDownView
 
 
 class ScreenRecorder:
