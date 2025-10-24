@@ -15,7 +15,7 @@
   - [*Git* installation](#git-installation)
   - [Configure *Git Bash*](#configure-git-bash)
   - [Install this *place-bot* repository](#install-this-place-bot-repository)
-- [Troubleshootings](#troubleshootings)
+- [Troubleshooting](#troubleshooting)
   - [Deactivation of OpenGL shaders](#deactivation-of-opengl-shaders)
   - [Check software versions](#check-software-versions)
   - [Find OpenGL version on Ubuntu](#find-opengl-version-on-ubuntu)
@@ -143,7 +143,7 @@ Then simply follow the Ubuntu installation instructions: [Installation on Ubuntu
 
 # Installation on Windows 10/11 with GitBash
 
-This installation procedure has been tested on Windows 11 (october 2025)
+This installation procedure has been tested on Windows 11 (October 2025)
 
 ## **Warning** for Windows users
 
@@ -171,8 +171,8 @@ If problems persist, you have several solutions:
 ## *Python* installation
 
 - Open the following link in your web browser: https://www.python.org/downloads/windows/
-- The program will **not** work with a Python version greater than or equal to 3.12. (3.13.7 aug. 14 2025)
-- Don't choose the latest version of Python, but choose version 3.11.9. Currently (10/2023), it is "*Python 3.11.9 - April 2, 2024*".
+- On Windows, the program will **not** work with a Python version greater than or equal to 3.12. (3.13.7 aug. 14 2025)
+- Don't choose the latest version of Python, but choose version 3.11.9. Currently (10/2025), it is "*Python 3.11.9 - April 2, 2024*".
 - For modern machines, you must select the *Windows installer (64-bit)*.
 - Once the installer is downloaded, run the Python installer.
 - **Important**: you need to check the "**Add python.exe to path**" check box to include the interpreter in the execution path.
@@ -247,11 +247,11 @@ python ./examples/example.py
 Shaders are GPU-accelerated programs written in GLSL that significantly improve performance. However, compatibility issues may require disabling them.
 
 To disable shaders:
-1. Open file *src/place_bot/simu_world/closed_playground.py*
-2. Navigate to line 47
-3. Change parameter `use_shaders` from *True* to *False*
-
-**Note**: This reduces performance, especially with multiple drones.
+1. Open the file where you create your `ClosedPlayground` (typically in your world file in *examples/worlds/*)
+2. When creating the playground, pass the parameter `use_shaders=False`:
+   ```python
+   self._playground = ClosedPlayground(size=self._size_area, use_shaders=False)
+   ```
 
 ## Check software versions
 
