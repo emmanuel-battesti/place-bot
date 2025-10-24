@@ -16,36 +16,35 @@ class RobotAbstract(Agent):
     Abstract base class for robot in the simulation.
 
     This class should be used as a parent class to create your own Robot classes.
-    It inherits from the Agent class and provides
-    functionality for controlling a robot in a simulated environment.
-    It is a BaseAgent class with 3 sensors, 1 sensor of position and 2
-    mandatory functions define_message() and control().
+    It inherits from the Agent class and provides functionality for controlling
+    a robot in a simulated environment.
 
-    Example Usage
+    The robot is equipped with two sensors:
+    - Lidar: for distance measurements in multiple directions
+    - Odometer: for position estimation based on movement
+
+    You must implement the abstract method control() to define robot behavior.
+
+    Example Usage:
         # Create a custom Robot class that inherits from RobotAbstract
         class MyRobot(RobotAbstract):
             def control(self) -> CommandsDict:
                 # Define the control command for the robot
-                command = {"forward": 1.0, "rotation": -1.0,
-                }
+                command = {"forward": 1.0, "rotation": -1.0}
                 return command
 
         # Create an instance of the custom robot class
         robot = MyRobot()
 
         # Access sensor values and other functionalities
-        lidar_values = robot.lidar()
+        lidar_values = robot.lidar_values()
+        odometer_values = robot.odometer_values()
 
         # Control the robot
         command = robot.control()
 
-     Attributes:
-        identifier (int): The identifier of the robot.
-        _should_display_lidar_graph (bool): Whether to display lidar data with matplotlib.
-        size_area (tuple): The size of the area in which the robot operates.
-        _timer_collision_wall_or_robot (Timer): Timer for collision events.
-        elapsed_timestep (int): Number of timesteps since the beginning.
-        elapsed_walltime (float): Elapsed wall time in seconds since the beginning.
+    Attributes:
+        _should_display_lidar_graph (bool): Whether to display lidar data with PyQtGraph.
     """
 
     class SensorType(IntEnum):
@@ -178,28 +177,37 @@ class RobotAbstract(Agent):
 
     def true_angle(self) -> float:
         """
-        Get the true orientation of the robot, in radians between 0 and 2Pi.
+        Get the true orientation of the robot, in radians between -π and π.
         You must NOT use this value for your calculation in the control() function, instead you
-        should use the position estimated by the odometer sensor.
+        should use the orientation estimated by the odometer sensor.
         But you can use it for debugging or logging.
+
+        Returns:
+            float: The true orientation in radians, normalized to [-π, π].
         """
         return normalize_angle(self.base._pm_body.angle)
 
     def true_velocity(self) -> np.ndarray:
         """
-        Get the true velocity of the robot in 2D, in pixels per second
+        Get the true velocity of the robot in 2D, in pixels per second.
         You must NOT use this value for your calculation in the control() function, instead you
-        should use the position estimated by the odometer sensor.
+        should use the velocity estimated by the odometer sensor.
         But you can use it for debugging or logging.
+
+        Returns:
+            np.ndarray: The true velocity vector [vx, vy] in pixels per second.
         """
         return np.array(self.base._pm_body.velocity)
 
     def true_angular_velocity(self) -> float:
         """
-        Get the true angular velocity of the robot, in radians per second
+        Get the true angular velocity of the robot, in radians per second.
         You must NOT use this value for your calculation in the control() function, instead you
-        should use the position estimated by the odometer sensor.
+        should use the velocity estimated by the odometer sensor.
         But you can use it for debugging or logging.
+
+        Returns:
+            float: The true angular velocity in radians per second.
         """
         return self.base._pm_body.angular_velocity
 

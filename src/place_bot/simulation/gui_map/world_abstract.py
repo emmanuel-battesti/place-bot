@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import List, Type, Union, Optional
+from typing import Type, Union, Optional
 
 from place_bot.simulation.robot.robot_abstract import RobotAbstract
 from place_bot.simulation.gui_map.playground import Playground
@@ -36,10 +36,10 @@ class WorldAbstract(ABC):
     @property
     def robot(self) -> RobotAbstract:
         """
-        Returns the list of robot in the map.
+        Returns the robot in the world.
 
         Returns:
-            RobotAbstract: The robot.
+            RobotAbstract: The robot instance.
         """
         return self._robot
 

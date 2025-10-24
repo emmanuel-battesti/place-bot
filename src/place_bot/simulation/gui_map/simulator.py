@@ -87,7 +87,7 @@ class Simulator(TopDownView):
         Initialize the Simulator graphical user interface.
 
         Args:
-            the_world (WorldAbstract): The map object containing the playground and robot.
+            the_world (WorldAbstract): The world object containing the playground and robot.
             size (Optional[Tuple[int, int]]): Size of the window.
             center (Tuple[float, float]): Center of the view.
             zoom (float): Zoom factor.
@@ -99,6 +99,7 @@ class Simulator(TopDownView):
             use_mouse_measure (bool): Enable mouse measurement tool.
             enable_visu_noises (bool): Enable visualization of sensor noises.
             filename_video_capture (str): Output filename for video capture.
+            headless (bool): Run in headless mode without display window.
         """
         # Handle automatic window resizing
         size, zoom = self._handle_window_auto_resize(the_world, size, zoom, headless)

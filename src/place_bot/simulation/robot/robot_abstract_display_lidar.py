@@ -46,10 +46,18 @@ class RobotAbstractDisplayLidar(RobotAbstract):
             self._win.show()
 
     def display(self):
+        """
+        Display the lidar data if visualization is enabled.
+        This method is called to update the PyQtGraph display window.
+        """
         if self._should_display_lidar:
             self.display_lidar()
 
     def display_lidar(self):
+        """
+        Update the lidar visualization with current sensor data.
+        Plots the lidar angles and distances in the PyQtGraph window.
+        """
         if self.lidar().get_sensor_values() is not None:
             angles = self.lidar().get_ray_angles()
             distances = self.lidar().get_sensor_values()
