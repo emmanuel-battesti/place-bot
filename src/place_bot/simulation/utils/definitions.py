@@ -6,21 +6,14 @@ from collections import namedtuple
 from enum import IntEnum, auto
 from typing import Type
 
-SIMULATION_STEPS: int = 10
 SPACE_DAMPING: float = 0.95  # https://www.pymunk.org/en/latest/pymunk.html#pymunk.Space.damping
 # SPACE_DAMPING: a value of 0.9 means that each body will lose 10% of its velocity per second. Defaults to 1.
 LINEAR_FORCE: int = 100
 ANGULAR_VELOCITY: float = 0.3
-ARM_MAX_FORCE: int = 500
-MAX_GRASP_FORCE: int = 600
-
-WALL_DEPTH: int = 10
 
 PYMUNK_STEPS: int = 10
 
-VISIBLE_ALPHA: int = 255
 INVISIBLE_ALPHA: int = 75
-SPECIAL_ZONE_ALPHA: int = 75
 DEFAULT_INTERACTION_RANGE: int = 5
 
 FRICTION_ENTITY: float = 0.8
@@ -40,7 +33,7 @@ class CollisionTypes(IntEnum):
     DEVICE = auto()
 
 
-def add_custom_collision(collision_types: Type[IntEnum], name: str) -> type:
+def add_custom_collision(collision_types: Type[IntEnum], name: str) -> Type[IntEnum]:
     """
     Function that allows to add new collisions to CollisionTypes.
     This is used when a user wants to create a new type of Entity,
