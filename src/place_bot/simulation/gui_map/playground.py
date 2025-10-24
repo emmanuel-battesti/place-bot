@@ -33,7 +33,6 @@ from place_bot.simulation.utils.definitions import (
     SPACE_DAMPING,
     CollisionTypes,
 )
-from place_bot.simulation.utils.position import Coordinate
 
 # pylint: disable=unused-argument
 # pylint: disable=line-too-long

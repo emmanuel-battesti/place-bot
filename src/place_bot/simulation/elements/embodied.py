@@ -13,8 +13,8 @@ from PIL import Image
 
 from place_bot.simulation.elements.entity import Entity
 from place_bot.simulation.utils.definitions import ELASTICITY_ENTITY, FRICTION_ENTITY
-from place_bot.simulation.utils.position import Coordinate, CoordinateSampler, InitCoord
 
+Coordinate = Tuple[Tuple[float, float], float]
 
 class EmbodiedEntity(Entity, ABC):
     """
@@ -81,7 +81,7 @@ class EmbodiedEntity(Entity, ABC):
         # Flags for movement and overlapping
         self._moved = False
         self._allow_overlapping = False
-        self._initial_coordinates: Optional[InitCoord] = None
+        self._initial_coordinates: Optional[Coordinate] = None
 
     #############
     # Properties
@@ -269,22 +269,22 @@ class EmbodiedEntity(Entity, ABC):
         self._allow_overlapping = allow
 
     @property
-    def initial_coordinates(self) -> Optional[InitCoord]:
+    def initial_coordinates(self) -> Optional[Coordinate]:
         """
         Returns the initial coordinates of the entity.
 
         Returns:
-            Optional[InitCoord]: Initial coordinates.
+            Optional[Coordinate]: Initial coordinates.
         """
         return self._initial_coordinates
 
     @initial_coordinates.setter
-    def initial_coordinates(self, init_coord: InitCoord) -> None:
+    def initial_coordinates(self, init_coord: Coordinate) -> None:
         """
         Set the initial coordinates of the entity.
 
         Args:
-            init_coord (InitCoord): Initial coordinates.
+            init_coord (Coordinate): Initial coordinates.
         """
         self._initial_coordinates = init_coord
 
@@ -533,7 +533,7 @@ class EmbodiedEntity(Entity, ABC):
     ###################
     def move_to(
             self,
-            coordinates: Union[Coordinate, CoordinateSampler],
+            coordinates: Coordinate,
             allow_overlapping: bool = True,
             check_within: bool = False,
     ) -> None:
@@ -541,7 +541,7 @@ class EmbodiedEntity(Entity, ABC):
         Moves the entity to the specified coordinates.
 
         Args:
-            coordinates (Union[Coordinate, CoordinateSampler]): Target coordinates.
+            coordinates (Coordinate): Target coordinates.
             allow_overlapping (bool): Whether overlapping is allowed.
             check_within (bool): Whether to check if the entity is within bounds.
 
@@ -550,9 +550,6 @@ class EmbodiedEntity(Entity, ABC):
             ValueError: If the entity is not within bounds.
         """
         assert self._playground
-
-        if isinstance(coordinates, CoordinateSampler):
-            coordinates = self._sample_valid_coordinate()
 
         if (not allow_overlapping) and self._playground.overlaps(self, coordinates):
             raise ValueError("Entity overlaps but overlap is not allowed")
@@ -577,25 +574,6 @@ class EmbodiedEntity(Entity, ABC):
 
         self._moved = True
 
-    def _sample_valid_coordinate(self) -> Coordinate:
-        """
-        Samples a valid coordinate for the entity that does not overlap with others.
-
-        Returns:
-            Coordinate: Valid coordinate.
-
-        Raises:
-            ValueError: If no valid coordinate is found.
-        """
-        assert self._playground
-        sampler = self._initial_coordinates
-        assert isinstance(sampler, CoordinateSampler)
-
-        for coordinate in sampler.sample():
-            if not self._playground.overlaps(self, coordinate):
-                return coordinate
-
-        raise ValueError("Entity could not be placed without overlapping")
 
     ##############
     # Playground Interactions

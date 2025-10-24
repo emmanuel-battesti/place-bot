@@ -12,9 +12,8 @@ from place_bot.simulation.robot.controller import Controller, CommandsDict
 from place_bot.simulation.robot.robot_base import RobotBase
 from place_bot.simulation.ray_sensors.external_sensor import ExternalSensor
 from place_bot.simulation.robot.sensor import Sensor
-from place_bot.simulation.elements.embodied import EmbodiedEntity
+from place_bot.simulation.elements.embodied import EmbodiedEntity, Coordinate
 from place_bot.simulation.elements.entity import Entity
-from place_bot.simulation.utils.position import Coordinate
 
 _BORDER_IMAGE = 3
 
