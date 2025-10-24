@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from worlds.world_intermediate_01 import MyWorldIntermediate01
 from place_bot.simulation.robot.robot_abstract import RobotAbstract
-from place_bot.simulation.old_simu_world.simulator import Simulator
+from place_bot.simulation.gui_map.simulator import Simulator
 from place_bot.simulation.utils.utils import normalize_angle
 
 

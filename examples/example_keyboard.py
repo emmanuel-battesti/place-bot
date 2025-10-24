@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from place_bot.simulation.robot.robot_abstract import RobotAbstract
 from place_bot.simulation.old_simu_world import ClosedPlayground
-from place_bot.simulation.old_simu_world.simulator import Simulator
+from place_bot.simulation.gui_map.simulator import Simulator
 from place_bot.simulation.old_simu_world import WorldAbstract
 
 

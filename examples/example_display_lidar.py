@@ -17,7 +17,7 @@ from worlds.walls_complete_world_2 import add_walls, add_boxes
 from place_bot.simulation.robot.robot_abstract_display_lidar_v2 import RobotAbstractDisplayLidarV2
 from place_bot.simulation.robot.robot_abstract import RobotAbstract
 from place_bot.simulation.old_simu_world import ClosedPlayground
-from place_bot.simulation.old_simu_world.simulator import Simulator
+from place_bot.simulation.gui_map.simulator import Simulator
 from place_bot.simulation.old_simu_world import WorldAbstract
 
 

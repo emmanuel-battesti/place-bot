@@ -8,9 +8,9 @@ from spg.view import TopDownView
 
 from place_bot.simulation.utils.constants import FRAME_RATE
 from place_bot.simulation.robot.robot_abstract import RobotAbstract
-from place_bot.simulation.old_entities.keyboard_controller import KeyboardController
+from place_bot.simulation.gui_map.keyboard_controller import KeyboardController
 from place_bot.simulation.utils.fps_display import FpsDisplay
-from place_bot.simulation.old_simu_world.world_abstract import WorldAbstract
+from place_bot.simulation.gui_map.world_abstract import WorldAbstract
 from place_bot.simulation.utils.mouse_measure import MouseMeasure
 from place_bot.simulation.utils.screen_recorder import ScreenRecorder
 from place_bot.simulation.utils.visu_noises import VisuNoises
