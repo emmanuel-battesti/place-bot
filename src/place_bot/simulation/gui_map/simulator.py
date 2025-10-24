@@ -1,7 +1,5 @@
 import time
-from typing import Optional, Tuple, List, Dict, Union, Type
-import sys
-import time
+from typing import Optional, Tuple, Dict, Union, Type
 
 import arcade
 import cv2

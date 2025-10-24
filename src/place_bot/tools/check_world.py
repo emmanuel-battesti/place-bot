@@ -24,7 +24,7 @@ def main():
     """
     Runs a GUI to check the world visually with a dummy robot.
     """
-    my_robot = MyRobot
+    my_robot = MyRobot()
     my_world = MyWorld(robot=my_robot)
 
     simulator = Simulator(the_world=my_world,

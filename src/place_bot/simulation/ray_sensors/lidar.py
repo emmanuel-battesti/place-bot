@@ -4,7 +4,6 @@ from typing import Optional
 import numpy as np
 
 from place_bot.simulation.ray_sensors.distance_sensor import DistanceSensor, compute_ray_angles
-from place_bot.simulation.utils.constants import RESOLUTION_LIDAR_SENSOR, FOV_LIDAR_SENSOR, MAX_RANGE_LIDAR_SENSOR
 from place_bot.simulation.utils.utils_noise import GaussianNoise
 
 
