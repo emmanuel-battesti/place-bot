@@ -1,4 +1,3 @@
-
 # Table of Content
 - [Table of Content](#table-of-content)
 - [Introduction](#introduction)
@@ -113,12 +112,16 @@ source .venv/bin/activate
 To deactivate the virtual environment when finished: `deactivate`
 
 **Step 5: Install dependencies**
-With the virtual environment activated, install all required packages:
+The project now uses `pyproject.toml` for packaging and dependency management. Install the package and its optional developer dependencies with:
 
 ```bash
 python3 -m pip install --upgrade pip
 python3 -m pip install --editable .
+# for developer extras (tests, linters):
+python3 -m pip install --editable '.[dev]'
 ```
+
+This will read configuration from `pyproject.toml` and install the required dependencies.
 
 **Step 6: Test the installation**
 Verify everything works by running an example script:
@@ -297,4 +300,3 @@ For questions about installation or code:
 
 **Email**: emmanuel . battesti at ensta . fr  
 **Discord**: Available on the project's Discord server
-
