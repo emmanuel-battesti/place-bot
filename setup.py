@@ -14,7 +14,7 @@ with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
 
 setup(
     name="place-bot",
-    version="1.1",
+    version="1.2.0",
     description="A simple robot simulator",
     author="Emmanuel Battesti",
     author_email="emmanuel.battesti@ensta-paris.fr",
