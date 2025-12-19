@@ -6,7 +6,7 @@ from collections import namedtuple
 from enum import IntEnum, auto
 from typing import Type
 
-SPACE_DAMPING: float = 0.95  # https://www.pymunk.org/en/latest/pymunk.html#pymunk.Space.damping
+SPACE_DAMPING: float = 0.8  # https://www.pymunk.org/en/latest/pymunk.html#pymunk.Space.damping
 # SPACE_DAMPING: a value of 0.9 means that each body will lose 10% of its velocity per second. Defaults to 1.
 LINEAR_FORCE: int = 100
 ANGULAR_VELOCITY: float = 0.3

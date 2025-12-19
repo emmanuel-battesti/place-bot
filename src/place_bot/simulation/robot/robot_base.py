@@ -45,9 +45,9 @@ class RobotBase(RobotPart):
         # in top-down games that friction moving along the 'floor' is controlled
         # by damping.
         # See: https://api.arcade.academy/en/latest/examples/pymunk_demo_top_down.html
-        for pm_shape in self._pm_shapes:
-            pm_shape.elasticity = 0.1
-            pm_shape.friction = 0.7  # default value in arcade is 0.2
+        # for pm_shape in self._pm_shapes:
+        #     pm_shape.elasticity = 0.1
+        #     pm_shape.friction = 0.7  # default value in arcade is 0.2
 
         self.forward_controller = CenteredContinuousController(name="forward")
         self.add_device(self.forward_controller)
